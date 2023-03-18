@@ -286,4 +286,8 @@ const NAV_ITEMS = [
     label: 'Products',
     href: '/products',
   },
+  {
+    label: '(test)',
+    href: '/starter',
+  },
 ];

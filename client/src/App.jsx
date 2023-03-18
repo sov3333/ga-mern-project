@@ -9,6 +9,7 @@ import {
   ProductOne, 
   SignIn, 
   SignUp, 
+  MernStarter,
   CreatePost, 
   UpdatePost 
 } from './pages';
@@ -35,6 +36,7 @@ const App = () => {
             <Route path='/products/:id' element={<ProductOne />} />
             <Route path='/signin' element={<SignIn />} />
             <Route path='/signup' element={<SignUp />} />
+            <Route path='/starter' element={<MernStarter />} />
             <Route path='/create' element={<CreatePost />} />
             <Route path='/update/:id' element={<UpdatePost />} />
           </Routes>
