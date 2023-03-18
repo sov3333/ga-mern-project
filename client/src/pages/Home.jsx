@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
 
 import { Component1, Component2, Component3 } from '../components';
 
@@ -54,6 +55,14 @@ const Home = () => {
       <div>
         <h1>MERN Starter Code</h1>
         <p>This is a starter code for MERN projects.</p>
+      </div>
+      <div>
+        <h3>CREATE</h3>
+        <Link to='/create'>
+          <Button colorScheme='green' variant='solid' leftIcon={<AddIcon />}>
+            Create a Post
+          </Button>
+        </Link>
       </div>
       <div>
         <h3>DATA FROM MONGODB</h3>
