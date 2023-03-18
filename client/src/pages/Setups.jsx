@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { logo } from '../assets';
+import { CardProduct } from '../components';
 
 let setupsData = [
     { setupId: 1, img: logo, user: "Alice", products: ["desk", "keyboard"] },
@@ -12,9 +13,10 @@ const Setups = () => {
   return (
     <div>
         <h1>All Desk Setups</h1>
-        <div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             {setupsData.map(post => (
                 <div key={post.setupId}>
+                    <CardProduct />
                     <Link 
                         to={`/setups/${post.setupId}`}
                         state={{ 

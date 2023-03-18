@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { CardProduct } from '../components';
 
 let productsData = [
     { productId: 1, type: "Desk", brand: "Omnidesk", model: "Ascent Wildwood+" },
@@ -11,9 +12,10 @@ const Products = () => {
   return (
     <div>
         <h1>All Products</h1>
-        <div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             {productsData.map(item => (
                 <div key={item.productId}>
+                    <CardProduct />
                     <Link 
                         to={`/products/${item.productId}`}
                         state={{ 
