@@ -25,22 +25,6 @@ Backend:
 
 ## Installation instructions for any dependencies
 
-
-
-## Link to your user stories – who are your users, what do they want, and why?
-
-
-
-## Link to your wireframes – sketches of major views / interfaces in your application
-
-
-
-## Descriptions of any unsolved problems or major hurdles your team had to overcome
-
-
-
-## How to Setup from Scratch
-
 Frontend:
 1. `mkdir client`
 2. `cd client`
@@ -56,3 +40,13 @@ Backend:
 - Add below description: `"type": "module",` so that we can use ES6 import/exports instead of require statements.
 5. Install dependencies: `npm i cors dotenv express mongoose nodemon method-override`
 6. Install Chakra UI: `npm i @chakra-ui/react @chakra-ui/icons @emotion/react @emotion/styled framer-motion`
+
+## Link to your user stories – who are your users, what do they want, and why?
+
+
+
+## Link to your wireframes – sketches of major views / interfaces in your application
+
+
+
+## Descriptions of any unsolved problems or major hurdles your team had to overcome
