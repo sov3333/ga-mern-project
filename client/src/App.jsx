@@ -6,8 +6,8 @@ import { Nav } from './components';
 import { Button } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 
-import './App.css'
-
+import './App.css';
+// Edit by Tim
 const App = () => {
   return (
     <BrowserRouter>
@@ -15,7 +15,7 @@ const App = () => {
       <div>
         <header>
           <Link to='/'>
-            <img src={logo} alt="logo" />
+            <img src={logo} alt='logo' />
           </Link>
           <Link to='/create'>
             <Button colorScheme='green' variant='solid' leftIcon={<AddIcon />}>
@@ -25,17 +25,17 @@ const App = () => {
         </header>
         <main>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/create" element={<CreatePost />} />
-            <Route path="/update/:id" element={<UpdatePost />} />
+            <Route path='/' element={<Home />} />
+            <Route path='/create' element={<CreatePost />} />
+            <Route path='/update/:id' element={<UpdatePost />} />
           </Routes>
         </main>
         <footer>
-          <img src={logo_full} alt="logo" />
+          <img src={logo_full} alt='logo' />
         </footer>
       </div>
     </BrowserRouter>
-  )
-}
+  );
+};
 
-export default App
+export default App;
