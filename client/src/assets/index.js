@@ -1,7 +1,7 @@
-import logo from './logo.svg';
-import logo_full from './logo_full.svg';
+import logo from './logo.png';
+import logo_square from './logo_square.png';
 
 export {
   logo,
-  logo_full,
+  logo_square,
 };

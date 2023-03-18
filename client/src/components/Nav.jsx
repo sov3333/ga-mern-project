@@ -14,6 +14,7 @@ import {
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
+  Image,
 } from '@chakra-ui/react';
 import {
   HamburgerIcon,
@@ -21,6 +22,7 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from '@chakra-ui/icons';
+import { logo } from '../assets';
 
 export default function Nav() {
   const { isOpen, onToggle } = useDisclosure();
@@ -51,14 +53,21 @@ export default function Nav() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Text
+          {/* <Text
             textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
             fontFamily={'heading'}
             color={useColorModeValue('gray.800', 'white')}>
-            RateMyDeskSetup
-          </Text>
+          */}
 
-          <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+          {/* 
+          TODO: Fix Navbar Logo 
+          On smaller devices, the logo is too small.
+          Also, the height of navbar changes as screen changes.
+          */}
+          <Image src={logo} alt="logo" style={{ height: '100%' }} />
+
+          {/* </Text> */}
+          <Flex display={{ base: 'none', md: 'flex' }} ml={10} alignItems='center'>
             <DesktopNav />
           </Flex>
         </Flex>
