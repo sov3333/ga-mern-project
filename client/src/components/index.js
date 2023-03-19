@@ -5,10 +5,13 @@ import CardSetup from "./CardSetup";
 import CardProduct from "./CardProduct";
 import CardSignIn from "./CardSignIn";
 import CardSignUp from "./CardSignup";
+import PasswordForgotForm from "./PasswordForgotForm";
+import PasswordResetForm from "./PasswordResetForm";
 import DetailsProduct from "./DetailsProduct";
 import DetailsSetup from "./DetailsSetup";
 import SocialProfileSimple from "./SocialProfileSimple";
 import SocialProfileHorizontal from "./SocialProfileHorizontal";
+import ModalWithForm from "./ModalWithForm";
 
 export {
     Nav,
@@ -18,8 +21,11 @@ export {
     CardProduct,
     CardSignIn,
     CardSignUp,
+    PasswordForgotForm,
+    PasswordResetForm,
     DetailsProduct,
     DetailsSetup,
     SocialProfileSimple,
     SocialProfileHorizontal,
+    ModalWithForm,
 };
