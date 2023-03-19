@@ -47,6 +47,8 @@ Backend:
 
 ## Link to your wireframes – sketches of major views / interfaces in your application
 
+![SwipeSetups Homepage Hero and Setups](https://user-images.githubusercontent.com/8282076/226174478-d799bf70-8c83-4586-bcbb-a23e9aac4363.png)
+![SwipeSetups Homepage Products](https://user-images.githubusercontent.com/8282076/226174481-b2148a56-46d3-4d35-a488-41824abc01c1.png)
 
 
 ## Descriptions of any unsolved problems or major hurdles your team had to overcome
