@@ -6,6 +6,7 @@ import ProductOne from './ProductOne';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Profile from './Profile';
+import Create from './Create';
 import MernStarter from './starter/MernStarter';
 import CreatePost from './starter/CreatePost';
 import UpdatePost from './starter/UpdatePost';
@@ -19,6 +20,7 @@ export {
     SignIn,
     SignUp,
     Profile,
+    Create,
     MernStarter,
     CreatePost,
     UpdatePost,

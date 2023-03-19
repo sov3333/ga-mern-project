@@ -8,6 +8,7 @@ import {
   SignIn, 
   SignUp, 
   Profile,
+  Create,
   MernStarter,
   CreatePost, 
   UpdatePost 
@@ -29,6 +30,7 @@ const App = () => {
           <Route path='/signin' element={<SignIn />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/create' element={<Create />} />
 
           {/* MERN Starter code */}
           <Route path='/starter' element={<MernStarter />} />

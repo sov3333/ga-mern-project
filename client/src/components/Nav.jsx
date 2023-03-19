@@ -311,4 +311,8 @@ const NAV_ITEMS = [
     label: '(profile)',
     href: '/profile',
   },
+  {
+    label: '(create)',
+    href: '/create',
+  },
 ];
