@@ -16,9 +16,11 @@ import {
   ListItem,
 } from '@chakra-ui/react';
 // import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
-import { MdLocalShipping } from 'react-icons/md';
+// import { MdLocalShipping } from 'react-icons/md';
 
-export default function DetailsSetup({ img, user, heading, description, products }) {
+// "Simple" from https://chakra-templates.dev/page-sections/productDetails
+
+export default function DetailsSetup({ img, user, title, description, products }) {
   return (
     <Container maxW={'7xl'}>
       <SimpleGrid
@@ -42,7 +44,7 @@ export default function DetailsSetup({ img, user, heading, description, products
               lineHeight={1.1}
               fontWeight={600}
               fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}>
-              {heading}
+              {title}
             </Heading>
             <Text
               color={useColorModeValue('gray.900', 'gray.400')}

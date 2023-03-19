@@ -18,7 +18,9 @@ import {
 // import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 import { MdLocalShipping } from 'react-icons/md';
 
-export default function DetailsProduct({ img, type, brand, model }) {
+// "Simple" from https://chakra-templates.dev/page-sections/productDetails
+
+export default function DetailsProduct({ img, brand, model }) {
   return (
     <Container maxW={'7xl'}>
       <SimpleGrid
