@@ -1,6 +1,6 @@
-import React from 'react'
 import { Link } from 'react-router-dom';
-import { Button, Heading, Text } from '@chakra-ui/react'
+import { Button, Flex, Heading, Text } from '@chakra-ui/react'
+
 import { CardSetup, CardProduct } from './'
 import { setupsData, productsData } from '../constants';
 
@@ -24,45 +24,27 @@ const Showcase = () => {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
             <CardSetup 
                 img={setupsData[0].img} 
-                brand={`@${setupsData[0].user}`} 
-                model={setupsData[0].heading} 
+                user={setupsData[0].user}
+                title={setupsData[0].heading}
+                description={setupsData[0].description}
+                products={setupsData[0].products}
                 slug={`/setups/${setupsData[0].setupId}`}
-                linkState={{
-                    setupId: setupsData[0].setupId,
-                    img: setupsData[0].img,
-                    user: setupsData[0].user,
-                    heading: setupsData[0].heading,
-                    description: setupsData[0].description,
-                    products: setupsData[0].products,
-                }} 
             />
             <CardSetup 
                 img={setupsData[1].img} 
-                brand={`@${setupsData[1].user}`} 
-                model={setupsData[1].heading} 
+                user={setupsData[1].user}
+                title={setupsData[1].heading}
+                description={setupsData[1].description}
+                products={setupsData[1].products}
                 slug={`/setups/${setupsData[1].setupId}`}
-                linkState={{
-                    setupId: setupsData[1].setupId,
-                    img: setupsData[1].img,
-                    user: setupsData[1].user,
-                    heading: setupsData[1].heading,
-                    description: setupsData[1].description,
-                    products: setupsData[1].products,
-                }} 
             />
             <CardSetup 
                 img={setupsData[2].img} 
-                brand={`@${setupsData[2].user}`} 
-                model={setupsData[2].heading} 
+                user={setupsData[2].user}
+                title={setupsData[2].heading}
+                description={setupsData[2].description}
+                products={setupsData[2].products}
                 slug={`/setups/${setupsData[2].setupId}`}
-                linkState={{
-                    setupId: setupsData[2].setupId,
-                    img: setupsData[2].img,
-                    user: setupsData[2].user,
-                    heading: setupsData[2].heading,
-                    description: setupsData[2].description,
-                    products: setupsData[2].products,
-                }} 
             />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingBottom: '50px' }}>
@@ -117,6 +99,12 @@ const Showcase = () => {
                 <Button colorScheme='green' variant='solid'>See More</Button>
             </Link>
         </div>
+        <Flex flexDirection="column" justifyContent="center" alignItems="center" >
+            <h3>TODO:</h3>
+            <p>make Featured Products cards same size. currently it is changing based on length of text. keep image height same?</p>
+            <p>show images in column on smaller screens</p>
+            <p></p>
+        </Flex>
     </div>
 
     </>

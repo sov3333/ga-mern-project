@@ -10,6 +10,11 @@ import {
   createIcon,
 } from '@chakra-ui/react';
 
+// "CTA with Annotation" from https://chakra-templates.dev/page-sections/hero
+
+// TODO:
+// - Update font - below removed the font style from template (not sure not to implement)
+
 export default function CallToActionWithAnnotation() {
   return (
     <>

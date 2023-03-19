@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Flex,
   Box,
@@ -14,8 +15,13 @@ import {
   useColorModeValue,
   Link,
 } from '@chakra-ui/react';
-import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+
+// "Simple Signup Card" from https://chakra-templates.dev/forms/authentication
+
+// TODO:
+// - Consider using "Join our Team" from chakra template
+// - add social signIn buttons from https://chakra-templates.dev/components/social-media-buttons
 
 export default function CardSignUp() {
   const [showPassword, setShowPassword] = useState(false);

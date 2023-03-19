@@ -11,6 +11,8 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
+// "Social User Profile Horizontal" from https://chakra-templates.dev/components/cards
+
 export default function socialProfileHorizontal() {
   return (
     <Center py={6}>
