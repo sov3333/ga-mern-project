@@ -2,11 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { Button, Heading, Text } from '@chakra-ui/react'
 import CardProduct from './CardProduct'
-import { setupsData } from '../constants';
-import { setup1, setup2, setup3 } from '../assets/setups';
+import { setupsData, productsData } from '../constants';
 
 const Showcase = () => {
   return (
+    <>
     <div>
         <Heading
             textAlign='center'
@@ -14,8 +14,9 @@ const Showcase = () => {
             fontSize={{ base: 'xl', sm: '3xl', md: '5xl' }}
             lineHeight={'110%'}>
             <Text as={'span'} color={'blue.400'}>
-            Featured Setups
+            Trending Trading<br />
             </Text>
+            and Gaming Setups
         </Heading>
         <Text color={'gray.500'} textAlign='center' px={{ base: 20, md: 36 }} py={{ base: 10, md: 15 }}>
             Get inspired by the top-rated trading and gaming desk setups from our community. Discover the latest hardware, lighting, and ergonomic trends, and find the perfect layout for your workflow. Check out our selection of hand-picked setups below, and click 'See More' to explore our full collection.
@@ -66,6 +67,71 @@ const Showcase = () => {
             </Link>
         </div>
     </div>
+    <div>
+        <Heading
+            textAlign='center'
+            fontWeight={600}
+            fontSize={{ base: 'xl', sm: '3xl', md: '5xl' }}
+            lineHeight={'110%'}>
+            <Text as={'span'} color={'blue.400'}>
+            Upgrade Your Setup <br />
+            </Text>
+            with Featured Products
+        </Heading>
+        <Text color={'gray.500'} textAlign='center' px={{ base: 20, md: 36 }} py={{ base: 10, md: 15 }}>
+            Elevate your desk game with our curated selection of top-rated products. From high-performance monitors to ergonomic keyboards and sleek desks, we have everything you need to take your setup to the next level. Check out our hand-picked selection of featured products below, and click 'See More' to explore our full catalog.
+        </Text>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
+            <CardProduct 
+                img={productsData[0].img} 
+                brand={productsData[0].brand} 
+                model={productsData[0].model} 
+                slug={`/products/${productsData[0].setupId}`}
+                linkState={{
+                    setupId: productsData[0].setupId,
+                    img: productsData[0].img,
+                    type: productsData[0].type,
+                    brand: productsData[0].brand,
+                    model: productsData[0].model,
+                }} 
+            />
+            <CardProduct 
+                img={productsData[1].img} 
+                brand={productsData[1].brand}
+                model={productsData[1].model} 
+                slug={`/products/${productsData[1].setupId}`}
+                linkState={{
+                    setupId: productsData[1].setupId,
+                    img: productsData[1].img,
+                    type: productsData[1].type,
+                    brand: productsData[1].brand,
+                    model: productsData[1].model,
+                }} 
+            />
+            <CardProduct 
+                img={productsData[3].img} 
+                brand={productsData[3].brand} 
+                model={productsData[3].model} 
+                slug={`/products/${productsData[3].setupId}`}
+                linkState={{
+                    setupId: productsData[3].setupId,
+                    img: productsData[3].img,
+                    type: productsData[3].type,
+                    brand: productsData[3].brand,
+                    model: productsData[3].model,
+                }} 
+            />
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingBottom: '50px' }}>
+            <Link 
+                to='/products'
+            >
+                <Button colorScheme='green' variant='solid'>See More</Button>
+            </Link>
+        </div>
+    </div>
+
+    </>
   )
 }
 
