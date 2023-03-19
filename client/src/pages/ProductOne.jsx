@@ -12,7 +12,12 @@ const ProductOne = () => {
         <img src={img} alt={`${brand}-${model}`} />
         <h3>{brand} ({model})</h3>
         <p>View Setups with {brand} {type}</p>
-        <DetailsProduct />
+        <DetailsProduct 
+          img={img}
+          type={type}
+          brand={brand}
+          model={model}
+        />
     </div>
   )
 }

@@ -18,7 +18,7 @@ import {
 // import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 import { MdLocalShipping } from 'react-icons/md';
 
-export default function DetailsProduct() {
+export default function DetailsProduct({ img, type, brand, model }) {
   return (
     <Container maxW={'7xl'}>
       <SimpleGrid
@@ -29,9 +29,7 @@ export default function DetailsProduct() {
           <Image
             rounded={'md'}
             alt={'product image'}
-            src={
-              'https://images.unsplash.com/photo-1596516109370-29001ec8ec36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE1MDl8MHwxfGFsbHx8fHx8fHx8fDE2Mzg5MzY2MzE&ixlib=rb-1.2.1&q=80&w=1080'
-            }
+            src={img}
             fit={'cover'}
             align={'center'}
             w={'100%'}
@@ -44,13 +42,13 @@ export default function DetailsProduct() {
               lineHeight={1.1}
               fontWeight={600}
               fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}>
-              Automatic Watch
+              {model}
             </Heading>
             <Text
               color={useColorModeValue('gray.900', 'gray.400')}
               fontWeight={300}
               fontSize={'2xl'}>
-              $350.00 USD
+              {brand}
             </Text>
           </Box>
 
@@ -171,12 +169,12 @@ export default function DetailsProduct() {
               transform: 'translateY(2px)',
               boxShadow: 'lg',
             }}>
-            Add to cart
+            Purchase
           </Button>
 
           <Stack direction="row" alignItems="center" justifyContent={'center'}>
             <MdLocalShipping />
-            <Text>2-3 business days delivery</Text>
+            <Text>You will be redirected to an external website</Text>
           </Stack>
         </Stack>
       </SimpleGrid>
