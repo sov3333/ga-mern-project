@@ -19,6 +19,7 @@ const Products = () => {
                         slug={`/products/${item.productId}`}
                         linkState={{
                             productId: item.productId,
+                            img: item.img,
                             type: item.type,
                             brand: item.brand,
                             model: item.model,        

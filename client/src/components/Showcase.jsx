@@ -1,5 +1,6 @@
-import { Button, Heading, Text } from '@chakra-ui/react'
 import React from 'react'
+import { Link } from 'react-router-dom';
+import { Button, Heading, Text } from '@chakra-ui/react'
 import CardProduct from './CardProduct'
 import { setupsData } from '../constants';
 import { setup1, setup2, setup3 } from '../assets/setups';
@@ -58,7 +59,11 @@ const Showcase = () => {
             />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingBottom: '50px' }}>
-            <Button colorScheme='green' variant='solid'>See More</Button>
+            <Link 
+                to='/setups'
+            >
+                <Button colorScheme='green' variant='solid'>See More</Button>
+            </Link>
         </div>
     </div>
   )

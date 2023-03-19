@@ -19,6 +19,8 @@ const Setups = () => {
                             setupId: post.setupId,
                             img: post.img,
                             user: post.user,
+                            heading: post.heading,
+                            description: post.description,
                             products: post.products,
                         }} 
                     />
