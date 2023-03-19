@@ -9,7 +9,7 @@ import {
   Image,
 } from '@chakra-ui/react';
 
-export default function CardProduct({ img, brand, model, slug, linkState }) {
+export default function CardSetup({ img, brand, model, slug, linkState }) {
   return (
     <Center py={12}>
       <Box

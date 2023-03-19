@@ -1,7 +1,7 @@
 import Nav from "./Nav";
 import Hero from "./Hero";
 import Showcase from "./Showcase";
-import CardProduct from "./CardProduct";
+import CardSetup from "./CardSetup";
 import CardSignIn from "./CardSignIn";
 import CardSignUp from "./CardSignup";
 import DetailsProduct from "./DetailsProduct";
@@ -11,7 +11,7 @@ export {
     Nav,
     Hero,
     Showcase,
-    CardProduct,
+    CardSetup,
     CardSignIn,
     CardSignUp,
     DetailsProduct,

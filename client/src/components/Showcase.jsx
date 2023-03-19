@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { Button, Heading, Text } from '@chakra-ui/react'
-import CardProduct from './CardProduct'
+import CardSetup from './CardSetup'
 import { setupsData, productsData } from '../constants';
 
 const Showcase = () => {
@@ -22,7 +22,7 @@ const Showcase = () => {
             Get inspired by the top-rated trading and gaming desk setups from our community. Discover the latest hardware, lighting, and ergonomic trends, and find the perfect layout for your workflow. Check out our selection of hand-picked setups below, and click 'See More' to explore our full collection.
         </Text>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
-            <CardProduct 
+            <CardSetup 
                 img={setupsData[0].img} 
                 brand={`@${setupsData[0].user}`} 
                 model={setupsData[0].heading} 
@@ -36,7 +36,7 @@ const Showcase = () => {
                     products: setupsData[0].products,
                 }} 
             />
-            <CardProduct 
+            <CardSetup 
                 img={setupsData[1].img} 
                 brand={`@${setupsData[1].user}`} 
                 model={setupsData[1].heading} 
@@ -50,7 +50,7 @@ const Showcase = () => {
                     products: setupsData[1].products,
                 }} 
             />
-            <CardProduct 
+            <CardSetup 
                 img={setupsData[2].img} 
                 brand={`@${setupsData[2].user}`} 
                 model={setupsData[2].heading} 
@@ -88,7 +88,7 @@ const Showcase = () => {
             Elevate your desk game with our curated selection of top-rated products. From high-performance monitors to ergonomic keyboards and sleek desks, we have everything you need to take your setup to the next level. Check out our hand-picked selection of featured products below, and click 'See More' to explore our full catalog.
         </Text>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
-            <CardProduct 
+            <CardSetup 
                 img={productsData[0].img} 
                 brand={productsData[0].brand} 
                 model={productsData[0].model} 
@@ -101,7 +101,7 @@ const Showcase = () => {
                     model: productsData[0].model,
                 }} 
             />
-            <CardProduct 
+            <CardSetup 
                 img={productsData[1].img} 
                 brand={productsData[1].brand}
                 model={productsData[1].model} 
@@ -114,7 +114,7 @@ const Showcase = () => {
                     model: productsData[1].model,
                 }} 
             />
-            <CardProduct 
+            <CardSetup 
                 img={productsData[3].img} 
                 brand={productsData[3].brand} 
                 model={productsData[3].model} 
