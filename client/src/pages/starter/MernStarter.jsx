@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 
-import { exampleArray } from '../constants/index';
+import { exampleArray } from '../../constants/index';
 
 const MernStarter = () => {
   const navigate = useNavigate();
