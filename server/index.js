@@ -7,7 +7,7 @@ import connectDB from './mongodb/connect.js';
 import testRoutes from './routes/testRoutes.js';
 
 dotenv.config();
-// Edit by Tim
+
 const app = express();
 app.use(cors());
 app.use(express.json());
