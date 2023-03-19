@@ -1,6 +1,6 @@
 import React from 'react'
 import { setupsData } from '../constants';
-import { CardProduct } from '../components';
+import { CardSetup } from '../components';
 
 const Setups = () => {
   return (
@@ -10,7 +10,7 @@ const Setups = () => {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', flexWrap: 'wrap' }}>
             {setupsData.map(post => (
                 <div key={post.setupId}>
-                    <CardProduct 
+                    <CardSetup 
                         img={post.img} 
                         brand={`@${post.user}`} 
                         model={post.heading} 
