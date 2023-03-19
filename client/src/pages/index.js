@@ -7,6 +7,7 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import PasswordReset from './PasswordReset';
 import Profile from './Profile';
+import ProfileEdit from './ProfileEdit';
 import Create from './Create';
 import MernStarter from './starter/MernStarter';
 import CreatePost from './starter/CreatePost';
@@ -22,6 +23,7 @@ export {
     SignUp,
     PasswordReset,
     Profile,
+    ProfileEdit,
     Create,
     MernStarter,
     CreatePost,

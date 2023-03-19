@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useState } from 'react'
 import { Button, Flex } from '@chakra-ui/react';
 
@@ -18,6 +19,9 @@ const Profile = () => {
         )}
       </div>
       <Flex justifyContent="center">
+        <Link to="/profile/edit">
+          <Button>EDIT PROFILE</Button>
+        </Link>
         <Button onClick={() => setIsMobile(!isMobile)}>
           {isMobile ? 'SEE FULL VIEW' : 'SEE MOBILE VIEW' }
         </Button>
