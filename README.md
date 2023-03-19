@@ -17,7 +17,7 @@ Backend:
 ## Explanations of the technologies used
 
 - MERN
-- [Chakra UI](https://chakra-ui.com/getting-started)
+- [Chakra UI](https://chakra-ui.com/getting-started) + [Chakra Templates](https://chakra-templates.dev/)
 
 ## A couple paragraphs about the general approach you took
 

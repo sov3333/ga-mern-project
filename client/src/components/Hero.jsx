@@ -23,7 +23,7 @@ export default function CallToActionWithAnnotation() {
             fontWeight={600}
             fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
             lineHeight={'110%'}>
-            Upgrade your <br />
+            Upgrade Your <br />
             <Text as={'span'} color={'blue.400'}>
             Desk Game
             </Text>

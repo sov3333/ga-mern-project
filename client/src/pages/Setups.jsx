@@ -1,34 +1,29 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
-import { logo } from '../assets';
+import { setupsData } from '../constants';
 import { CardProduct } from '../components';
-
-let setupsData = [
-    { setupId: 1, img: logo, user: "Alice", products: ["desk", "keyboard"] },
-    { setupId: 2, img: logo, user: "Bob", products: ["mouse", "mousepad"] },
-    { setupId: 3, img: logo, user: "Charlie", products: ["monitor", "speaker"] },
-]
 
 const Setups = () => {
   return (
     <div>
-        <h1>All Desk Setups</h1>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <h1>Lorem ipsum dolor sit amet consectetur.</h1>
+        <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti iure alias in, error necessitatibus, perspiciatis obcaecati dicta nam labore voluptas ipsum id ut, laborum voluptates nemo voluptatibus? Eligendi hic illo cupiditate reiciendis odit quasi? Deserunt facere tempora quidem voluptates harum perferendis cupiditate.</h2>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', flexWrap: 'wrap' }}>
             {setupsData.map(post => (
                 <div key={post.setupId}>
-                    <CardProduct />
-                    <Link 
-                        to={`/setups/${post.setupId}`}
-                        state={{ 
+                    <CardProduct 
+                        img={post.img} 
+                        brand={`@${post.user}`} 
+                        model={post.heading} 
+                        slug={`/setups/${post.setupId}`}
+                        linkState={{
                             setupId: post.setupId,
                             img: post.img,
                             user: post.user,
+                            heading: post.heading,
+                            description: post.description,
                             products: post.products,
-                        }}
-                    >
-                        <img src={post.img} alt={`Desk Setup by ${post.user}`} />
-                        <p>Desk Setup by @{post.user}</p>
-                    </Link>
+                        }} 
+                    />
                 </div>
             ))}
         </div>
