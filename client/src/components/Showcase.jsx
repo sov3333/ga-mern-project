@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { Button, Heading, Text } from '@chakra-ui/react'
-import CardSetup from './CardSetup'
+import { CardSetup, CardProduct } from './'
 import { setupsData, productsData } from '../constants';
 
 const Showcase = () => {
@@ -88,44 +88,26 @@ const Showcase = () => {
             Elevate your desk game with our curated selection of top-rated products. From high-performance monitors to ergonomic keyboards and sleek desks, we have everything you need to take your setup to the next level. Check out our hand-picked selection of featured products below, and click 'See More' to explore our full catalog.
         </Text>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around' }}>
-            <CardSetup 
+            <CardProduct
                 img={productsData[0].img} 
+                type={productsData[0].type} 
                 brand={productsData[0].brand} 
                 model={productsData[0].model} 
-                slug={`/products/${productsData[0].setupId}`}
-                linkState={{
-                    setupId: productsData[0].setupId,
-                    img: productsData[0].img,
-                    type: productsData[0].type,
-                    brand: productsData[0].brand,
-                    model: productsData[0].model,
-                }} 
+                slug={`/products/${productsData[0].productId}`}
             />
-            <CardSetup 
+            <CardProduct 
                 img={productsData[1].img} 
+                type={productsData[1].type} 
                 brand={productsData[1].brand}
                 model={productsData[1].model} 
-                slug={`/products/${productsData[1].setupId}`}
-                linkState={{
-                    setupId: productsData[1].setupId,
-                    img: productsData[1].img,
-                    type: productsData[1].type,
-                    brand: productsData[1].brand,
-                    model: productsData[1].model,
-                }} 
+                slug={`/products/${productsData[1].productId}`} 
             />
-            <CardSetup 
+            <CardProduct 
                 img={productsData[3].img} 
+                type={productsData[3].type} 
                 brand={productsData[3].brand} 
                 model={productsData[3].model} 
-                slug={`/products/${productsData[3].setupId}`}
-                linkState={{
-                    setupId: productsData[3].setupId,
-                    img: productsData[3].img,
-                    type: productsData[3].type,
-                    brand: productsData[3].brand,
-                    model: productsData[3].model,
-                }} 
+                slug={`/products/${productsData[3].productId}`}
             />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingBottom: '50px' }}>

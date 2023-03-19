@@ -4,7 +4,7 @@ import { DetailsProduct } from '../components';
 
 const ProductOne = () => {
     const location = useLocation();
-    const { productId, img, type, brand, model } = location.state;
+    const { img, type, brand, model, slug } = location.state;
   return (
     <div>
         <h1>Product</h1>
@@ -17,6 +17,7 @@ const ProductOne = () => {
           type={type}
           brand={brand}
           model={model}
+          slug={slug}
         />
     </div>
   )
