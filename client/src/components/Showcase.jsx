@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { Button, Heading, Text } from '@chakra-ui/react'
+import { Button, Flex, Heading, Text } from '@chakra-ui/react'
 import { CardSetup, CardProduct } from './'
 import { setupsData, productsData } from '../constants';
 
@@ -117,6 +117,12 @@ const Showcase = () => {
                 <Button colorScheme='green' variant='solid'>See More</Button>
             </Link>
         </div>
+        <Flex flexDirection="column" justifyContent="center" alignItems="center" >
+            <h3>TODO:</h3>
+            <p>make Featured Products cards same size. currently it is changing based on length of text. keep image height same?</p>
+            <p>show images in column on smaller screens</p>
+            <p></p>
+        </Flex>
     </div>
 
     </>
