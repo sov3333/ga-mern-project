@@ -1,6 +1,6 @@
 import React from 'react'
 import { productsData } from '../constants';
-import { CardSetup } from '../components';
+import { CardProduct } from '../components';
 
 
 
@@ -12,7 +12,7 @@ const Products = () => {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', flexWrap: 'wrap' }}>
             {productsData.map(item => (
                 <div key={item.productId}>
-                    <CardSetup 
+                    <CardProduct
                         img={item.img} 
                         brand={item.brand} 
                         model={item.model}
