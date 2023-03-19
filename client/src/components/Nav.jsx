@@ -315,4 +315,8 @@ const NAV_ITEMS = [
     label: '(create)',
     href: '/create',
   },
+  {
+    label: '(reset)',
+    href: '/reset',
+  },
 ];

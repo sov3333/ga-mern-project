@@ -5,6 +5,7 @@ import Products from './Products';
 import ProductOne from './ProductOne';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import PasswordReset from './PasswordReset';
 import Profile from './Profile';
 import Create from './Create';
 import MernStarter from './starter/MernStarter';
@@ -19,6 +20,7 @@ export {
     ProductOne,
     SignIn,
     SignUp,
+    PasswordReset,
     Profile,
     Create,
     MernStarter,
