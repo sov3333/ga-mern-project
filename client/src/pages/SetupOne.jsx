@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom';
+import { DetailsSetup } from '../components';
 
 const SetupOne = () => {
     const location = useLocation();
@@ -17,6 +18,7 @@ const SetupOne = () => {
                 <li key={index}>{item}</li>
             ))}
         </ul>
+        <DetailsSetup />
     </div>
   )
 }

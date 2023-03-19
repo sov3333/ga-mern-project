@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom';
+import { DetailsProduct } from '../components';
 
 const ProductOne = () => {
     const location = useLocation();
@@ -11,6 +12,7 @@ const ProductOne = () => {
         <img src={img} alt={`${brand}-${model}`} />
         <h3>{brand} ({model})</h3>
         <p>View Setups with {brand} {type}</p>
+        <DetailsProduct />
     </div>
   )
 }
