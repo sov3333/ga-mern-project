@@ -14,6 +14,16 @@ import {
 export default function CardSetup({ img, user, title, description, products, slug }) {
   return (
     <Center py={12}>
+      <Link 
+        to={slug}
+        state={{
+          img: img,
+          user: user,
+          title: title,
+          description: description,
+          products: products,
+        }}
+      >
       <Box
         role={'group'}
         p={6}
@@ -63,18 +73,9 @@ export default function CardSetup({ img, user, title, description, products, slu
           </Heading>
           <Stack direction={'row'} align={'center'}>
             <Text fontWeight={800} fontSize={'xl'}>
-              <Link 
-                to={slug}
-                state={{
-                  img: img,
-                  user: user,
-                  title: title,
-                  description: description,
-                  products: products,
-                }}
-              >
+              
                 View
-              </Link>
+              
             </Text>
             {/* <Text textDecoration={'line-through'} color={'gray.600'}>
               $199
@@ -82,6 +83,7 @@ export default function CardSetup({ img, user, title, description, products, slu
           </Stack>
         </Stack>
       </Box>
+      </Link>
     </Center>
   );
 }
