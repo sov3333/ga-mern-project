@@ -5,7 +5,7 @@ export const exampleArray = [
 ];
 
 import { setup1, setup2, setup3, setup4, setup5, setup6 } from '../assets/setups';
-import { product1, product2, product3 } from '../assets/products';
+import { product1, product2, product3, product4, product5, product6 } from '../assets/products';
 
 export const setupsData = [
   { setupId: 1, img: setup1, user: 'Alice', heading: 'Blue Battlestation', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.', products: ['desk', 'monitor', 'keyboard', 'mouse', 'chair'] },
@@ -20,4 +20,7 @@ export const productsData = [
   { productId: 1, img: product1, type: "Desk", brand: "Omnidesk", model: "Ascent Wildwood+" },
   { productId: 2, img: product2, type: "Keyboard", brand: "Keychron", model: "K4" },
   { productId: 3, img: product3, type: "Mouse", brand: "Razer", model: "Deathadder V2" },
+  { productId: 4, img: product4, type: "Monitor", brand: "Xiaomi", model: "Curved Gaming Monitor 34" },
+  { productId: 5, img: product5, type: "Monitor", brand: "Gigabyte", model: "M34WQ" },
+  { productId: 6, img: product6, type: "Mousepad", brand: "Aukey", model: "KM-P2 Large Gaming Mouse Pad Oversized" },
 ];
