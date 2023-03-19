@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import {
   Box,
   Center,
@@ -8,10 +9,7 @@ import {
   Image,
 } from '@chakra-ui/react';
 
-const IMAGE =
-  'https://images.unsplash.com/photo-1518051870910-a46e30d9db16?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80';
-
-export default function CardProduct() {
+export default function CardProduct({ img, brand, model, slug, linkState }) {
   return (
     <Center py={12}>
       <Box
@@ -37,7 +35,7 @@ export default function CardProduct() {
             pos: 'absolute',
             top: 5,
             left: 0,
-            backgroundImage: `url(${IMAGE})`,
+            backgroundImage: `url(${img})`,
             filter: 'blur(15px)',
             zIndex: -1,
           }}
@@ -51,23 +49,28 @@ export default function CardProduct() {
             height={230}
             width={282}
             objectFit={'cover'}
-            src={IMAGE}
+            src={img}
           />
         </Box>
         <Stack pt={10} align={'center'}>
           <Text color={'gray.500'} fontSize={'sm'} textTransform={'uppercase'}>
-            Brand
+            {brand}
           </Text>
           <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
-            Nice Chair, pink
+            {model}
           </Heading>
           <Stack direction={'row'} align={'center'}>
             <Text fontWeight={800} fontSize={'xl'}>
-              $57
+              <Link 
+                to={slug}
+                state={linkState}
+              >
+                View
+              </Link>
             </Text>
-            <Text textDecoration={'line-through'} color={'gray.600'}>
+            {/* <Text textDecoration={'line-through'} color={'gray.600'}>
               $199
-            </Text>
+            </Text> */}
           </Stack>
         </Stack>
       </Box>

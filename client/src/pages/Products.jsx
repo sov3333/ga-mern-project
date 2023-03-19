@@ -1,32 +1,29 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { productsData } from '../constants';
 import { CardProduct } from '../components';
 
-let productsData = [
-    { productId: 1, type: "Desk", brand: "Omnidesk", model: "Ascent Wildwood+" },
-    { productId: 2, type: "Keyboard", brand: "Keychron", model: "K4" },
-    { productId: 3, type: "Mouse", brand: "Razer", model: "Deathadder V2" },
-]
+
 
 const Products = () => {
   return (
     <div>
-        <h1>All Products</h1>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <h1>Lorem ipsum dolor sit amet consectetur.</h1>
+        <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus laborum dolores necessitatibus earum dolore velit, quo distinctio unde facere aperiam accusantium aliquam ea tempore repudiandae officia, animi culpa temporibus illo obcaecati hic ducimus. Cumque, repudiandae.</h2>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', flexWrap: 'wrap' }}>
             {productsData.map(item => (
                 <div key={item.productId}>
-                    <CardProduct />
-                    <Link 
-                        to={`/products/${item.productId}`}
-                        state={{ 
+                    <CardProduct 
+                        img={item.img} 
+                        brand={item.brand} 
+                        model={item.model}
+                        slug={`/products/${item.productId}`}
+                        linkState={{
                             productId: item.productId,
                             type: item.type,
                             brand: item.brand,
-                            model: item.model,
+                            model: item.model,        
                         }}
-                    >
-                        <p>{item.type} by {item.brand} ({item.model})</p>
-                    </Link>
+                    />
                 </div>
             ))}
         </div>
