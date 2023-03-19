@@ -30,6 +30,7 @@ Frontend:
 2. `cd client`
 3. `npm create vite@latest ./` then choose React framework and JavaScript variant.
 4. Install dependencies: `npm i react-router-dom`
+5. Install Chakra UI: `npm i @chakra-ui/react @chakra-ui/icons @emotion/react @emotion/styled framer-motion`
 
 Backend:
 1. In root, type `mkdir server`
@@ -39,7 +40,6 @@ Backend:
 - Add to scripts: `"start": "nodemon index"`.
 - Add below description: `"type": "module",` so that we can use ES6 import/exports instead of require statements.
 5. Install dependencies: `npm i cors dotenv express mongoose nodemon method-override`
-6. Install Chakra UI: `npm i @chakra-ui/react @chakra-ui/icons @emotion/react @emotion/styled framer-motion`
 
 ## Link to your user stories – who are your users, what do they want, and why?
 
