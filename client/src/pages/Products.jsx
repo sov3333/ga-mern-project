@@ -12,7 +12,7 @@ const Products = () => {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', flexWrap: 'wrap' }}>
             {productsData.map(item => (
                 <div key={item.productId}>
-                    <CardProduct 
+                    <CardProduct
                         img={item.img} 
                         brand={item.brand} 
                         model={item.model}
