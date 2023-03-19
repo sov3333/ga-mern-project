@@ -1,39 +1,50 @@
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 
-import { logo, logo_full } from './assets';
-import { Home, CreatePost, UpdatePost } from './pages';
+// import { logo, logo_full } from './assets';
+import { 
+  Home, 
+  Setups, 
+  SetupOne, 
+  Products, 
+  ProductOne, 
+  SignIn, 
+  SignUp, 
+  MernStarter,
+  CreatePost, 
+  UpdatePost 
+} from './pages';
 import { Nav } from './components';
-import { Button } from '@chakra-ui/react';
-import { AddIcon } from '@chakra-ui/icons';
 
 import './App.css';
-// Edit by Tim
+
 const App = () => {
   return (
     <BrowserRouter>
       <Nav />
-      <div>
+      {/* <div>
         <header>
           <Link to='/'>
             <img src={logo} alt='logo' />
           </Link>
-          <Link to='/create'>
-            <Button colorScheme='green' variant='solid' leftIcon={<AddIcon />}>
-              Create a Post
-            </Button>
-          </Link>
         </header>
-        <main>
+        <main> */}
           <Routes>
             <Route path='/' element={<Home />} />
+            <Route path='/setups' element={<Setups />} />
+            <Route path='/setups/:id' element={<SetupOne />} />
+            <Route path='/products' element={<Products />} />
+            <Route path='/products/:id' element={<ProductOne />} />
+            <Route path='/signin' element={<SignIn />} />
+            <Route path='/signup' element={<SignUp />} />
+            <Route path='/starter' element={<MernStarter />} />
             <Route path='/create' element={<CreatePost />} />
             <Route path='/update/:id' element={<UpdatePost />} />
           </Routes>
-        </main>
-        <footer>
+        {/* </main> */}
+        {/* <footer>
           <img src={logo_full} alt='logo' />
-        </footer>
-      </div>
+        </footer> */}
+      {/* </div> */}
     </BrowserRouter>
   );
 };
