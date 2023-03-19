@@ -7,6 +7,8 @@ import CardSignIn from "./CardSignIn";
 import CardSignUp from "./CardSignup";
 import DetailsProduct from "./DetailsProduct";
 import DetailsSetup from "./DetailsSetup";
+import SocialProfileSimple from "./SocialProfileSimple";
+import SocialProfileHorizontal from "./SocialProfileHorizontal";
 
 export {
     Nav,
@@ -18,4 +20,6 @@ export {
     CardSignUp,
     DetailsProduct,
     DetailsSetup,
+    SocialProfileSimple,
+    SocialProfileHorizontal,
 };

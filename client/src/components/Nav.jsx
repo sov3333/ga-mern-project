@@ -299,4 +299,8 @@ const NAV_ITEMS = [
     label: '(test)',
     href: '/starter',
   },
+  {
+    label: '(profile)',
+    href: '/profile',
+  },
 ];
