@@ -1,9 +1,7 @@
-import React from 'react'
-import { productsData } from '../constants';
-import { CardProduct } from '../components';
 import { Flex } from '@chakra-ui/react';
 
-
+import { CardProduct } from '../components';
+import { productsData } from '../constants';
 
 const Products = () => {
   return (
@@ -27,13 +25,6 @@ const Products = () => {
                         brand={item.brand} 
                         model={item.model}
                         slug={`/products/${item.productId}`}
-                        linkState={{
-                            productId: item.productId,
-                            img: item.img,
-                            type: item.type,
-                            brand: item.brand,
-                            model: item.model,        
-                        }}
                     />
                 </div>
             ))}

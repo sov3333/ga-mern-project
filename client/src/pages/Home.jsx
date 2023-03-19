@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react'
-import React from 'react'
-import { Hero , Showcase } from '../components'
+
+import { Hero, Showcase } from '../components'
 
 const Home = () => {
   return (

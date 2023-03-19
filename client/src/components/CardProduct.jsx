@@ -6,12 +6,14 @@ import {
   Image,
   Badge,
   useColorModeValue,
-  Icon,
-  chakra,
-  Tooltip,
+  // Icon,
+  // chakra,
+  // Tooltip,
 } from '@chakra-ui/react';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
-import { FiShoppingCart } from 'react-icons/fi';
+// import { FiShoppingCart } from 'react-icons/fi';
+
+// "Product with Add to Cart" from https://chakra-templates.dev/components/cards
 
 const data = {
   isNew: true,
@@ -62,7 +64,6 @@ function CardProduct({ img, brand, model, slug }) {
             img: img,
             brand: brand,
             model: model,
-            slug: slug,
         }}
       >
       

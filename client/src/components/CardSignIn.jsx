@@ -13,6 +13,12 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
+// "Simple Login Card" from https://chakra-templates.dev/forms/authentication
+
+// TODO:
+// - consider using "Split Screen with Image" from chakra template
+// - add social signIn buttons from https://chakra-templates.dev/components/social-media-buttons
+
 export default function CardSignIn() {
   return (
     <Flex

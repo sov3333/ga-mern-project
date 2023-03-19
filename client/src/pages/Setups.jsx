@@ -1,7 +1,7 @@
-import React from 'react'
-import { setupsData } from '../constants';
-import { CardSetup } from '../components';
 import { Flex } from '@chakra-ui/react';
+
+import { CardSetup } from '../components';
+import { setupsData } from '../constants';
 
 const Setups = () => {
   return (
@@ -24,17 +24,11 @@ const Setups = () => {
                 <div key={post.setupId}>
                     <CardSetup 
                         img={post.img} 
-                        brand={`@${post.user}`} 
-                        model={post.heading} 
+                        user={post.user} 
+                        title={post.heading} 
+                        description={post.description}
+                        products={post.products}
                         slug={`/setups/${post.setupId}`}
-                        linkState={{
-                            setupId: post.setupId,
-                            img: post.img,
-                            user: post.user,
-                            heading: post.heading,
-                            description: post.description,
-                            products: post.products,
-                        }} 
                     />
                 </div>
             ))}

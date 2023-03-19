@@ -11,6 +11,8 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
+// "Social User Profile Simple" from https://chakra-templates.dev/components/cards
+
 export default function SocialProfileSimple() {
   return (
     <Center py={6}>

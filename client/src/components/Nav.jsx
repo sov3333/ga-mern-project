@@ -22,7 +22,15 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from '@chakra-ui/icons';
+
 import { logo } from '../assets';
+
+// "With Sub-Navigation & CTA" from https://chakra-templates.dev/navigation/navbar
+
+// TODO:
+// - When logged in, show "sign in" and "sign out", but if logged out show User Profile Icon 
+// - Add Create new Post (setup) button 
+// -> See "With action button & user dropdown" version of chakra template of navs
 
 export default function Nav() {
   const { isOpen, onToggle } = useDisclosure();

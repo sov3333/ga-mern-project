@@ -9,7 +9,9 @@ import {
   Image,
 } from '@chakra-ui/react';
 
-export default function CardSetup({ img, brand, model, slug, linkState }) {
+// "Product Simple" from https://chakra-templates.dev/components/cards
+
+export default function CardSetup({ img, user, title, description, products, slug }) {
   return (
     <Center py={12}>
       <Box
@@ -54,16 +56,22 @@ export default function CardSetup({ img, brand, model, slug, linkState }) {
         </Box>
         <Stack pt={10} align={'center'}>
           <Text color={'gray.500'} fontSize={'sm'} textTransform={'uppercase'}>
-            {brand}
+            @{user}
           </Text>
           <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
-            {model}
+            {title}
           </Heading>
           <Stack direction={'row'} align={'center'}>
             <Text fontWeight={800} fontSize={'xl'}>
               <Link 
                 to={slug}
-                state={linkState}
+                state={{
+                  img: img,
+                  user: user,
+                  title: title,
+                  description: description,
+                  products: products,
+                }}
               >
                 View
               </Link>

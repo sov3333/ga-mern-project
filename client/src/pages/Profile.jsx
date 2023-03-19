@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import { Button, Flex } from '@chakra-ui/react';
-import React, { useState } from 'react'
+
 import { SocialProfileSimple, SocialProfileHorizontal } from '../components'
 
 const Profile = () => {

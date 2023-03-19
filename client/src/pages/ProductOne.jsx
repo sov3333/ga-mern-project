@@ -1,11 +1,11 @@
-import { Flex } from '@chakra-ui/react';
-import React from 'react'
 import { useLocation } from 'react-router-dom';
+import { Flex } from '@chakra-ui/react';
+
 import { DetailsProduct } from '../components';
 
 const ProductOne = () => {
     const location = useLocation();
-    const { img, type, brand, model, slug } = location.state;
+    const { img, brand, model } = location.state;
   return (
     <div>
         <h1>Product</h1>
@@ -14,15 +14,10 @@ const ProductOne = () => {
             <h3>TODO:</h3>
             <p></p>
         </Flex>
-        {/* <img src={img} alt={`${brand}-${model}`} />
-        <h3>{brand} ({model})</h3>
-        <p>View Setups with {brand} {type}</p> */}
         <DetailsProduct 
           img={img}
-          type={type}
           brand={brand}
           model={model}
-          slug={slug}
         />
     </div>
   )
