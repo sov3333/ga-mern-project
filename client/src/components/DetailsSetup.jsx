@@ -18,7 +18,7 @@ import {
 // import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 import { MdLocalShipping } from 'react-icons/md';
 
-export default function DetailsSetup() {
+export default function DetailsSetup({ img, user, heading, description, products }) {
   return (
     <Container maxW={'7xl'}>
       <SimpleGrid
@@ -29,9 +29,7 @@ export default function DetailsSetup() {
           <Image
             rounded={'md'}
             alt={'product image'}
-            src={
-              'https://images.unsplash.com/photo-1596516109370-29001ec8ec36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE1MDl8MHwxfGFsbHx8fHx8fHx8fDE2Mzg5MzY2MzE&ixlib=rb-1.2.1&q=80&w=1080'
-            }
+            src={img}
             fit={'cover'}
             align={'center'}
             w={'100%'}
@@ -44,13 +42,13 @@ export default function DetailsSetup() {
               lineHeight={1.1}
               fontWeight={600}
               fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}>
-              Setup here
+              {heading}
             </Heading>
             <Text
               color={useColorModeValue('gray.900', 'gray.400')}
               fontWeight={300}
               fontSize={'2xl'}>
-              $350.00 USD
+              {`by @${user}`}
             </Text>
           </Box>
 
@@ -67,14 +65,10 @@ export default function DetailsSetup() {
                 color={useColorModeValue('gray.500', 'gray.400')}
                 fontSize={'2xl'}
                 fontWeight={'300'}>
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore
+                {description}
               </Text>
               <Text fontSize={'lg'}>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad
-                aliquid amet at delectus doloribus dolorum expedita hic, ipsum
-                maxime modi nam officiis porro, quae, quisquam quos
-                reprehenderit velit? Natus, totam.
+                Second {description}
               </Text>
             </VStack>
             <Box>
@@ -89,14 +83,17 @@ export default function DetailsSetup() {
 
               <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
                 <List spacing={2}>
-                  <ListItem>Chronograph</ListItem>
+                  {products.map((item, index) => (
+                    <ListItem key={index}>{item}</ListItem>
+                  ))}
+                  {/* <ListItem>Chronograph</ListItem>
                   <ListItem>Master Chronometer Certified</ListItem>{' '}
-                  <ListItem>Tachymeter</ListItem>
+                  <ListItem>Tachymeter</ListItem> */}
                 </List>
                 <List spacing={2}>
-                  <ListItem>Anti‑magnetic</ListItem>
+                  {/* <ListItem>Anti‑magnetic</ListItem>
                   <ListItem>Chronometer</ListItem>
-                  <ListItem>Small seconds</ListItem>
+                  <ListItem>Small seconds</ListItem> */}
                 </List>
               </SimpleGrid>
             </Box>
@@ -111,7 +108,10 @@ export default function DetailsSetup() {
               </Text>
 
               <List spacing={2}>
-                <ListItem>
+                {products.map((item, index) => (
+                  <ListItem key={index}>{item}</ListItem>
+                ))}
+                {/* <ListItem>
                   <Text as={'span'} fontWeight={'bold'}>
                     Between lugs:
                   </Text>{' '}
@@ -153,7 +153,7 @@ export default function DetailsSetup() {
                     Water resistance:
                   </Text>{' '}
                   5 bar (50 metres / 167 feet){' '}
-                </ListItem>
+                </ListItem> */}
               </List>
             </Box>
           </Stack>
@@ -171,13 +171,13 @@ export default function DetailsSetup() {
               transform: 'translateY(2px)',
               boxShadow: 'lg',
             }}>
-            Add to cart
+            Swipe
           </Button>
 
-          <Stack direction="row" alignItems="center" justifyContent={'center'}>
+          {/* <Stack direction="row" alignItems="center" justifyContent={'center'}>
             <MdLocalShipping />
             <Text>2-3 business days delivery</Text>
-          </Stack>
+          </Stack> */}
         </Stack>
       </SimpleGrid>
     </Container>

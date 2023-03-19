@@ -31,6 +31,8 @@ const Showcase = () => {
                     setupId: setupsData[0].setupId,
                     img: setupsData[0].img,
                     user: setupsData[0].user,
+                    heading: setupsData[0].heading,
+                    description: setupsData[0].description,
                     products: setupsData[0].products,
                 }} 
             />
@@ -43,6 +45,8 @@ const Showcase = () => {
                     setupId: setupsData[1].setupId,
                     img: setupsData[1].img,
                     user: setupsData[1].user,
+                    heading: setupsData[1].heading,
+                    description: setupsData[1].description,
                     products: setupsData[1].products,
                 }} 
             />
@@ -55,6 +59,8 @@ const Showcase = () => {
                     setupId: setupsData[2].setupId,
                     img: setupsData[2].img,
                     user: setupsData[2].user,
+                    heading: setupsData[2].heading,
+                    description: setupsData[2].description,
                     products: setupsData[2].products,
                 }} 
             />

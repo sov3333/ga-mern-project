@@ -8,17 +8,14 @@ const SetupOne = () => {
   return (
     <div>
         <h1>A Desk Setup</h1>
-        <h2>By @{user}</h2>
-        <h3>Heading: {heading}</h3>
-        <h3>Description: {description}</h3>
-        <img src={img} alt={`Desk Setup by ${user}`} />
-        <h3>Products</h3>
-        <ul>
-            {products.map((item, index) => (
-                <li key={index}>{item}</li>
-            ))}
-        </ul>
-        <DetailsSetup />
+        <h2>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id totam nisi facere nesciunt, similique explicabo nobis tenetur ratione harum nulla sequi aspernatur minima aliquam doloribus?</h2>
+        <DetailsSetup 
+          img={img}
+          user={user}
+          heading={heading}
+          description={description}
+          products={products}
+        />
     </div>
   )
 }
