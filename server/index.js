@@ -24,7 +24,7 @@ app.use('/api/product', productRoutes);
 
 const PORT = process.env.PORT || 8080;
 const MONGODB_URL =
-  process.env.MONGODB_URL || 'mongodb://localhost:27017/starter';
+  process.env.MONGODB_URL || 'mongodb://localhost:27017/swipesetups'; // Edit by weiliang
 
 app.get('/', async (req, res) => {
   res.send('Server says hello!');
