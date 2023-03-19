@@ -13,6 +13,8 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
+import ModalWithForm from './ModalWithForm';
+
 // "Simple Login Card" from https://chakra-templates.dev/forms/authentication
 
 // TODO:
@@ -53,7 +55,8 @@ export default function CardSignIn() {
                 align={'start'}
                 justify={'space-between'}>
                 <Checkbox>Remember me</Checkbox>
-                <Link color={'blue.400'}>Forgot password?</Link>
+                <ModalWithForm />
+                {/* <Link color={'blue.400'}>Forgot password?</Link> */}
               </Stack>
               <Button
                 bg={'blue.400'}

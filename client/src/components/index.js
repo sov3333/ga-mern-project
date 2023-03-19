@@ -11,6 +11,7 @@ import DetailsProduct from "./DetailsProduct";
 import DetailsSetup from "./DetailsSetup";
 import SocialProfileSimple from "./SocialProfileSimple";
 import SocialProfileHorizontal from "./SocialProfileHorizontal";
+import ModalWithForm from "./ModalWithForm";
 
 export {
     Nav,
@@ -26,4 +27,5 @@ export {
     DetailsSetup,
     SocialProfileSimple,
     SocialProfileHorizontal,
+    ModalWithForm,
 };

@@ -14,7 +14,7 @@ import {
 export default function PasswordForgotForm() {
   return (
     <Flex
-      minH={'100vh'}
+      // minH={'100vh'}
       align={'center'}
       justify={'center'}
       bg={useColorModeValue('gray.50', 'gray.800')}>
