@@ -26,6 +26,30 @@ export default function CardSignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  //Links To Backend
+
+  //Register User
+  const signUpUser = async (e) => {
+    e.preventDefault();
+
+    const signUpURL = `http://localhost:8080/api/signup`;
+    const response = await fetch(signUpURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        password,
+      }),
+    });
+
+    const data = await response.json();
+    console.log(data);
+  };
+
   return (
     <Flex
       minH={'100vh'}
@@ -49,7 +73,7 @@ export default function CardSignUp() {
           p={8}
         >
           <Stack spacing={4}>
-            <form onSubmit={registerUser}>
+            <form onSubmit={signUpUser}>
               <HStack>
                 <Box>
                   <FormControl id='firstName' isRequired>
