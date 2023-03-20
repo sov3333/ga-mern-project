@@ -6,6 +6,7 @@ import methodOverride from 'method-override';
 import connectDB from './mongodb/connect.js';
 import testRoutes from './routes/testRoutes.js';
 import signUpUser from './routes/signUpUser.js';
+import signInUser from './routes/signInUser.js';
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(methodOverride('_method'));
 app.use('/api/test', testRoutes);
 app.use('/api/signup', signUpUser);
+app.use('/api/login', signInUser);
 
 const PORT = process.env.PORT || 8080;
 const MONGODB_URL =
