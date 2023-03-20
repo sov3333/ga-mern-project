@@ -78,14 +78,14 @@ export default function CardSetup({ img, user, title, description, products, slu
                 {products.map((item, index) => (
                   <Text key={index} fontWeight={400} fontSize={'sm'} color={
                     // change color of #hashtag per product
-                    item === 'desk' ? 'aqua' :
-                    item === 'monitor' ? 'red' :
+                    item === 'desk' ? 'teal' :
+                    item === 'monitor' ? 'green' :
                     item === 'chair' ? 'orange' :
                     item === 'keyboard' ? 'peru' :
-                    item === 'mouse' ? 'green' :
-                    item === 'mousepad' ? 'teal' :
+                    item === 'mouse' ? 'red' :
+                    item === 'mousepad' ? 'aqua' :
                     item === 'speaker' ? 'blue' :
-                    item === 'headphone' ? 'violet' :
+                    item === 'headphone' ? 'lightgreen' :
                     item === 'pc' ? 'purple' :
                     item === 'laptop' ? 'pink' :
                     item === 'light' ? 'plum' :
