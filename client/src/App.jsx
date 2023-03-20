@@ -7,7 +7,10 @@ import {
   ProductOne, 
   SignIn, 
   SignUp, 
+  PasswordReset,
   Profile,
+  ProfileEdit,
+  Create,
   MernStarter,
   CreatePost, 
   UpdatePost 
@@ -28,7 +31,10 @@ const App = () => {
           <Route path='/products/:id' element={<ProductOne />} />
           <Route path='/signin' element={<SignIn />} />
           <Route path='/signup' element={<SignUp />} />
+          <Route path='/reset' element={<PasswordReset />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/profile/edit' element={<ProfileEdit />} />
+          <Route path='/create' element={<Create />} />
 
           {/* MERN Starter code */}
           <Route path='/starter' element={<MernStarter />} />

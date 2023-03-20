@@ -7,6 +7,7 @@ import {
   Text,
   Stack,
   Image,
+  Wrap,
 } from '@chakra-ui/react';
 
 // "Product Simple" from https://chakra-templates.dev/components/cards
@@ -14,6 +15,16 @@ import {
 export default function CardSetup({ img, user, title, description, products, slug }) {
   return (
     <Center py={12}>
+      <Link 
+        to={slug}
+        state={{
+          img: img,
+          user: user,
+          title: title,
+          description: description,
+          products: products,
+        }}
+      >
       <Box
         role={'group'}
         p={6}
@@ -62,26 +73,36 @@ export default function CardSetup({ img, user, title, description, products, slu
             {title}
           </Heading>
           <Stack direction={'row'} align={'center'}>
-            <Text fontWeight={800} fontSize={'xl'}>
-              <Link 
-                to={slug}
-                state={{
-                  img: img,
-                  user: user,
-                  title: title,
-                  description: description,
-                  products: products,
-                }}
-              >
-                View
-              </Link>
-            </Text>
+            {/* <Text fontWeight={800} fontSize={'xl'}> */}
+              <Wrap>
+                {products.map((item, index) => (
+                  <Text key={index} fontWeight={400} fontSize={'sm'} color={
+                    // change color of #hashtag per product
+                    item === 'desk' ? 'teal' :
+                    item === 'monitor' ? 'green' :
+                    item === 'chair' ? 'orange' :
+                    item === 'keyboard' ? 'peru' :
+                    item === 'mouse' ? 'red' :
+                    item === 'mousepad' ? 'aqua' :
+                    item === 'speaker' ? 'blue' :
+                    item === 'headphone' ? 'lightgreen' :
+                    item === 'pc' ? 'purple' :
+                    item === 'laptop' ? 'pink' :
+                    item === 'light' ? 'plum' :
+                    item === 'riser' ? 'tomato' :
+                    'black' // fallback color
+                  }>#{item}</Text>
+                ))}
+              </Wrap>
+              
+            {/* </Text> */}
             {/* <Text textDecoration={'line-through'} color={'gray.600'}>
               $199
             </Text> */}
           </Stack>
         </Stack>
       </Box>
+      </Link>
     </Center>
   );
 }

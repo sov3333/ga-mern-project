@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Flex,
   Box,
@@ -20,6 +21,7 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 // "Simple Signup Card" from https://chakra-templates.dev/forms/authentication
 
 // TODO:
+// - fix "Login" text to link to /signin page -> for some reason the `<Link href='/signin'>` doesnt work?
 // - Consider using "Join our Team" from chakra template
 // - add social signIn buttons from https://chakra-templates.dev/components/social-media-buttons
 
@@ -155,7 +157,7 @@ export default function CardSignUp() {
             </form>
             <Stack pt={6}>
               <Text align={'center'}>
-                Already a user? <Link color={'blue.400'}>Login</Link>
+                Already a user? <Link href='/signin' color={'blue.400'}>Login</Link>
               </Text>
             </Stack>
           </Stack>

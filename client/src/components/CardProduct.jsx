@@ -55,7 +55,7 @@ function Rating({ rating, numReviews }) {
   );
 }
 
-function CardProduct({ img, brand, model, slug }) {
+function CardProduct({ img, type, brand, model, slug }) {
   return (
     <Flex p={50} w="full" alignItems="center" justifyContent="center">
       <Link 
@@ -94,7 +94,15 @@ function CardProduct({ img, brand, model, slug }) {
         <Box p="6">
           <Box d="flex" alignItems="baseline">
             {data.isNew && (
-              <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
+              <Badge rounded="full" px="2" fontSize="0.8em" colorScheme={
+                // change color of brand badge by product type
+                type === 'Desk' ? 'green' :
+                type === 'Monitor' ? 'blue' :
+                type === 'Keyboard' ? 'orange' :
+                type === 'Mouse' ? 'red' :
+                type === 'Mousepad' ? 'pink' :
+                'purple' // fallback color
+              }>
                 {brand}
               </Badge>
             )}
