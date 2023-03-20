@@ -7,6 +7,7 @@ import {
   Text,
   Stack,
   Image,
+  Wrap,
 } from '@chakra-ui/react';
 
 // "Product Simple" from https://chakra-templates.dev/components/cards
@@ -72,11 +73,29 @@ export default function CardSetup({ img, user, title, description, products, slu
             {title}
           </Heading>
           <Stack direction={'row'} align={'center'}>
-            <Text fontWeight={800} fontSize={'xl'}>
+            {/* <Text fontWeight={800} fontSize={'xl'}> */}
+              <Wrap>
+                {products.map((item, index) => (
+                  <Text key={index} fontWeight={400} fontSize={'sm'} color={
+                    // change color of #hashtag per product
+                    item === 'desk' ? 'aqua' :
+                    item === 'monitor' ? 'red' :
+                    item === 'chair' ? 'orange' :
+                    item === 'keyboard' ? 'peru' :
+                    item === 'mouse' ? 'green' :
+                    item === 'mousepad' ? 'teal' :
+                    item === 'speaker' ? 'blue' :
+                    item === 'headphone' ? 'violet' :
+                    item === 'pc' ? 'purple' :
+                    item === 'laptop' ? 'pink' :
+                    item === 'light' ? 'plum' :
+                    item === 'riser' ? 'tomato' :
+                    'black' // fallback color
+                  }>#{item}</Text>
+                ))}
+              </Wrap>
               
-                View
-              
-            </Text>
+            {/* </Text> */}
             {/* <Text textDecoration={'line-through'} color={'gray.600'}>
               $199
             </Text> */}

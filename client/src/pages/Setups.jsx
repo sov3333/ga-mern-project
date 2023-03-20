@@ -10,8 +10,6 @@ const Setups = () => {
         <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti iure alias in, error necessitatibus, perspiciatis obcaecati dicta nam labore voluptas ipsum id ut, laborum voluptates nemo voluptatibus? Eligendi hic illo cupiditate reiciendis odit quasi? Deserunt facere tempora quidem voluptates harum perferendis cupiditate.</h2>
         <Flex flexDirection="column" justifyContent="center" alignItems="center" >
             <h3>TODO:</h3>
-            <p>include on UI, on the cards, add hashtags of products that are included in each setup</p>
-            <p>make whole card clickable</p>
             <p>Sort - newest, highest rating, most likes ,(trending) etc </p>
             <p>Products Filter - checkbox of all products user want to include</p>
             <p>EXTRA:</p>
