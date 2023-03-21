@@ -11,4 +11,4 @@ const setupSchema = new mongoose.Schema(
 
 const Setup = mongoose.model('Setup', setupSchema);
 
-export default { Setup };
+export default Setup;

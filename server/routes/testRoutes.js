@@ -1,6 +1,6 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
-import Product from '../mongodb/models/Product.js';
+import Product from '../mongodb/models/product.js';
 import setup from '../mongodb/models/setup.js';
 
 dotenv.config();
