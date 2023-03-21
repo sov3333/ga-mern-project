@@ -27,9 +27,10 @@ export default function CardSignIn() {
   const [password, setPassword] = useState('');
 
   const signInUser = async (e) => {
+    console.log('click');
     e.preventDefault();
 
-    const signInURL = `http://localhost:8080/api/signin`;
+    const signInURL = `http://localhost:8080/api/login`;
     const response = await fetch(signInURL, {
       method: 'POST',
       headers: {
@@ -44,6 +45,7 @@ export default function CardSignIn() {
     const data = await response.json();
     console.log(data);
   };
+
   return (
     <Flex
       minH={'100vh'}
@@ -64,36 +66,51 @@ export default function CardSignIn() {
           boxShadow={'lg'}
           p={8}
         >
-          <Stack spacing={4}>
-            <FormControl id='email'>
-              <FormLabel>Email address</FormLabel>
-              <Input type='email' />
-            </FormControl>
-            <FormControl id='password'>
-              <FormLabel>Password</FormLabel>
-              <Input type='password' />
-            </FormControl>
-            <Stack spacing={10}>
-              <Stack
-                direction={{ base: 'column', sm: 'row' }}
-                align={'start'}
-                justify={'space-between'}
-              >
-                <Checkbox>Remember me</Checkbox>
-                <ModalWithForm />
-                {/* <Link color={'blue.400'}>Forgot password?</Link> */}
+          <form onSubmit={signInUser}>
+            <Stack spacing={4}>
+              <FormControl id='email'>
+                <FormLabel>Email address</FormLabel>
+                <Input
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  type='email'
+                />
+              </FormControl>
+              <FormControl id='password'>
+                <FormLabel>Password</FormLabel>
+                <Input
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  type={'password'}
+                />
+              </FormControl>
+              <Stack spacing={10}>
+                <Stack
+                  direction={{ base: 'column', sm: 'row' }}
+                  align={'start'}
+                  justify={'space-between'}
+                >
+                  <Checkbox>Remember me</Checkbox>
+                  <ModalWithForm />
+                  {/* <Link color={'blue.400'}>Forgot password?</Link> */}
+                </Stack>
+                <Button
+                  type='submit'
+                  bg={'blue.400'}
+                  color={'white'}
+                  _hover={{
+                    bg: 'blue.500',
+                  }}
+                >
+                  Sign in
+                </Button>
               </Stack>
-              <Button
-                bg={'blue.400'}
-                color={'white'}
-                _hover={{
-                  bg: 'blue.500',
-                }}
-              >
-                Sign in
-              </Button>
             </Stack>
-          </Stack>
+          </form>
         </Box>
       </Stack>
     </Flex>
