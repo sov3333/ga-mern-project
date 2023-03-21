@@ -319,4 +319,8 @@ const NAV_ITEMS = [
     label: '(reset)',
     href: '/reset',
   },
+  {
+    label: '(swipe)',
+    href: '/swipe',
+  },
 ];
