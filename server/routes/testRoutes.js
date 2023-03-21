@@ -7,20 +7,25 @@ dotenv.config();
 
 const router = express.Router();
 
-//Get
-router.get('/setup', async (req, res) => {
+//SETUP routes
+
+// Get
+// http://localhost:8080/api/test/setup
+
+router.get('/setup/', async (req, res) => {
   try {
     const setups = await setup.Setup.find({});
     res.status(200).json(setups);
-  } catch (error) {
-    console.error(error);
+  } catch (e) {
+    console.error(e);
     res.status(500).json({ message: 'Server Error' });
   }
 });
 
 // post
-//curl -X POST localhost:8080/api/test/seed to test seed
-router.post('/setup/seed', async (req, res) => {
+// curl -X POST localhost:8080/api/test/setup/seed
+
+router.post('/setup/seed/', async (req, res) => {
   try {
     const newSetups = await setup.Setup.create([
       {
@@ -62,7 +67,8 @@ router.post('/setup/seed', async (req, res) => {
 });
 
 //Put
-router.put('/setup/:user', async (req, res) => {
+
+router.put('/setup/:user/', async (req, res) => {
   const { user } = req.params;
   const { img, products } = req.body;
 
@@ -79,15 +85,15 @@ router.put('/setup/:user', async (req, res) => {
     const updatedSetup = await setup.save();
 
     res.json(updatedSetup);
-  } catch (error) {
-    console.error(error);
+  } catch (e) {
+    console.error(e);
     res.status(500).json({ message: 'Server Error' });
   }
 });
 
-//delete
 // Delete
-router.delete('/setup/:user', async (req, res) => {
+
+router.delete('/setup/:user/', async (req, res) => {
   const { user } = req.params;
 
   try {
@@ -98,22 +104,82 @@ router.delete('/setup/:user', async (req, res) => {
     }
 
     res.json({ message: 'Setup deleted' });
-  } catch (error) {
-    console.error(error);
+  } catch (e) {
+    console.error(e);
     res.status(500).json({ message: 'Server Error' });
   }
 });
 
-    const deletedProduct = await Product.findByIdAndDelete(id);
+//Products routes
 
-    if (!deletedProduct) {
-      return res.status(404).json({ message: 'Product not found' });
-    }
-
-    res.json({ message: 'Product deleted' });
+// Get
+// http://localhost:8080/api/test/product
+router.get('/product/', async (req, res) => {
+  try {
+    const products = await Product.Product.find({});
+    res.status(200).json(products);
   } catch (e) {
     console.error(e);
     res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+//Post
+//curl -X POST localhost:8080/api/test/product/seed
+
+router.post('/product/seed/', async (req, res) => {
+  try {
+    const newProducts = await Product.Product.create([
+      {
+        type: 'Desk',
+        brand: 'Omnidesk',
+        model: 'Ascent Wildwood+',
+      },
+      {
+        type: 'Keyboard',
+        brand: 'Keychron',
+        model: 'K4',
+      },
+      {
+        type: 'Mouse',
+        brand: 'Razer',
+        model: 'Deathadder V2',
+      },
+      {
+        type: 'Monitor',
+        brand: 'Xiaomi',
+        model: 'Curved Gaming Monitor 34',
+      },
+      {
+        type: 'Monitor',
+        brand: 'Gigabyte',
+        model: 'M34WQ',
+      },
+      {
+        type: 'Mousepad',
+        brand: 'Aukey',
+        model: 'KM-P2 Large Gaming Mouse Pad Oversized',
+      },
+      {
+        type: 'Chair',
+        brand: 'Logitech X Herman Miller',
+        model: 'Embody gaming chair',
+      },
+      {
+        type: 'Light',
+        brand: 'Type 75 Desk Lamp Paul Smith',
+        model: 'Edition 6',
+      },
+      {
+        type: 'Speaker',
+        brand: 'Audioengine',
+        model: 'Audioengine A2+ Wireless White',
+      },
+    ]);
+    console.log(newProducts);
+    res.redirect('/');
+  } catch (e) {
+    console.log(e);
   }
 });
 
