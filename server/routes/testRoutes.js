@@ -1,7 +1,7 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
 import Product from '../mongodb/models/product.js';
-import setup from '../mongodb/models/setup.js';
+import Setup from '../mongodb/models/setup.js';
 
 dotenv.config();
 
@@ -12,10 +12,10 @@ const router = express.Router();
 // Get
 // http://localhost:8080/api/test/setup
 
-router.get('/setup/', async (req, res) => {
+router.get('/setup', async (req, res) => {
   try {
-    const setups = await setup.Setup.find({});
-    res.status(200).json(setups);
+    const showSetups = await Setup.find({});
+    res.status(200).json(showSetups);
   } catch (e) {
     console.error(e);
     res.status(500).json({ message: 'Server Error' });
@@ -25,9 +25,9 @@ router.get('/setup/', async (req, res) => {
 // post
 // curl -X POST localhost:8080/api/test/setup/seed
 
-router.post('/setup/seed/', async (req, res) => {
+router.post('/setup/seed', async (req, res) => {
   try {
-    const newSetups = await setup.Setup.create([
+    const newSetups = await Setup.create([
       {
         img: 'https://t3.gstatic.com/images?q=tbn:ANd9GcSTspk0HexUgLVvH7AoWUOfZ61RecRVeAaoubWnCQHmAfVY9rKB',
         user: 'Alice',
@@ -67,37 +67,39 @@ router.post('/setup/seed/', async (req, res) => {
 });
 
 //Put
+// curl -X PUT -H "Content-Type: application/json" -d '{"img":"new-image.jpg",
+//"products":["product1","product2"]}' http://localhost:8080/api/test/setup/Bob
 
-router.put('/setup/:user/', async (req, res) => {
-  const { user } = req.params;
-  const { img, products } = req.body;
-
+router.put('/setup/:user', async (req, res) => {
   try {
-    const setup = await setup.Setup.findOne({ user });
+    const { user } = req.params;
+    const { img, products } = req.body;
 
-    if (!setup) {
+    const updatedSetup = await Setup.findOneAndUpdate(
+      { user },
+      { img, products },
+      { new: true }
+    );
+
+    if (!updatedSetup) {
       return res.status(404).json({ message: 'Setup not found' });
     }
 
-    setup.img = img;
-    setup.products = products;
-
-    const updatedSetup = await setup.save();
-
     res.json(updatedSetup);
   } catch (e) {
-    console.error(e);
-    res.status(500).json({ message: 'Server Error' });
+    console.log(e);
+    res.status(500).json({ error: 'Something went wrong' });
   }
 });
 
 // Delete
+//curl -X DELETE http://localhost:8080/api/test/setup/Bob
 
-router.delete('/setup/:user/', async (req, res) => {
+router.delete('/setup/:user', async (req, res) => {
   const { user } = req.params;
 
   try {
-    const setup = await setup.Setup.findOneAndDelete({ user });
+    const setup = await Setup.findOneAndDelete({ user });
 
     if (!setup) {
       return res.status(404).json({ message: 'Setup not found' });
@@ -110,13 +112,13 @@ router.delete('/setup/:user/', async (req, res) => {
   }
 });
 
-//Products routes
+//PRODUCT routes
 
 // Get
 // http://localhost:8080/api/test/product
 router.get('/product/', async (req, res) => {
   try {
-    const products = await Product.Product.find({});
+    const products = await Product.find({});
     res.status(200).json(products);
   } catch (e) {
     console.error(e);
@@ -129,7 +131,7 @@ router.get('/product/', async (req, res) => {
 
 router.post('/product/seed/', async (req, res) => {
   try {
-    const newProducts = await Product.Product.create([
+    const newProducts = await Product.create([
       {
         type: 'Desk',
         brand: 'Omnidesk',
@@ -180,6 +182,51 @@ router.post('/product/seed/', async (req, res) => {
     res.redirect('/');
   } catch (e) {
     console.log(e);
+  }
+});
+
+//Put
+//curl -X PUT -H "Content-Type: application/json" -d '{"brand":"newBrand",
+//"model":"newModel"}' http://localhost:8080/api/test/product/6419ee84b5c3db7c7aecff03
+
+router.put('/product/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { type, brand, model } = req.body;
+
+    const updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      { type, brand, model },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    res.json(updatedProduct);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+});
+
+//Delete
+//curl -X DELETE http://localhost:8080/api/test/product/6419ee84b5c3db7c7aecff03
+router.delete('/product/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedProduct = await Product.findByIdAndDelete(id);
+
+    if (!deletedProduct) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    res.json({ message: 'Product deleted' });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ message: 'Server Error' });
   }
 });
 
