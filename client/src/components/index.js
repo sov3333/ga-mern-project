@@ -12,6 +12,8 @@ import DetailsSetup from "./DetailsSetup";
 import SocialProfileSimple from "./SocialProfileSimple";
 import SocialProfileHorizontal from "./SocialProfileHorizontal";
 import ModalWithForm from "./ModalWithForm";
+import ImageSwipe from "./ImageSwipe";
+import ImageLike from "./ImageLike";
 
 export {
     Nav,
@@ -28,4 +30,6 @@ export {
     SocialProfileSimple,
     SocialProfileHorizontal,
     ModalWithForm,
+    ImageSwipe,
+    ImageLike,
 };

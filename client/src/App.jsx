@@ -13,7 +13,8 @@ import {
   Create,
   MernStarter,
   CreatePost, 
-  UpdatePost 
+  UpdatePost,
+  Swipe,
 } from './pages';
 import { Nav } from './components';
 
@@ -35,6 +36,7 @@ const App = () => {
           <Route path='/profile' element={<Profile />} />
           <Route path='/profile/edit' element={<ProfileEdit />} />
           <Route path='/create' element={<Create />} />
+          <Route path='/swipe' element={<Swipe />} />
 
           {/* MERN Starter code */}
           <Route path='/starter' element={<MernStarter />} />
