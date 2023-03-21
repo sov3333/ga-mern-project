@@ -12,10 +12,10 @@ const router = express.Router();
 // Get
 // http://localhost:8080/api/test/setup
 
-router.get('/setup/', async (req, res) => {
+router.get('/setup', async (req, res) => {
   try {
-    const setups = await setup.Setup.find({});
-    res.status(200).json(setups);
+    const showSetups = await Setup.find({});
+    res.status(200).json(showSetups);
   } catch (e) {
     console.error(e);
     const showSetups = await Setup.find({});
