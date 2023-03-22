@@ -22,8 +22,8 @@ app.use(methodOverride('_method'));
 
 app.use('/api/test', testRoutes);
 app.use('/api/user', userRoute);
-// app.use('/api/signup', signUpUser);
-// app.use('/api/login', signInUser);
+app.use('/api/setup', setupRoutes);
+app.use('/api/product', productRoutes);
 
 const PORT = process.env.PORT || 8080;
 const MONGODB_URL =
