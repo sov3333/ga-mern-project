@@ -41,7 +41,7 @@ export default function CardSignUp() {
   const signUpUser = async (e) => {
     e.preventDefault();
 
-    const signUpURL = `http://localhost:8080/api/signup`;
+    const signUpURL = `http://localhost:8080/api/user/register`;
     const response = await fetch(signUpURL, {
       method: 'POST',
       headers: {

@@ -30,7 +30,7 @@ export default function CardSignIn() {
     console.log('click');
     e.preventDefault();
 
-    const signInURL = `http://localhost:8080/api/login`;
+    const signInURL = `http://localhost:8080/api/user/login`;
     const response = await fetch(signInURL, {
       method: 'POST',
       headers: {
