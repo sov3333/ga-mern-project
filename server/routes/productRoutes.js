@@ -16,19 +16,20 @@ router.get('/', async (req, res) => {
   }
 });
 
-//Get
+//Get on the ratings and reviews
 // http://localhost:8080/api/product/Keyboard (search by type)
+
 router.get('/:type', async (req, res) => {
   try {
     const { type } = req.params;
 
-    const product = await Product.findOne({ type });
+    const product = await Product.findOne({ type }, { ratings: 1, reviews: 1 });
 
     if (!product) {
       return res.status(404).json({ message: 'Product type not found' });
     }
 
-    res.json(product);
+    res.json({ ratings: product.ratings, reviews: product.reviews });
   } catch (e) {
     console.log(e);
     res.status(500).json({ error: 'Something went wrong' });
@@ -112,4 +113,3 @@ router.delete('/:type', async (req, res) => {
 });
 
 export default router;
-//Testing
