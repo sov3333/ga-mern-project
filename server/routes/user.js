@@ -25,7 +25,8 @@ router.post('/register', async (req, res) => {
         .then((result) => {
           res
             .status(201)
-            .send({ message: 'User Successfully Created', result });
+            .send({ message: 'User Successfully Created', result })
+            .redirect('/login');
         })
         .catch((err) => {
           res.status(500).send({ message: 'Error creating user', err });
