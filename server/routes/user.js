@@ -77,4 +77,19 @@ router.post('/login', async (req, res) => {
     });
 });
 
+//cookies
+router.get('/set-cookies', (req, res) => {
+  res.cookie('newUser', false, {
+    maxAge: 1000 * 60 * 60 * 24,
+    httpOnly: true,
+  });
+  res.send('cookies obtained');
+});
+
+router.get('/read-cookies', (req, res) => {
+  const cookies = req.cookies;
+  console.log(cookies);
+  res.json(cookies.newUser);
+});
+
 export default router;
