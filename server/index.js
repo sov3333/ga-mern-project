@@ -2,9 +2,11 @@ import express from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
 import methodOverride from 'method-override';
+import passport from 'passport';
 
 import connectDB from './mongodb/connect.js';
 import testRoutes from './routes/testRoutes.js';
+import userRoute from './routes/user.js';
 import signUpUser from './routes/signUpUser.js';
 import signInUser from './routes/signInUser.js';
 import setupRoutes from './routes/setupRoutes.js';
@@ -17,8 +19,7 @@ app.use(cors());
 app.use(express.json());
 app.use(methodOverride('_method'));
 app.use('/api/test', testRoutes);
-app.use('/api/signup', signUpUser);
-app.use('/api/login', signInUser);
+app.use('/api/user', userRoute);
 app.use('/api/setup', setupRoutes);
 app.use('/api/product', productRoutes);
 
