@@ -66,17 +66,17 @@ router.post('/seed', async (req, res) => {
 });
 
 //Put
-//curl -X PUT -H "Content-Type: application/json" -d '{"brand":"NewBrand", "model":"NewModel",
-// "ratings":[{"user":"John","rating":4.5}], "reviews":[{"user":"Jane","review":"This is a great product"}]}' http://localhost:8080/api/product/Keyboard
+//curl -X PUT -H "Content-Type: application/json" -d
+//'{"ratings":[{"user":"John","rating":4.5}],"reviews":[{"user":"Jane","review":"This is a great product"}]}' http://localhost:8080/api/product/Keyboard
 
 router.put('/:type', async (req, res) => {
   try {
     const { type } = req.params;
-    const { brand, model, ratings, reviews } = req.body;
+    const { ratings, reviews } = req.body;
 
     const updatedProduct = await Product.findOneAndUpdate(
       { type },
-      { brand, model, ratings, reviews },
+      { ratings, reviews },
       { new: true }
     );
 
