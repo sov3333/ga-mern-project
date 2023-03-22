@@ -2,7 +2,6 @@ import express from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
 import methodOverride from 'method-override';
-import passport from 'passport';
 
 import connectDB from './mongodb/connect.js';
 import testRoutes from './routes/testRoutes.js';
@@ -20,8 +19,8 @@ app.use(express.json());
 app.use(methodOverride('_method'));
 app.use('/api/test', testRoutes);
 app.use('/api/user', userRoute);
-app.use('/api/setup', setupRoutes);
-app.use('/api/product', productRoutes);
+// app.use('/api/signup', signUpUser);
+// app.use('/api/login', signInUser);
 
 const PORT = process.env.PORT || 8080;
 const MONGODB_URL =
