@@ -1,6 +1,6 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
-import user from '../mongodb/models/User.js';
+import User from '../mongodb/models/User.js';
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ const router = express.Router();
 // Http://localhost:8080/api/signup/user
 router.get('/user', async (req, res) => {
   try {
-    const showUsers = await user.find({});
+    const showUsers = await User.find({});
     res.status(200).json(showUsers);
   } catch (e) {
     console.error(e);
@@ -22,7 +22,7 @@ router.get('/user', async (req, res) => {
 
 router.post('/user/seed', async (req, res) => {
   try {
-    const newUsers = await user.create([
+    const newUsers = await User.create([
       {
         firstName: 'Lindsey',
         lastName: 'James',
@@ -73,7 +73,7 @@ router.put('/user/:id', async (req, res) => {
     const { id } = req.params;
     const { email, password, tags } = req.body;
 
-    const updatedUser = await user.findOneAndUpdate(
+    const updatedUser = await User.findOneAndUpdate(
       { _id: id },
       { email, password, tags },
       { new: true }
@@ -97,7 +97,7 @@ router.delete('/user/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    const deleteUser = await user.findOneAndDelete({ _id: id });
+    const deleteUser = await User.findOneAndDelete({ _id: id });
 
     if (!deleteUser) {
       return res.status(404).json({ message: 'User not found' });
@@ -114,7 +114,7 @@ router.post('/', async (req, res) => {
   bcrypt
     .hash(req.body.password, 10)
     .then((hashedPassword) => {
-      const createdUser = new user({
+      const createdUser = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
