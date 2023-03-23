@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import {
   Home,
@@ -24,6 +24,18 @@ import { UserContext } from './context/UserContext';
 
 const App = () => {
   const [logInOut, setLogInOut] = useState(false);
+
+  useEffect(() => {
+    const loginStatus = window.localStorage.getItem('secretKey');
+    if (loginStatus !== null) {
+      setLogInOut(JSON.parse(loginStatus));
+    }
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem('secretKey', JSON.stringify(logInOut));
+  }, [logInOut]);
+
   return (
     <UserContext.Provider value={{ logInOut, setLogInOut }}>
       <BrowserRouter>
