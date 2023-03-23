@@ -1,29 +1,33 @@
+import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { 
-  Home, 
-  Setups, 
-  SetupOne, 
-  Products, 
-  ProductOne, 
-  SignIn, 
-  SignUp, 
+import {
+  Home,
+  Setups,
+  SetupOne,
+  Products,
+  ProductOne,
+  SignIn,
+  SignUp,
   PasswordReset,
   Profile,
   ProfileEdit,
   Create,
   MernStarter,
-  CreatePost, 
+  CreatePost,
   UpdatePost,
   Swipe,
 } from './pages';
 import { Nav } from './components';
 
 import './App.css';
+import { UserContext } from './context/UserContext';
 
 const App = () => {
+  const [logInOut, setLogInOut] = useState(false);
   return (
-    <BrowserRouter>
-      <Nav />
+    <UserContext.Provider value={{ logInOut, setLogInOut }}>
+      <BrowserRouter>
+        <Nav />
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/setups' element={<Setups />} />
@@ -43,7 +47,8 @@ const App = () => {
           <Route path='/create' element={<CreatePost />} />
           <Route path='/update/:id' element={<UpdatePost />} />
         </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </UserContext.Provider>
   );
 };
 
