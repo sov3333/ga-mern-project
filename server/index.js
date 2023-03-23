@@ -2,29 +2,32 @@ import express from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
 import methodOverride from 'method-override';
+import cookieParser from 'cookie-parser';
 
 import connectDB from './mongodb/connect.js';
 import testRoutes from './routes/testRoutes.js';
-import signUpUser from './routes/signUpUser.js';
-import signInUser from './routes/signInUser.js';
+import userRoute from './routes/user.js';
+import requireAuth from './auth/authMiddleware.js';
+
 import setupRoutes from './routes/setupRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({ credentials: true, origin: true }));
 app.use(express.json());
+app.use(cookieParser());
 app.use(methodOverride('_method'));
+
 app.use('/api/test', testRoutes);
-app.use('/api/signup', signUpUser);
-app.use('/api/login', signInUser);
+app.use('/api/user', userRoute);
 app.use('/api/setup', setupRoutes);
 app.use('/api/product', productRoutes);
 
 const PORT = process.env.PORT || 8080;
 const MONGODB_URL =
-  process.env.MONGODB_URL || 'mongodb://localhost:27017/starter';
+  process.env.MONGODB_URL || 'mongodb://localhost:27017/swipesetups'; // Edit by weiliang
 
 app.get('/', async (req, res) => {
   res.send('Server says hello!');
