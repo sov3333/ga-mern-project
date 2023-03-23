@@ -9,12 +9,31 @@ const Products = () => {
   const [review, setReview] = useState('');
   const [showReviews, setShowReviews] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add review to database
-    setUsername('');
-    setReview('');
-  };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   const response = await fetch(
+  //     `http://localhost:8080/api/product/${products.Type}/reviews`,
+  //     {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         user: username,
+  //         review: review,
+  //       }),
+  //     }
+  //   );
+
+  //   const data = await response.json();
+  //   console.log(data);
+  //   // update state with the new product data returned from the server
+  //   setProducts(data);
+  //   // clear the form inputs
+  //   setUsername('');
+  //   setReview('');
+  // };
 
   useEffect(() => {
     fetch('http://localhost:8080/api/product')
@@ -122,7 +141,7 @@ const Products = () => {
               out of 5
             </p>
             <p>Number of Reviews: {product.reviews.length}</p>
-            <button onClick={() => setShowReviews(!showReviews)}>
+            {/* <button onClick={() => setShowReviews(!showReviews)}>
               {showReviews ? 'Hide Reviews' : 'Show Reviews'}
             </button>
             {showReviews && (
@@ -151,7 +170,7 @@ const Products = () => {
               ></textarea>
               <br />
               <button type='submit'>Add Review</button>
-            </form>
+            </form> */}
           </div>
         ))}
       </div>
