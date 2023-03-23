@@ -5,6 +5,35 @@ import { productsData } from '../constants';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [username, setUsername] = useState('');
+  const [review, setReview] = useState('');
+  const [showReviews, setShowReviews] = useState(false);
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   const response = await fetch(
+  //     `http://localhost:8080/api/product/${products.Type}/reviews`,
+  //     {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         user: username,
+  //         review: review,
+  //       }),
+  //     }
+  //   );
+
+  //   const data = await response.json();
+  //   console.log(data);
+  //   // update state with the new product data returned from the server
+  //   setProducts(data);
+  //   // clear the form inputs
+  //   setUsername('');
+  //   setReview('');
+  // };
 
   useEffect(() => {
     fetch('http://localhost:8080/api/product')
@@ -93,6 +122,55 @@ const Products = () => {
               model={item.model}
               slug={`/products/${item.type}`}
             />
+          </div>
+        ))}
+      </div>
+      <div>
+        {products.map((product) => (
+          <div key={product._id}>
+            <h2>
+              {product.brand} {product.model}
+            </h2>
+            <img src={product.img} alt={product.model} />
+            <p>Type: {product.type}</p>
+            <p>
+              Rating:{' '}
+              {product.ratings
+                .map((rating) => rating.rating)
+                .reduce((a, b) => a + b, 0) / product.ratings.length}{' '}
+              out of 5
+            </p>
+            <p>Number of Reviews: {product.reviews.length}</p>
+            {/* <button onClick={() => setShowReviews(!showReviews)}>
+              {showReviews ? 'Hide Reviews' : 'Show Reviews'}
+            </button>
+            {showReviews && (
+              <ul>
+                {product.reviews.map((review) => (
+                  <li key={review._id}>
+                    {review.user}: {review.review}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <form onSubmit={handleSubmit}>
+              <label htmlFor='username'>Username:</label>
+              <input
+                type='text'
+                id='username'
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <br />
+              <label htmlFor='review'>Review:</label>
+              <textarea
+                id='review'
+                value={review}
+                onChange={(e) => setReview(e.target.value)}
+              ></textarea>
+              <br />
+              <button type='submit'>Add Review</button>
+            </form> */}
           </div>
         ))}
       </div>

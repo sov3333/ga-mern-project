@@ -36,6 +36,31 @@ router.get('/:type', async (req, res) => {
   }
 });
 
+//Post a new review
+// curl -X POST -H "Content-Type: application/json" -d '{"user":"John","review":"This product is awesome!"}' http://localhost:8080/api/product/:type/reviews
+
+router.post('/:type/reviews', async (req, res) => {
+  try {
+    const { type } = req.params;
+    const { user, review } = req.body;
+
+    const updatedProduct = await Product.findOneAndUpdate(
+      { type },
+      { $push: { reviews: { user, review } } },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: 'Product type not found' });
+    }
+
+    res.json(updatedProduct);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+});
+
 //Post
 // curl -X POST localhost:8080/api/product/seed
 
@@ -59,7 +84,10 @@ router.post('/seed', async (req, res) => {
         brand: 'Razer',
         model: 'Deathadder V2',
         ratings: [{ user: 'Lindsey', rating: 4 }],
-        reviews: { user: 'Lindsey', review: 'This keyboard is awesome!' },
+        reviews: [
+          { user: 'Lindsey', review: 'This great product' },
+          { user: 'Bob', review: 'This Mouse is Good!' },
+        ],
       },
     ]);
     res.status(200).send(createdProduct);
