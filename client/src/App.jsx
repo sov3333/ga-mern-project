@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import {
   Home,
+  NewHome,
   Setups,
   SetupOne,
   Products,
@@ -30,6 +31,7 @@ const App = () => {
         <Nav />
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/home' element={<NewHome />} />
           <Route path='/setups' element={<Setups />} />
           <Route path='/setups/:id' element={<SetupOne />} />
           <Route path='/products' element={<Products />} />
