@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 // import { Link } from 'react-router-dom';
 import {
   Flex,
@@ -17,6 +17,7 @@ import {
   Link,
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { UserContext } from '../context/UserContext';
 
 // "Simple Signup Card" from https://chakra-templates.dev/forms/authentication
 
@@ -34,6 +35,8 @@ export default function CardSignUp() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const { logInOut, setLogInOut } = useContext(UserContext);
 
   //Links To Backend
 

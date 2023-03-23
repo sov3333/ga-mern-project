@@ -1,3 +1,4 @@
+import { useState, useContext } from 'react';
 import {
   Box,
   Flex,
@@ -24,6 +25,7 @@ import {
 } from '@chakra-ui/icons';
 
 import { logo } from '../assets';
+import { UserContext } from '../context/UserContext';
 
 // "With Sub-Navigation & CTA" from https://chakra-templates.dev/navigation/navbar
 
@@ -34,6 +36,8 @@ import { logo } from '../assets';
 
 export default function Nav() {
   const { isOpen, onToggle } = useDisclosure();
+  const { logInOut, setLogInOut } = useContext(UserContext);
+  console.log(logInOut);
 
   return (
     <Box>
@@ -92,38 +96,45 @@ export default function Nav() {
           direction={'row'}
           spacing={6}
         >
-          <Button
-            as={'a'}
-            fontSize={'sm'}
-            fontWeight={400}
-            variant={'link'}
-            href={'/signin'}
-          >
-            Sign In
-          </Button>
-          <Button
-            as={'a'}
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize={'sm'}
-            fontWeight={600}
-            color={'white'}
-            bg={'pink.400'}
-            href={'/signup'}
-            _hover={{
-              bg: 'pink.300',
-            }}
-          >
-            Sign Up
-          </Button>
-          <Button
-            as={'a'}
-            fontSize={'sm'}
-            fontWeight={400}
-            variant={'link'}
-            href={'http://localhost:8080/api/user/logout'}
-          >
-            Sign Out
-          </Button>
+          {logInOut ? (
+            <>
+              <Button
+                as={'a'}
+                fontSize={'sm'}
+                fontWeight={400}
+                variant={'link'}
+                href={'/signin'}
+              >
+                Sign Out
+              </Button>{' '}
+            </>
+          ) : (
+            <>
+              <Button
+                as={'a'}
+                fontSize={'sm'}
+                fontWeight={400}
+                variant={'link'}
+                href={'/signin'}
+              >
+                Sign In
+              </Button>
+              <Button
+                as={'a'}
+                display={{ base: 'none', md: 'inline-flex' }}
+                fontSize={'sm'}
+                fontWeight={600}
+                color={'white'}
+                bg={'pink.400'}
+                href={'/signup'}
+                _hover={{
+                  bg: 'pink.300',
+                }}
+              >
+                Sign Up
+              </Button>{' '}
+            </>
+          )}
         </Stack>
       </Flex>
 
