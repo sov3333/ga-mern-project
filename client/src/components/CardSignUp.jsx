@@ -44,6 +44,8 @@ export default function CardSignUp() {
     const signUpURL = `http://localhost:8080/api/user/register`;
     const response = await fetch(signUpURL, {
       method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -57,6 +59,9 @@ export default function CardSignUp() {
 
     const data = await response.json();
     console.log(data);
+    if (data.user) {
+      location.assign('/');
+    }
   };
 
   return (

@@ -5,24 +5,34 @@ import user from '../mongodb/models/User.js';
 
 const router = express.Router();
 
+const maxAge = 3 * 24 * 60 * 60;
+const createToken = (id) => {
+  return jwt.sign({ id }, 'secretid', { expiresIn: maxAge });
+};
+
 router.get('/test', async (req, res) => {
   res.send('working');
 });
 
 router.post('/register', async (req, res) => {
+  const { firstName, lastName, email, password } = req.body;
+
   bcrypt
     .hash(req.body.password, 10)
     .then((hashedPassword) => {
       const createdUser = new user({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
         password: hashedPassword,
       });
-      // save the new user
+
       createdUser
         .save()
         .then((result) => {
+          const token = createToken(result._id);
+          res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+
           res
             .status(201)
             .send({ message: 'User Successfully Created', result });
@@ -54,16 +64,19 @@ router.post('/login', async (req, res) => {
             });
           }
           //create JWT Token
-          const token = jwt.sign(
-            {
-              userId: user._id,
-              userEmail: user.email,
-            },
-            'RANDOM-TOKEN',
-            { expiresIn: '24h' }
-          );
+          // const token = jwt.sign(
+          //   {
+          //     userId: user._id,
+          //     userEmail: user.email,
+          //   },
+          //   'RANDOM-TOKEN',
+          //   { expiresIn: '24h' }
+          // );
+          const token = createToken(user._id);
+          res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
           res.status(200).send({
             message: 'Login Successful',
+            user: user._id,
             email: user.email,
             token,
           });
@@ -87,6 +100,7 @@ router.get('/set-cookies', (req, res) => {
 });
 
 router.get('/read-cookies', (req, res) => {
+  s;
   const cookies = req.cookies;
   console.log(cookies);
   res.json(cookies.newUser);
