@@ -14,10 +14,10 @@ const UserSchema = new mongoose.Schema({
 //   next();
 // });
 
-//hash password before user is saved
-// UserSchema.pre('save', function (next) {
+// hash password before user is saved
+// UserSchema.pre('save', async function (next) {
 //   const salt = await bcrypt.genSalt();
-//   this.password = await bcrypt.hash(this.password, salt)
+//   this.password = await bcrypt.hash(this.password, salt);
 //   next();
 // });
 

@@ -33,6 +33,7 @@ export default function CardSignIn() {
     const signInURL = `http://localhost:8080/api/user/login`;
     const response = await fetch(signInURL, {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
