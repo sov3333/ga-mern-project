@@ -17,8 +17,18 @@ router.post('/', async (req, res) => {
   try {
     const createdSetup = await setup.create(req.body);
     res.status(200).send(createdSetup);
-  } catch (error) {
-    res.status(400).json({ status: 'error', error: error.message });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+//Show Route
+router.get('/:id', async (req, res) => {
+  try {
+    const selectedSetup = await setup.findById(req.params.id);
+    res.status(200).send(selectedSetup);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 });
 
