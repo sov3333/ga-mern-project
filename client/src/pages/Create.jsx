@@ -17,6 +17,11 @@ import { useState } from 'react';
 
 // "Join our Team" from https://chakra-templates.dev/forms/authentication
 
+//TODO:
+//1) create upload photo function
+//2) linking to user when submit
+//3) add checking input required feature for title and products
+
 const avatars = [
   {
     name: 'Ryan Florence',
@@ -213,7 +218,6 @@ export default function Create() {
                 onChange={(e) => {
                   setNewProducts(e.target.value);
                 }}
-                //type='Products'
                 placeholder='desk, monitor, keyboard, mouse'
                 bg={'gray.100'}
                 border={0}
