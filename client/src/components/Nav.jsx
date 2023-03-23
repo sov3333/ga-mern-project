@@ -104,6 +104,9 @@ export default function Nav() {
                 fontWeight={400}
                 variant={'link'}
                 href={'/signin'}
+                onClick={() => {
+                  setLogInOut(false);
+                }}
               >
                 Sign Out
               </Button>{' '}
