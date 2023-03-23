@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import {
   Flex,
   Box,
@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 
 import ModalWithForm from './ModalWithForm';
+import { UserContext } from '../context/UserContext';
 
 // "Simple Login Card" from https://chakra-templates.dev/forms/authentication
 
@@ -25,9 +26,9 @@ import ModalWithForm from './ModalWithForm';
 export default function CardSignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { logInOut, setLogInOut } = useContext(UserContext);
 
   const signInUser = async (e) => {
-    console.log('click');
     e.preventDefault();
 
     const signInURL = `http://localhost:8080/api/user/login`;
@@ -44,7 +45,11 @@ export default function CardSignIn() {
     });
 
     const data = await response.json();
-    console.log(data);
+    const user = Promise.resolve(data);
+    user.then((user) => {
+      setLogInOut(true);
+      console.log(user);
+    });
   };
 
   return (
