@@ -22,11 +22,35 @@ router.post('/', async (req, res) => {
   }
 });
 
-//Show Route
+//Show Route - 1 setup
 router.get('/:id', async (req, res) => {
   try {
     const selectedSetup = await setup.findById(req.params.id);
     res.status(200).send(selectedSetup);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+//Delete Route
+router.delete('/:id', async (req, res) => {
+  try {
+    const deletedSetup = await setup.findByIdAndRemove(req.params.id);
+    res.status(200).send(deletedSetup);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+//Update Route
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedSetup = await setup.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.status(200).send(updatedSetup);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
