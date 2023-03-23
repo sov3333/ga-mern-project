@@ -18,10 +18,6 @@ router.get('/setup', async (req, res) => {
     res.status(200).json(showSetups);
   } catch (e) {
     console.error(e);
-    const showSetups = await Setup.find({});
-    res.status(200).json(showSetups);
-  } catch (e) {
-    console.error(e);
     res.status(500).json({ message: 'Server Error' });
   }
 });
