@@ -2,19 +2,20 @@ import mongoose from 'mongoose';
 
 const productSchema = new mongoose.Schema(
   {
+    img: { type: String, required: true },
     type: { type: String, required: true },
     brand: { type: String, required: true },
     model: { type: String, required: true },
     ratings: [
       {
-        user: { type: String, required: true },
-        rating: { type: Number, required: true }, // added in the rating and review (weiliang)
+        user: { type: String },
+        rating: { type: Number }, // added in the rating and review (weiliang)
       },
     ],
     reviews: [
       {
-        user: { type: String, required: true },
-        review: { type: String, required: true },
+        user: { type: String },
+        review: { type: String },
       },
     ],
   },

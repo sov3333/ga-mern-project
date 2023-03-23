@@ -73,7 +73,7 @@ const Products = () => {
           flexWrap: 'wrap',
         }}
       >
-        {productsData.map((item) => (
+        {/* {productsData.map((item) => (
           <div key={item.productId}>
             <CardProduct
               img={item.img}
@@ -81,6 +81,17 @@ const Products = () => {
               brand={item.brand}
               model={item.model}
               slug={`/products/${item.productId}`}
+            />
+          </div>
+        ))} */}
+        {products.map((item) => (
+          <div key={item.type}>
+            <CardProduct
+              img={item.img}
+              type={item.type}
+              brand={item.brand}
+              model={item.model}
+              slug={`/products/${item.type}`}
             />
           </div>
         ))}
