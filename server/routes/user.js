@@ -2,6 +2,7 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import user from '../mongodb/models/User.js';
+import requireAuth from '../auth/authMiddleware.js';
 
 const router = express.Router();
 
@@ -10,8 +11,15 @@ const createToken = (id) => {
   return jwt.sign({ id }, 'secretid', { expiresIn: maxAge });
 };
 
-router.get('/test', async (req, res) => {
-  res.send('working');
+router.get('/testLoggedIn', requireAuth, async (req, res) => {
+  res.send('I AM LOGGED IN, I AM SHOWN');
+});
+
+router.get('/logout', (req, res) => {
+  // Delete JWT Cookie by replacing it with a blank cookie with a super short expiry
+  res.cookie('jwt', '', { maxAge: 1 }); //jwt, token value, {maxAge: 1}
+  console.log('logging out');
+  res.redirect('http://localhost:5173/');
 });
 
 router.post('/register', async (req, res) => {
@@ -90,20 +98,20 @@ router.post('/login', async (req, res) => {
     });
 });
 
-//cookies
-router.get('/set-cookies', (req, res) => {
-  res.cookie('newUser', false, {
-    maxAge: 1000 * 60 * 60 * 24,
-    httpOnly: true,
-  });
-  res.send('cookies obtained');
-});
+//cookies test
+// router.get('/set-cookies', (req, res) => {
+//   res.cookie('newUser', false, {
+//     maxAge: 1000 * 60 * 60 * 24,
+//     httpOnly: true,
+//   });
+//   res.send('cookies obtained');
+// });
 
-router.get('/read-cookies', (req, res) => {
-  s;
-  const cookies = req.cookies;
-  console.log(cookies);
-  res.json(cookies.newUser);
-});
+// router.get('/read-cookies', (req, res) => {
+//   s;
+//   const cookies = req.cookies;
+//   console.log(cookies);
+//   res.json(cookies.newUser);
+// });
 
 export default router;
