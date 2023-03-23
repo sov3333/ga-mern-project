@@ -43,6 +43,7 @@ router.post('/seed', async (req, res) => {
   try {
     const createdProduct = await Product.create([
       {
+        img: 'https://assets.hardwarezone.com/img/2021/11/omnidesk.jpg',
         type: 'Desk',
         brand: 'Omnidesk',
         model: 'Ascent Wildwood+',
@@ -53,9 +54,10 @@ router.post('/seed', async (req, res) => {
         reviews: { user: 'Alice', review: 'This is a great Desk!' },
       },
       {
-        type: 'Keyboard',
-        brand: 'Keychron',
-        model: 'K4',
+        img: 'https://press.razer.com/wp-content/uploads/2020/01/DAV2_1-1024x576.png',
+        type: 'Mouse',
+        brand: 'Razer',
+        model: 'Deathadder V2',
         ratings: [{ user: 'Lindsey', rating: 4 }],
         reviews: { user: 'Lindsey', review: 'This keyboard is awesome!' },
       },
