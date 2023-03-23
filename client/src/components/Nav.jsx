@@ -28,8 +28,8 @@ import { logo } from '../assets';
 // "With Sub-Navigation & CTA" from https://chakra-templates.dev/navigation/navbar
 
 // TODO:
-// - When logged in, show "sign in" and "sign out", but if logged out show User Profile Icon 
-// - Add Create new Post (setup) button 
+// - When logged in, show "sign in" and "sign out", but if logged out show User Profile Icon
+// - Add Create new Post (setup) button
 // -> See "With action button & user dropdown" version of chakra template of navs
 
 export default function Nav() {
@@ -46,11 +46,13 @@ export default function Nav() {
         borderBottom={1}
         borderStyle={'solid'}
         borderColor={useColorModeValue('gray.200', 'gray.900')}
-        align={'center'}>
+        align={'center'}
+      >
         <Flex
           flex={{ base: 1, md: 'auto' }}
           ml={{ base: -2 }}
-          display={{ base: 'flex', md: 'none' }}>
+          display={{ base: 'flex', md: 'none' }}
+        >
           <IconButton
             onClick={onToggle}
             icon={
@@ -72,10 +74,14 @@ export default function Nav() {
           On smaller devices, the logo is too small.
           Also, the height of navbar changes as screen changes.
           */}
-          <Image src={logo} alt="logo" style={{ height: '100%' }} />
+          <Image src={logo} alt='logo' style={{ height: '100%' }} />
 
           {/* </Text> */}
-          <Flex display={{ base: 'none', md: 'flex' }} ml={10} alignItems='center'>
+          <Flex
+            display={{ base: 'none', md: 'flex' }}
+            ml={10}
+            alignItems='center'
+          >
             <DesktopNav />
           </Flex>
         </Flex>
@@ -84,13 +90,15 @@ export default function Nav() {
           flex={{ base: 1, md: 0 }}
           justify={'flex-end'}
           direction={'row'}
-          spacing={6}>
+          spacing={6}
+        >
           <Button
             as={'a'}
             fontSize={'sm'}
             fontWeight={400}
             variant={'link'}
-            href={'/signin'}>
+            href={'/signin'}
+          >
             Sign In
           </Button>
           <Button
@@ -103,8 +111,18 @@ export default function Nav() {
             href={'/signup'}
             _hover={{
               bg: 'pink.300',
-            }}>
+            }}
+          >
             Sign Up
+          </Button>
+          <Button
+            as={'a'}
+            fontSize={'sm'}
+            fontWeight={400}
+            variant={'link'}
+            href={'http://localhost:8080/api/user/logout'}
+          >
+            Sign Out
           </Button>
         </Stack>
       </Flex>
@@ -136,7 +154,8 @@ const DesktopNav = () => {
                 _hover={{
                   textDecoration: 'none',
                   color: linkHoverColor,
-                }}>
+                }}
+              >
                 {navItem.label}
               </Link>
             </PopoverTrigger>
@@ -148,7 +167,8 @@ const DesktopNav = () => {
                 bg={popoverContentBgColor}
                 p={4}
                 rounded={'xl'}
-                minW={'sm'}>
+                minW={'sm'}
+              >
                 <Stack>
                   {navItem.children.map((child) => (
                     <DesktopSubNav key={child.label} {...child} />
@@ -171,13 +191,15 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
       display={'block'}
       p={2}
       rounded={'md'}
-      _hover={{ bg: useColorModeValue('pink.50', 'gray.900') }}>
+      _hover={{ bg: useColorModeValue('pink.50', 'gray.900') }}
+    >
       <Stack direction={'row'} align={'center'}>
         <Box>
           <Text
             transition={'all .3s ease'}
             _groupHover={{ color: 'pink.400' }}
-            fontWeight={500}>
+            fontWeight={500}
+          >
             {label}
           </Text>
           <Text fontSize={'sm'}>{subLabel}</Text>
@@ -189,7 +211,8 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
           _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
           justify={'flex-end'}
           align={'center'}
-          flex={1}>
+          flex={1}
+        >
           <Icon color={'pink.400'} w={5} h={5} as={ChevronRightIcon} />
         </Flex>
       </Stack>
@@ -202,7 +225,8 @@ const MobileNav = () => {
     <Stack
       bg={useColorModeValue('white', 'gray.800')}
       p={4}
-      display={{ md: 'none' }}>
+      display={{ md: 'none' }}
+    >
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
@@ -223,10 +247,12 @@ const MobileNavItem = ({ label, children, href }) => {
         align={'center'}
         _hover={{
           textDecoration: 'none',
-        }}>
+        }}
+      >
         <Text
           fontWeight={600}
-          color={useColorModeValue('gray.600', 'gray.200')}>
+          color={useColorModeValue('gray.600', 'gray.200')}
+        >
           {label}
         </Text>
         {children && (
@@ -247,7 +273,8 @@ const MobileNavItem = ({ label, children, href }) => {
           borderLeft={1}
           borderStyle={'solid'}
           borderColor={useColorModeValue('gray.200', 'gray.700')}
-          align={'start'}>
+          align={'start'}
+        >
           {children &&
             children.map((child) => (
               <Link key={child.label} py={2} href={child.href}>

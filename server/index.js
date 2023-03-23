@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import connectDB from './mongodb/connect.js';
 import testRoutes from './routes/testRoutes.js';
 import userRoute from './routes/user.js';
+import requireAuth from './auth/authMiddleware.js';
 
 import setupRoutes from './routes/setupRoutes.js';
 import productRoutes from './routes/productRoutes.js';
