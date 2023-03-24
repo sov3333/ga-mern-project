@@ -60,24 +60,26 @@ export const exploreSetups = [
   },
 ];
 
-export const startingFeatures = [
-  'Find a world that suits you and you want to enter',
-  'Enter the world by reading basmalah to be safe',
-  'No need to beat around the bush, just stay on the gas and have fun',
+export const featuresHow = [
+  'Create a post to share a picture of your desk setup',
+  `Swipe right to like other people's setups`,
+  'Rate and review products curated by programmers, gamers and traders',
 ];
 
-export const newFeatures = [
+import { keyboard, screen } from '../assets/home';
+
+export const featuresWhy = [
   {
-    imgUrl: '/vrpano.svg',
-    title: 'A new world',
+    imgUrl: keyboard,
+    title: 'Gaming',
     subtitle:
-        'we have the latest update with new world for you to try never mind',
+        'Need a new keyboard or mouse for your next M-M-M-M-MONSTER KILL? Our reviews by top gamers got you covered!',
   },
   {
-    imgUrl: '/headset.svg',
-    title: 'More realistic',
+    imgUrl: screen,
+    title: 'Productivity',
     subtitle:
-        'In the latest update, your eyes are narrow, making the world more realistic than ever',
+        'Two screens are better than one. Check out what other programmers and traders like you are recommending.',
   },
 ];
 
