@@ -5,13 +5,18 @@ A rating and review website for computer desk setups (gaming/trading/programming
 ## Explanations of the technologies used
 
 - MERN
-- [Vite](https://vitejs.dev/)
-- [Chakra UI](https://chakra-ui.com/getting-started) + [Chakra Templates](https://chakra-templates.dev/)
-- [Tailwind CSS](https://tailwindcss.com/docs/guides/vite)
+- [Vite](https://vitejs.dev/) development tool for faster and smoother workflow
+- [Chakra UI](https://chakra-ui.com/getting-started) + [Chakra Templates](https://chakra-templates.dev/) for styling and pre-made components and templates
+- [Tailwind CSS](https://tailwindcss.com/docs/guides/vite) for styling
+- [Framer Motion](https://www.framer.com/motion/) for animations
 
-### Other resources
+### Tools
 
 - [SVG Icons from SVG Repo](https://www.svgrepo.com/)
+
+### Tutorials
+
+- [Landing page tutorial with Framer Motion and Tailwind CSS](https://youtu.be/ugCN_gynFYw)
 
 ## A couple paragraphs about the general approach you took
 
