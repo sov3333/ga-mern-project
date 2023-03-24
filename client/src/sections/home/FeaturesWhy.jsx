@@ -35,7 +35,7 @@ const FeaturesWhy = () => (
         className={`flex-1 ${styles.flexCenter}`}
 
       >
-        <img src={setup_iso_2} alt="whats-new" className="w-[90%] h-[90%] object-contain" />
+        <img src={setup_iso_2} alt="desk setup isometric" className="w-[90%] h-[90%] object-contain" />
       </motion.div>
     </motion.div>
   </section>

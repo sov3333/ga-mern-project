@@ -1,6 +1,6 @@
 import search from './search.svg';
 import menu from './menu.svg';
-import cover from './cover.jpg';
+import cover from './cover.png';
 import stamp from './stamp.png';
 import arrow_down from './arrow-down.svg';
 import setup_01 from './setup-01.png';
@@ -21,7 +21,7 @@ import people_02 from './people-02.png';
 import people_03 from './people-03.png';
 import arrow from './arrow.svg';
 import product_keyboard from './product-keyboard.png';
-import product_pc from './product-pc.jpeg';
+import product_pc from './product-pc.png';
 import product_monitor from './product-monitor.jpeg';
 import testimonial_banner from './testimonial-banner.png';
 

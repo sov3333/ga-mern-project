@@ -13,6 +13,7 @@ A rating and review website for computer desk setups (gaming/trading/programming
 ### Tools
 
 - [SVG Icons from SVG Repo](https://www.svgrepo.com/)
+- [AI-generated images from Midjourney](https://www.midjourney.com/)
 
 ### Tutorials
 

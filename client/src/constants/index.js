@@ -96,7 +96,7 @@ export const reviews = [
     imgUrl: product_pc,
     title: 'Dreamcore Custom PCs',
     subtitle:
-        'Superb rig and customer service. After looking at so many custom PC build companies, I decided to choose Dreamcore as they already have a solid reputation here, moreover prices are one of the most competitive. They are very responsive and helpful and I highly recommend...',
+        'Superb rig and customer service. After looking at so many custom PC build companies, chose Dreamcore as they have a solid reputation, moreover prices are one of the most competitive. They are very responsive and I highly recommend...',
   },
   {
     imgUrl: product_monitor,
