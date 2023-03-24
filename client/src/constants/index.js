@@ -83,24 +83,26 @@ export const featuresWhy = [
   },
 ];
 
-export const insights = [
+import { product_keyboard, product_pc, product_monitor } from '../assets/home';
+
+export const reviews = [
   {
-    imgUrl: '/planet-06.png',
-    title: 'The launch of the Metaverse makes Elon musk ketar-ketir',
+    imgUrl: product_keyboard,
+    title: 'Glorious GMMK 2',
     subtitle:
-        'Magna etiam tempor orci eu lobortis elementum nibh tellus molestie. Diam maecenas sed enim ut sem viverra alique.',
+        'The GLORIOUS GMMK 2 is an excellent keyboard for gaming. It feels very well-built, and its latency is amazing, making it suitable for any genre of gaming. All its keys are macro-programmable and individually backlit with bright RGB lighting...',
   },
   {
-    imgUrl: '/planet-07.png',
-    title: '7 tips to easily master the madness of the Metaverse',
+    imgUrl: product_pc,
+    title: 'Dreamcore Custom PCs',
     subtitle:
-        'Vitae congue eu consequat ac felis donec. Et magnis dis parturient montes nascetur ridiculus mus. Convallis tellus id interdum',
+        'Superb rig and customer service. After looking at so many custom PC build companies, I decided to choose Dreamcore as they already have a solid reputation here, moreover prices are one of the most competitive. They are very responsive and helpful and I highly recommend...',
   },
   {
-    imgUrl: '/planet-08.png',
-    title: 'With one platform you can explore the whole world virtually',
+    imgUrl: product_monitor,
+    title: 'Xiaomi Curved Gaming Monitor 34',
     subtitle:
-        'Quam quisque id diam vel quam elementum. Viverra nam libero justo laoreet sit amet cursus sit. Mauris in aliquam sem',
+        'The Xiaomi Curved Display 34 is an excellent buy if you consider how much screen real estate and refresh rate you are getting per dollar. Its VA panel is also quite capable in color and contrast performance, plus it is robust for a budget option...',
   },
 ];
 

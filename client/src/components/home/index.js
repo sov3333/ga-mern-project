@@ -3,7 +3,7 @@ import { TypingText, TitleText } from './CustomTexts';
 import ExploreCard from './ExploreCard';
 import FeaturesList from './FeaturesList';
 import FeaturesReviews from './FeaturesReviews';
-import InsightCard from './InsightCard';
+import ReviewCard from './ReviewCard';
 import Footer from './Footer';
 
 export {
@@ -13,6 +13,6 @@ export {
   FeaturesList,
   FeaturesReviews,
   ExploreCard,
-  InsightCard,
+  ReviewCard,
   Footer,
 };
