@@ -149,13 +149,14 @@ export default function Nav() {
 }
 
 const DesktopNav = () => {
+  const { logInOut, setLogInOut } = useContext(UserContext);
   const linkColor = useColorModeValue('gray.600', 'gray.200');
   const linkHoverColor = useColorModeValue('gray.800', 'white');
   const popoverContentBgColor = useColorModeValue('white', 'gray.800');
 
   return (
     <Stack direction={'row'} spacing={4}>
-      {NAV_ITEMS.map((navItem) => (
+      {NAV_ITEMS_DEFAULT.map((navItem) => (
         <Box key={navItem.label}>
           <Popover trigger={'hover'} placement={'bottom-start'}>
             <PopoverTrigger>
@@ -193,6 +194,49 @@ const DesktopNav = () => {
           </Popover>
         </Box>
       ))}
+      {logInOut ? (
+        NAV_ITEMS_LOGIN.map((navItem) => (
+          <Box key={navItem.label}>
+            <Popover trigger={'hover'} placement={'bottom-start'}>
+              <PopoverTrigger>
+                <Link
+                  p={2}
+                  href={navItem.href ?? '#'}
+                  fontSize={'sm'}
+                  fontWeight={500}
+                  color={linkColor}
+                  _hover={{
+                    textDecoration: 'none',
+                    color: linkHoverColor,
+                  }}
+                >
+                  {navItem.label}
+                </Link>
+              </PopoverTrigger>
+
+              {navItem.children && (
+                <PopoverContent
+                  border={0}
+                  boxShadow={'xl'}
+                  bg={popoverContentBgColor}
+                  p={4}
+                  rounded={'xl'}
+                  minW={'sm'}
+                >
+                  <Stack>
+                    {navItem.children.map((child) => (
+                      <DesktopSubNav key={child.label} {...child} />
+                    ))}
+                  </Stack>
+                </PopoverContent>
+              )}
+            </Popover>
+          </Box>
+        ))
+      ) : (
+        <></>
+      )}
+      {/* {} */}
     </Stack>
   );
 };
@@ -235,15 +279,19 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
 };
 
 const MobileNav = () => {
+  const { logInOut, setLogInOut } = useContext(UserContext);
   return (
     <Stack
       bg={useColorModeValue('white', 'gray.800')}
       p={4}
       display={{ md: 'none' }}
     >
-      {NAV_ITEMS.map((navItem) => (
+      {NAV_ITEMS_DEFAULT.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
+      {/* {NAV_ITEMS_LOGIN.map((navItem) => (
+        <MobileNavItem key={navItem.label} {...navItem} />
+      ))} */}
     </Stack>
   );
 };
@@ -301,7 +349,7 @@ const MobileNavItem = ({ label, children, href }) => {
   );
 };
 
-const NAV_ITEMS = [
+const NAV_ITEMS_DEFAULT = [
   // {
   //   label: 'Inspiration',
   //   children: [
@@ -344,6 +392,8 @@ const NAV_ITEMS = [
     label: 'Products',
     href: '/products',
   },
+];
+const NAV_ITEMS_LOGIN = [
   {
     label: '(test)',
     href: '/starter',
