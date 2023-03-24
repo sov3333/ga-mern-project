@@ -106,21 +106,23 @@ export const reviews = [
   },
 ];
 
+import { twitter, linkedin, instagram, facebook } from '../assets/home';
+
 export const socials = [
   {
     name: 'twitter',
-    url: '/twitter.svg',
+    url: twitter,
   },
   {
     name: 'linkedin',
-    url: '/linkedin.svg',
+    url: linkedin,
   },
   {
     name: 'instagram',
-    url: '/instagram.svg',
+    url: instagram,
   },
   {
     name: 'facebook',
-    url: '/facebook.svg',
+    url: facebook,
   },
 ];
