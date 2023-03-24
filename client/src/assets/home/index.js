@@ -13,6 +13,12 @@ import setup_iso_1 from './setup_iso_1.png';
 import setup_iso_2 from './setup_iso_2.png';
 import keyboard from './keyboard.svg';
 import screen from './screen.svg';
+import map from './map.png';
+import map_card_1 from './map-card-1.png';
+import map_card_2 from './map-card-2.png';
+import people_01 from './people-01.png';
+import people_02 from './people-02.png';
+import people_03 from './people-03.png';
 
 export {
     search,
@@ -30,4 +36,10 @@ export {
     setup_iso_2,
     keyboard,
     screen,
+    map,
+    map_card_1,
+    map_card_2,
+    people_01,
+    people_02,
+    people_03,
 };
