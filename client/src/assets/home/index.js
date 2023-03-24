@@ -19,6 +19,10 @@ import map_card_2 from './map-card-2.png';
 import people_01 from './people-01.png';
 import people_02 from './people-02.png';
 import people_03 from './people-03.png';
+import arrow from './arrow.svg';
+import product_keyboard from './product-keyboard.png';
+import product_pc from './product-pc.jpeg';
+import product_monitor from './product-monitor.jpeg';
 
 export {
     search,
@@ -42,4 +46,8 @@ export {
     people_01,
     people_02,
     people_03,
+    arrow,
+    product_keyboard,
+    product_pc,
+    product_monitor,
 };

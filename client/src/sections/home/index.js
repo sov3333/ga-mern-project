@@ -4,7 +4,7 @@ import Explore from './Explore';
 import FeaturesHow from './FeaturesHow';
 import FeaturesWhy from './FeaturesWhy';
 import World from './World';
-import Insights from './Insights';
+import Reviews from './Reviews';
 import Feedback from './Feedback';
 
 export {
@@ -14,6 +14,6 @@ export {
   FeaturesHow,
   FeaturesWhy,
   World,
-  Insights,
+  Reviews,
   Feedback,
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Footer, Navbar } from '../components/home';
-import { About, Explore, Feedback, FeaturesHow, Hero, Insights, FeaturesWhy, World } from '../sections/home';
+import { About, Explore, Feedback, FeaturesHow, Hero, Reviews, FeaturesWhy, World } from '../sections/home';
 
 const NewHome = () => {
   return (
@@ -19,7 +19,7 @@ const NewHome = () => {
         </div>
         <World />
         <div className="relative">
-          <Insights />
+          <Reviews />
           <div className="gradient-04 z-0" />
           <Feedback />
         </div>
