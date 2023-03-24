@@ -9,6 +9,10 @@ A rating and review website for computer desk setups (gaming/trading/programming
 - [Chakra UI](https://chakra-ui.com/getting-started) + [Chakra Templates](https://chakra-templates.dev/)
 - [Tailwind CSS](https://tailwindcss.com/docs/guides/vite)
 
+### Other resources
+
+- [SVG Icons from SVG Repo](https://www.svgrepo.com/)
+
 ## A couple paragraphs about the general approach you took
 
 

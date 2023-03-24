@@ -1,6 +1,6 @@
 import React from 'react';
 import { Footer, Navbar } from '../components/home';
-import { About, Explore, Feedback, GetStarted, Hero, Insights, WhatsNew, World } from '../sections/home';
+import { About, Explore, Feedback, FeaturesHow, Hero, Insights, FeaturesWhy, World } from '../sections/home';
 
 const NewHome = () => {
   return (
@@ -13,9 +13,9 @@ const NewHome = () => {
           <Explore />
         </div>
         <div className="relative">
-          <GetStarted />
+          <FeaturesHow />
           <div className="gradient-04 z-0" />
-          <WhatsNew />
+          <FeaturesWhy />
         </div>
         <World />
         <div className="relative">
