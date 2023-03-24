@@ -23,6 +23,7 @@ import arrow from './arrow.svg';
 import product_keyboard from './product-keyboard.png';
 import product_pc from './product-pc.jpeg';
 import product_monitor from './product-monitor.jpeg';
+import testimonial_banner from './testimonial-banner.png';
 
 export {
     search,
@@ -50,4 +51,5 @@ export {
     product_keyboard,
     product_pc,
     product_monitor,
+    testimonial_banner,
 };
