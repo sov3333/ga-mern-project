@@ -5,8 +5,9 @@ A rating and review website for computer desk setups (gaming/trading/programming
 ## Explanations of the technologies used
 
 - MERN
+- [Vite](https://vitejs.dev/)
 - [Chakra UI](https://chakra-ui.com/getting-started) + [Chakra Templates](https://chakra-templates.dev/)
-- [Tailwind CSS](https://tailwindcss.com/docs/installation/using-postcss)
+- [Tailwind CSS](https://tailwindcss.com/docs/guides/vite)
 
 ## A couple paragraphs about the general approach you took
 
@@ -48,7 +49,7 @@ Frontend:
 3. `npm create vite@latest ./` then choose React framework and JavaScript variant.
 4. Install dependencies: `npm i react-router-dom`
 5. Install Chakra UI: `npm i @chakra-ui/react @chakra-ui/icons @emotion/react @emotion/styled framer-motion`
-6. Install Tailwind CSS: `npm install -D tailwindcss postcss autoprefixer` then `npx tailwindcss init`. Then, add the Tailwind directives to root CSS file:
+6. Install Tailwind CSS: `npm install -D tailwindcss postcss autoprefixer` then `npx tailwindcss init -p`. Then, add the Tailwind directives to root CSS file:
 ```
 @tailwind base;
 @tailwind components;
