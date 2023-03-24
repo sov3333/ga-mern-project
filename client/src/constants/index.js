@@ -25,32 +25,38 @@ export const productsData = [
   { productId: 6, img: product6, type: "Mousepad", brand: "Aukey", model: "KM-P2 Large Gaming Mouse Pad Oversized" },
 ];
 
+import { setup_01, setup_02, setup_03, setup_04, setup_05 } from '../assets/home';
 
-export const exploreWorlds = [
+export const exploreSetups = [
   {
-    id: 'world-1',
-    imgUrl: '/planet-01.png',
-    title: 'The Hogwarts',
+    id: 'setup-1',
+    imgUrl: setup_01,
+    name: 'Alice',
+    title: `A Trader's Paradise`,
   },
   {
-    id: 'world-2',
-    imgUrl: '/planet-02.png',
-    title: 'The Upside Down',
+    id: 'setup-2',
+    imgUrl: setup_02,
+    name: 'Bob',
+    title: 'Neon Alien',
   },
   {
-    id: 'world-3',
-    imgUrl: '/planet-03.png',
-    title: 'Kadirojo Permai',
+    id: 'setup-3',
+    imgUrl: setup_03,
+    name: 'Charlie',
+    title: 'Mellow Glow',
   },
   {
-    id: 'world-4',
-    imgUrl: '/planet-04.png',
-    title: 'Paradise Island',
+    id: 'setup-4',
+    imgUrl: setup_04,
+    name: 'Delilah',
+    title: `I'm from the Future`,
   },
   {
-    id: 'world-5',
-    imgUrl: '/planet-05.png',
-    title: 'Hawkins Labs',
+    id: 'setup-5',
+    imgUrl: setup_05,
+    name: 'Evangeline',
+    title: 'Blast from the Past',
   },
 ];
 
