@@ -20,7 +20,7 @@ const FeaturesHow = () => (
         className={`flex-1 ${styles.flexCenter}`}
 
       >
-        <img src={setup_iso_1} alt="get-started" className="w-[90%] h-[90%] object-contain" />
+        <img src={setup_iso_1} alt="desk setup isometric" className="w-[90%] h-[90%] object-contain" />
       </motion.div>
       <motion.div
         variants={fadeIn('left', 'tween', 0.2, 1)}
