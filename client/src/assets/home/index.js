@@ -24,6 +24,11 @@ import product_keyboard from './product-keyboard.png';
 import product_pc from './product-pc.png';
 import product_monitor from './product-monitor.jpeg';
 import testimonial_banner from './testimonial-banner.png';
+import swipe from './swipe.svg';
+import twitter from './twitter.svg';
+import linkedin from './linkedin.svg';
+import instagram from './instagram.svg';
+import facebook from './facebook.svg';
 
 export {
     search,
@@ -52,4 +57,9 @@ export {
     product_pc,
     product_monitor,
     testimonial_banner,
+    swipe,
+    twitter,
+    linkedin,
+    instagram,
+    facebook,
 };
