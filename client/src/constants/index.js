@@ -24,3 +24,105 @@ export const productsData = [
   { productId: 5, img: product5, type: "Monitor", brand: "Gigabyte", model: "M34WQ" },
   { productId: 6, img: product6, type: "Mousepad", brand: "Aukey", model: "KM-P2 Large Gaming Mouse Pad Oversized" },
 ];
+
+import { setup_01, setup_02, setup_03, setup_04, setup_05 } from '../assets/home';
+
+export const exploreSetups = [
+  {
+    id: 'setup-1',
+    imgUrl: setup_01,
+    name: 'Alice',
+    title: `A Trader's Paradise`,
+  },
+  {
+    id: 'setup-2',
+    imgUrl: setup_02,
+    name: 'Bob',
+    title: 'Neon Alien',
+  },
+  {
+    id: 'setup-3',
+    imgUrl: setup_03,
+    name: 'Charlie',
+    title: 'Mellow Glow',
+  },
+  {
+    id: 'setup-4',
+    imgUrl: setup_04,
+    name: 'Delilah',
+    title: `I'm from the Future`,
+  },
+  {
+    id: 'setup-5',
+    imgUrl: setup_05,
+    name: 'Evangeline',
+    title: 'Blast from the Past',
+  },
+];
+
+export const featuresHow = [
+  'Create a post to share a picture of your desk setup',
+  `Swipe right to like other people's setups`,
+  'Rate and review products curated by programmers, gamers and traders',
+];
+
+import { keyboard, screen } from '../assets/home';
+
+export const featuresWhy = [
+  {
+    imgUrl: keyboard,
+    title: 'Gaming',
+    subtitle:
+        'Need a new keyboard or mouse for your next M-M-M-M-MONSTER KILL? Our reviews by top gamers got you covered!',
+  },
+  {
+    imgUrl: screen,
+    title: 'Productivity',
+    subtitle:
+        'Two screens are better than one. Check out what other programmers and traders like you are recommending.',
+  },
+];
+
+import { product_keyboard, product_pc, product_monitor } from '../assets/home';
+
+export const reviews = [
+  {
+    imgUrl: product_keyboard,
+    title: 'Glorious GMMK 2',
+    subtitle:
+        'The GLORIOUS GMMK 2 is an excellent keyboard for gaming. It feels very well-built, and its latency is amazing, making it suitable for any genre of gaming. All its keys are macro-programmable and individually backlit with bright RGB lighting...',
+  },
+  {
+    imgUrl: product_pc,
+    title: 'Dreamcore Custom PCs',
+    subtitle:
+        'Superb rig and customer service. After looking at so many custom PC build companies, chose Dreamcore as they have a solid reputation, moreover prices are one of the most competitive. They are very responsive and I highly recommend...',
+  },
+  {
+    imgUrl: product_monitor,
+    title: 'Xiaomi Curved Gaming Monitor 34',
+    subtitle:
+        'The Xiaomi Curved Display 34 is an excellent buy if you consider how much screen real estate and refresh rate you are getting per dollar. Its VA panel is also quite capable in color and contrast performance, plus it is robust for a budget option...',
+  },
+];
+
+import { twitter, linkedin, instagram, facebook } from '../assets/home';
+
+export const socials = [
+  {
+    name: 'twitter',
+    url: twitter,
+  },
+  {
+    name: 'linkedin',
+    url: linkedin,
+  },
+  {
+    name: 'instagram',
+    url: instagram,
+  },
+  {
+    name: 'facebook',
+    url: facebook,
+  },
+];

@@ -1,4 +1,5 @@
 import Home from './Home';
+import NewHome from './NewHome';
 import Setups from './Setups';
 import SetupOne from './SetupOne';
 import Products from './Products';
@@ -18,6 +19,7 @@ import UpdatePost from './starter/UpdatePost';
 
 export {
     Home,
+    NewHome,
     Setups,
     SetupOne,
     Products,
