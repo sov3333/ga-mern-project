@@ -39,13 +39,35 @@ const Products = () => {
       )
       .then(
         (parsedData) => {
-          console.log(parsedData);
           setProducts(parsedData);
         },
         (err) => console.log(err)
       );
   }, []);
 
+  const groupedProducts = products.reduce((acc, item) => {
+    const { type, brand, model, img, ratings, reviews } = item;
+    const existingProduct = acc.find(
+      (group) =>
+        group.type === type && group.brand === brand && group.model === model
+    );
+    if (existingProduct) {
+      existingProduct.users.push(item.user);
+      existingProduct.ratings.push(...ratings);
+      existingProduct.reviews.push(...reviews);
+    } else {
+      acc.push({
+        img,
+        type,
+        brand,
+        model,
+        ratings: [...ratings],
+        reviews: [...reviews],
+        users: [item.user],
+      });
+    }
+    return acc;
+  }, []);
   return (
     <div>
       <h1>Lorem ipsum dolor sit amet consectetur.</h1>
@@ -109,19 +131,22 @@ const Products = () => {
             />
           </div>
         ))} */}
-        {products.map((item) => (
-          <div key={item.type}>
+        {groupedProducts.map((group) => (
+          <div key={group.type}>
             <CardProduct
-              img={item.img}
-              type={item.type}
-              brand={item.brand}
-              model={item.model}
-              ratings={item.ratings}
-              reviews={item.reviews}
-              slug={`/products/${item.type}`}
+              img={group.img}
+              type={group.type}
+              brand={group.brand}
+              model={group.model}
+              ratings={group.ratings}
+              reviews={group.reviews}
+              slug={`/products/${group.type}`}
+              users={group.users}
             />
           </div>
         ))}
+        This code should group the products correctly and render the CardProduct
+        components with the grouped user data.
       </div>
       <div>
         {products.map((product) => (

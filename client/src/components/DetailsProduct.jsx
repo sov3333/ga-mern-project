@@ -35,6 +35,8 @@ export default function DetailsProduct({
   const yellowText = useColorModeValue('yellow.500', 'yellow.300');
 
   const [showReviews, setShowReviews] = useState(false);
+
+  console.log(reviews);
   return (
     <Container maxW={'7xl'}>
       <SimpleGrid
@@ -66,7 +68,9 @@ export default function DetailsProduct({
               {brand}
             </Text>
             <Text color={textColor} fontWeight={300} fontSize={'2xl'}>
-              {reviews.length} review{reviews.length > 1 && 's'}
+              <div key={reviews.length}>
+                {reviews.length} review{reviews.length > 1 && 's'}
+              </div>
               <Button onClick={() => setShowReviews(!showReviews)}>
                 {showReviews ? 'Hide reviews' : 'Show reviews'}
               </Button>
