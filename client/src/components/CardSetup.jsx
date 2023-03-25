@@ -29,7 +29,7 @@ export default function CardSetup() {
   }, []);
 
   return (
-    <Center py={12}>
+    <Center py={12} className="p-16">
       {/* <Link 
         to={slug}
         state={{
@@ -48,11 +48,12 @@ export default function CardSetup() {
             p={6}
             maxW={'330px'}
             w={'full'}
-            bg={useColorModeValue('white', 'gray.800')}
+            bg={useColorModeValue('gray.600')}
             boxShadow={'2xl'}
             rounded={'lg'}
             pos={'relative'}
             zIndex={1}
+            className="m-3"
           >
             <Box
               rounded={'lg'}
@@ -87,17 +88,16 @@ export default function CardSetup() {
             </Box>
             <Stack pt={10} align={'center'}>
               <Text
-                color={'gray.500'}
+                color={'gray.400'}
                 fontSize={'sm'}
                 textTransform={'uppercase'}
               >
                 @{setup.user}
               </Text>
-              <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
+              <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500} color={'gray.300'}>
                 {setup.title}
               </Heading>
               <Stack direction={'row'} align={'center'}>
-                {/* <Text fontWeight={800} fontSize={'xl'}> */}
                 <Wrap>
                   {setup.products.map((item, index) => (
                     <Text
@@ -138,10 +138,6 @@ export default function CardSetup() {
                   ))}
                 </Wrap>
 
-                {/* </Text> */}
-                {/* <Text textDecoration={'line-through'} color={'gray.600'}>
-              $199
-            </Text> */}
               </Stack>
             </Stack>
           </Box>

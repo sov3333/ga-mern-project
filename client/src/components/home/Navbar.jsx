@@ -53,9 +53,9 @@ const Navbar = () => {
             </Link>
             </>
           )}
+          {/* TEMPORARY - Toggle button to see SignIn / SignOut state */}
+          <IconButton icon={<ViewIcon />} size="sm" onClick={() => setLoggedIn(!loggedIn)} className="ml-5" />
         </div>
-        {/* TEMPORARY - Toggle button to see SignIn / SignOut state */}
-        <IconButton icon={<ViewIcon />} size="sm" onClick={() => setLoggedIn(!loggedIn)} />
       </div>
     </nav>
   )

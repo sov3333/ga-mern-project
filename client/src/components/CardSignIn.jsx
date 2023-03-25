@@ -57,23 +57,23 @@ export default function CardSignIn() {
       minH={'100vh'}
       align={'center'}
       justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}
+      // bg={useColorModeValue('gray.50', 'gray.800')}
     >
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
-          <Heading fontSize={'4xl'}>Sign in to your account</Heading>
-          <Text fontSize={'lg'} color={'gray.600'}>
-            to enjoy all of our cool <Link color={'blue.400'}>features</Link> ✌️
+          <Heading fontSize={'4xl'} color={'gray.100'}>Sign in to your account</Heading>
+          <Text fontSize={'lg'} color={'gray.200'}>
+            to enjoy all of our cool features ✌️
           </Text>
         </Stack>
         <Box
           rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
+          bg={useColorModeValue('gray.700')}
           boxShadow={'lg'}
           p={8}
         >
           <form onSubmit={signInUser}>
-            <Stack spacing={4}>
+            <Stack spacing={4} color={'gray.300'}>
               <FormControl id='email'>
                 <FormLabel>Email address</FormLabel>
                 <Input
