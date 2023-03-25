@@ -2,7 +2,7 @@ import { Flex, Select, Text } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { CardProduct } from '../components';
 import { productsData } from '../constants';
-
+import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [username, setUsername] = useState('');
@@ -11,7 +11,7 @@ const Products = () => {
 
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
-
+  //Testing
   //   const response = await fetch(
   //     `http://localhost:8080/api/product/${products.Type}/reviews`,
   //     {
@@ -120,6 +120,8 @@ const Products = () => {
               type={item.type}
               brand={item.brand}
               model={item.model}
+              ratings={item.ratings}
+              reviews={item.reviews}
               slug={`/products/${item.type}`}
             />
           </div>
@@ -128,19 +130,6 @@ const Products = () => {
       <div>
         {products.map((product) => (
           <div key={product._id}>
-            <h2>
-              {product.brand} {product.model}
-            </h2>
-            <img src={product.img} alt={product.model} />
-            <p>Type: {product.type}</p>
-            <p>
-              Rating:{' '}
-              {product.ratings
-                .map((rating) => rating.rating)
-                .reduce((a, b) => a + b, 0) / product.ratings.length}{' '}
-              out of 5
-            </p>
-            <p>Number of Reviews: {product.reviews.length}</p>
             {/* <button onClick={() => setShowReviews(!showReviews)}>
               {showReviews ? 'Hide Reviews' : 'Show Reviews'}
             </button>
