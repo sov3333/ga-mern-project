@@ -17,15 +17,16 @@ const ProductOne = () => {
       </h2>
       <Flex flexDirection='column' justifyContent='center' alignItems='center'>
         <h3>TODO:</h3>
-        <p></p>
       </Flex>
-      <DetailsProduct
-        img={img}
-        brand={brand}
-        model={model}
-        ratings={ratings}
-        reviews={reviews}
-      />
+      <div>
+        <DetailsProduct
+          img={img}
+          brand={brand}
+          model={model}
+          ratings={ratings}
+          reviews={reviews}
+        />
+      </div>
     </div>
   );
 };

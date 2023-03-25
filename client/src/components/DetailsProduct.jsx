@@ -28,6 +28,12 @@ export default function DetailsProduct({
   ratings,
   reviews,
 }) {
+  const textColor = useColorModeValue('gray.500', 'gray.400');
+  const boldColor = useColorModeValue('gray.200', 'gray.600');
+  const buttonBg = useColorModeValue('gray.900', 'gray.50');
+  const buttonColor = useColorModeValue('white', 'gray.900');
+  const yellowText = useColorModeValue('yellow.500', 'yellow.300');
+
   const [showReviews, setShowReviews] = useState(false);
   return (
     <Container maxW={'7xl'}>
@@ -56,28 +62,16 @@ export default function DetailsProduct({
             >
               {model}
             </Heading>
-            <Text
-              color={useColorModeValue('gray.500', 'gray.400')}
-              fontWeight={300}
-              fontSize={'2xl'}
-            >
+            <Text color={textColor} fontWeight={300} fontSize={'2xl'}>
               {brand}
             </Text>
-            <Text
-              color={useColorModeValue('gray.500', 'gray.400')}
-              fontWeight={300}
-              fontSize={'2xl'}
-            >
+            <Text color={textColor} fontWeight={300} fontSize={'2xl'}>
               {reviews.length} review{reviews.length > 1 && 's'}
               <Button onClick={() => setShowReviews(!showReviews)}>
                 {showReviews ? 'Hide reviews' : 'Show reviews'}
               </Button>
               {showReviews && (
-                <Text
-                  color={useColorModeValue('gray.500', 'gray.400')}
-                  fontWeight={300}
-                  fontSize={'2xl'}
-                >
+                <Text color={textColor} fontWeight={300} fontSize={'2xl'}>
                   {reviews.map((review) => (
                     <div key={review._id}>
                       <b>{review.user}:</b> {review.review}
@@ -87,24 +81,31 @@ export default function DetailsProduct({
               )}
               <Button>Add Review</Button>
               <Button>Update Review</Button>
+              {/* <div>
+                <label htmlFor='rating'>Rating</label>
+                <select id='rating'>
+                  <option value=''>Select</option>
+                  <option value='1'>1- Poor</option>
+                  <option value='2'>2- Fair</option>
+                  <option value='3'>3- Good</option>
+                  <option value='4'>4- Very good</option>
+                  <option value='5'>5- Excelent</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor='comment'>Comment</label>
+                <textarea id='comment'></textarea>
+              </div> */}
             </Text>
           </Box>
 
           <Stack
             spacing={{ base: 4, sm: 6 }}
             direction={'column'}
-            divider={
-              <StackDivider
-                borderColor={useColorModeValue('gray.200', 'gray.600')}
-              />
-            }
+            divider={<StackDivider borderColor={boldColor} />}
           >
             <VStack spacing={{ base: 4, sm: 6 }}>
-              <Text
-                color={useColorModeValue('gray.500', 'gray.400')}
-                fontSize={'2xl'}
-                fontWeight={'300'}
-              >
+              <Text color={textColor} fontSize={'2xl'} fontWeight={'300'}>
                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
                 diam nonumy eirmod tempor invidunt ut labore
               </Text>
@@ -118,7 +119,7 @@ export default function DetailsProduct({
             <Box>
               <Text
                 fontSize={{ base: '16px', lg: '18px' }}
-                color={useColorModeValue('yellow.500', 'yellow.300')}
+                color={yellowText}
                 fontWeight={'500'}
                 textTransform={'uppercase'}
                 mb={'4'}
@@ -142,7 +143,7 @@ export default function DetailsProduct({
             <Box>
               <Text
                 fontSize={{ base: '16px', lg: '18px' }}
-                color={useColorModeValue('yellow.500', 'yellow.300')}
+                color={yellowText}
                 fontWeight={'500'}
                 textTransform={'uppercase'}
                 mb={'4'}
@@ -204,8 +205,8 @@ export default function DetailsProduct({
             mt={8}
             size={'lg'}
             py={'7'}
-            bg={useColorModeValue('gray.900', 'gray.50')}
-            color={useColorModeValue('white', 'gray.900')}
+            bg={buttonBg}
+            color={buttonColor}
             textTransform={'uppercase'}
             _hover={{
               transform: 'translateY(2px)',
