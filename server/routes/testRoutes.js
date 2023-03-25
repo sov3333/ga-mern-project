@@ -2,6 +2,7 @@ import express from 'express';
 import * as dotenv from 'dotenv';
 import Product from '../mongodb/models/product.js';
 import Setup from '../mongodb/models/setup.js';
+import requireAuth from '../auth/authMiddleware.js';
 
 dotenv.config();
 
@@ -213,20 +214,23 @@ router.put('/product/:id', async (req, res) => {
 
 //Delete
 //curl -X DELETE http://localhost:8080/api/test/product/6419ee84b5c3db7c7aecff03
-router.delete('/product/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
+router.delete('/product/:id', requireAuth, async (req, res) => {
+  if (req.user.role === 'admin') {
+    try {
+      const { id } = req.params;
 
-    const deletedProduct = await Product.findByIdAndDelete(id);
+      const deletedProduct = await Product.findByIdAndDelete(id);
 
-    if (!deletedProduct) {
-      return res.status(404).json({ message: 'Product not found' });
+      if (!deletedProduct) {
+        return res.status(404).json({ message: 'Product not found' });
+      }
+      res.status(204).end();
+    } catch (e) {
+      console.error(e);
+      res.status(500).json({ message: 'Server Error' });
     }
-
-    res.json({ message: 'Product deleted' });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ message: 'Server Error' });
+  } else {
+    res.status(403).json({ error: `Access Denied` });
   }
 });
 
