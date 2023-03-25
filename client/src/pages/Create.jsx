@@ -14,6 +14,7 @@ import {
   Icon,
 } from '@chakra-ui/react';
 import { useState } from 'react';
+import FileBase64 from 'react-file-base64';
 
 // "Join our Team" from https://chakra-templates.dev/forms/authentication
 
@@ -46,23 +47,35 @@ const avatars = [
 ];
 
 export default function Create() {
-  const [newSetup, setNewSetup] = useState('');
+  const [newSetup, setNewSetup] = useState({
+    user: 'Alice',
+    title: '',
+    description: '',
+    products: '',
+    img: '',
+  });
 
-  const [newTitle, setNewTitle] = useState('');
-  const [newDescription, setNewDescription] = useState('');
-  const [newProducts, setNewProducts] = useState('');
-  const [newPhoto, setNewPhoto] = useState('');
+  // const [newTitle, setNewTitle] = useState('');
+  // const [newDescription, setNewDescription] = useState('');
+  // const [newProducts, setNewProducts] = useState('');
+  // const [newImage, setNewImage] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
     fetch('http://localhost:8080/api/setup', {
       method: 'POST',
       body: JSON.stringify({
-        user: 'Alice',
-        title: newTitle,
-        description: newDescription,
-        products: newProducts,
-        img: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ7Y3DJGIZejTxIdwspZPJhd40NKcYKHKXbGuoH7MxteDaJZJQl',
+        // user: 'Alice',
+        // title: newTitle,
+        // description: newDescription,
+        // products: newProducts,
+        // //img: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ7Y3DJGIZejTxIdwspZPJhd40NKcYKHKXbGuoH7MxteDaJZJQl',
+        // img: newImage,
+        user: newSetup.user,
+        title: newSetup.title,
+        description: newSetup.description,
+        products: newSetup.products,
+        img: newSetup.img,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -188,9 +201,13 @@ export default function Create() {
           <Box as={'form'} mt={10}>
             <Stack spacing={4}>
               <Input
-                value={newTitle}
+                // value={newTitle}
+                // onChange={(e) => {
+                //   setNewTitle(e.target.value);
+                // }}
+                //value={newSetup.title} -> putting this become undefined error
                 onChange={(e) => {
-                  setNewTitle(e.target.value);
+                  setNewSetup({ ...newSetup, title: e.target.value });
                 }}
                 placeholder='Title e.g. Productivity Haven'
                 bg={'gray.100'}
@@ -201,9 +218,13 @@ export default function Create() {
                 }}
               />
               <Input
-                value={newDescription}
+                // value={newDescription}
+                // onChange={(e) => {
+                //   setNewDescription(e.target.value);
+                // }}
+                //value={newSetup.description} -> putting this become undefined error
                 onChange={(e) => {
-                  setNewDescription(e.target.value);
+                  setNewSetup({ ...newSetup, description: e.target.value });
                 }}
                 placeholder='Describe your setup'
                 bg={'gray.100'}
@@ -214,9 +235,16 @@ export default function Create() {
                 }}
               />
               <Input
-                value={newProducts}
+                // value={newProducts}
+                // onChange={(e) => {
+                //   setNewProducts(e.target.value.split(/\s*,\s*/));
+                // }}
+                //value={newSetup.products} -> putting this become undefined error
                 onChange={(e) => {
-                  setNewProducts(e.target.value);
+                  setNewSetup({
+                    ...newSetup,
+                    products: e.target.value.split(/\s*,\s*/),
+                  });
                 }}
                 placeholder='desk, monitor, keyboard, mouse'
                 bg={'gray.100'}
@@ -226,9 +254,21 @@ export default function Create() {
                   color: 'gray.500',
                 }}
               />
-              <Button fontFamily={'heading'} bg={'gray.200'} color={'gray.800'}>
+              {/* <FileBase64
+                type='file'
+                multiple={false}
+                onDone={({ base64 }) => setNewImage({ newImage: base64 })}
+              /> */}
+              <FileBase64
+                type='file'
+                multiple={false}
+                onDone={({ base64 }) =>
+                  setNewSetup({ ...newSetup, img: base64 })
+                }
+              />
+              {/* <Button fontFamily={'heading'} bg={'gray.200'} color={'gray.800'}>
                 Upload Photo
-              </Button>
+              </Button> */}
             </Stack>
             <Button
               onClick={handleSubmit}
