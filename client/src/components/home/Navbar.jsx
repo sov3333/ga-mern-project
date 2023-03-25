@@ -9,6 +9,23 @@ import NavMenu from './NavMenu';
 
 const Navbar = () => {
   const { logInOut, setLogInOut } = useContext(UserContext);
+  const handleSignOut = () => {
+    fetch('localhost:8080/api/user/logout', {
+      method: 'POST',
+      credentials: 'include', // include cookies in the request
+    })
+      .then((response) => {
+        if (response.ok) {
+          // perform sign-out actions on the frontend
+          // ...
+        } else {
+          throw new Error('Failed to sign out');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <nav className={`${styles.xPaddings} py-8 relative`}>
@@ -46,6 +63,7 @@ const Navbar = () => {
                   colorScheme='pink'
                   onClick={() => {
                     setLogInOut(!logInOut);
+                    handleSignOut();
                   }}
                 >
                   Sign Out

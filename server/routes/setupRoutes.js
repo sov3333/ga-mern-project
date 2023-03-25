@@ -1,5 +1,6 @@
 import express from 'express';
 import setup from '../mongodb/models/setup.js';
+import requireAuth from '../auth/authMiddleware.js';
 
 const router = express.Router();
 
@@ -82,12 +83,23 @@ router.get('/:id', async (req, res) => {
 });
 
 //Delete Route
-router.delete('/:id', async (req, res) => {
-  try {
-    const deletedSetup = await setup.findByIdAndRemove(req.params.id);
-    res.status(200).send(deletedSetup);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+router.delete('/:id', requireAuth, async (req, res) => {
+  if (req.user.role === 'admin') {
+    try {
+      const { id } = req.params;
+
+      const deletedSetup = await setup.findByIdAndDelete(id);
+
+      if (!deletedSetup) {
+        return res.status(404).json({ message: 'Setup not found' });
+      }
+      res.status(204).end();
+    } catch (e) {
+      console.error(e);
+      res.status(500).json({ message: 'Server Error' });
+    }
+  } else {
+    res.status(403).json({ error: `Access Denied` });
   }
 });
 
