@@ -1,17 +1,13 @@
 import { Flex, Select, Text } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { CardProduct } from '../components';
-import { productsData } from '../constants';
-import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
+
 const Products = () => {
   const [products, setProducts] = useState([]);
-  const [username, setUsername] = useState('');
-  const [review, setReview] = useState('');
-  const [showReviews, setShowReviews] = useState(false);
 
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
-  //Testing
+
   //   const response = await fetch(
   //     `http://localhost:8080/api/product/${products.Type}/reviews`,
   //     {

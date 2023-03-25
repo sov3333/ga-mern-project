@@ -26,6 +26,8 @@ function CardProduct({ img, type, brand, model, ratings, reviews, slug }) {
           img: img,
           brand: brand,
           model: model,
+          ratings: ratings,
+          reviews: reviews,
         }}
       >
         <Box
