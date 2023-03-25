@@ -12,9 +12,11 @@ import {
   AvatarGroup,
   useBreakpointValue,
   Icon,
+  Link,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import FileBase64 from 'react-file-base64';
+import { useNavigate } from 'react-router-dom';
 
 // "Join our Team" from https://chakra-templates.dev/forms/authentication
 
@@ -60,6 +62,8 @@ export default function Create() {
   // const [newProducts, setNewProducts] = useState('');
   // const [newImage, setNewImage] = useState('');
 
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     fetch('http://localhost:8080/api/setup', {
@@ -84,6 +88,7 @@ export default function Create() {
       .then((res) => res.json())
       .then((data) => setNewSetup(data.newSetup))
       .catch((err) => console.error({ Error: err }));
+    navigate('/setups');
   };
 
   return (
