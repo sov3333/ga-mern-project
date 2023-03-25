@@ -36,6 +36,31 @@ router.get('/:type', async (req, res) => {
   }
 });
 
+//Post a new review
+// curl -X POST -H "Content-Type: application/json" -d '{"user":"John","review":"This product is awesome!"}' http://localhost:8080/api/product/:type/reviews
+
+router.post('/:type/reviews', async (req, res) => {
+  try {
+    const { type } = req.params;
+    const { user, review } = req.body;
+
+    const updatedProduct = await Product.findOneAndUpdate(
+      { type },
+      { $push: { reviews: { user, review } } },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: 'Product type not found' });
+    }
+
+    res.json(updatedProduct);
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+});
+
 //Post
 // curl -X POST localhost:8080/api/product/seed
 
@@ -43,6 +68,7 @@ router.post('/seed', async (req, res) => {
   try {
     const createdProduct = await Product.create([
       {
+        img: 'https://assets.hardwarezone.com/img/2021/11/omnidesk.jpg',
         type: 'Desk',
         brand: 'Omnidesk',
         model: 'Ascent Wildwood+',
@@ -53,11 +79,15 @@ router.post('/seed', async (req, res) => {
         reviews: { user: 'Alice', review: 'This is a great Desk!' },
       },
       {
-        type: 'Keyboard',
-        brand: 'Keychron',
-        model: 'K4',
+        img: 'https://press.razer.com/wp-content/uploads/2020/01/DAV2_1-1024x576.png',
+        type: 'Mouse',
+        brand: 'Razer',
+        model: 'Deathadder V2',
         ratings: [{ user: 'Lindsey', rating: 4 }],
-        reviews: { user: 'Lindsey', review: 'This keyboard is awesome!' },
+        reviews: [
+          { user: 'Lindsey', review: 'This great product' },
+          { user: 'Bob', review: 'This Mouse is Good!' },
+        ],
       },
     ]);
     res.status(200).send(createdProduct);

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import {
   Badge,
   Button,
@@ -14,21 +15,39 @@ import {
 // "Social User Profile Horizontal" from https://chakra-templates.dev/components/cards
 
 export default function socialProfileHorizontal() {
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/user/id`, {
+      method: `GET`,
+      credentials: `include`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUserId(data);
+        console.log(userId);
+      })
+      .catch((e) => {
+        console.error(error);
+      });
+  }, [userId]);
+
   return (
     <Center py={6}>
       <Stack
-        borderWidth="1px"
-        borderRadius="lg"
+        borderWidth='1px'
+        borderRadius='lg'
         w={{ sm: '100%', md: '540px' }}
         height={{ sm: '476px', md: '20rem' }}
         direction={{ base: 'column', md: 'row' }}
         bg={useColorModeValue('white', 'gray.900')}
         boxShadow={'2xl'}
-        padding={4}>
-        <Flex flex={1} bg="blue.200">
+        padding={4}
+      >
+        <Flex flex={1} bg='blue.200'>
           <Image
-            objectFit="cover"
-            boxSize="100%"
+            objectFit='cover'
+            boxSize='100%'
             src={
               'https://images.unsplash.com/photo-1520810627419-35e362c5dc07?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ'
             }
@@ -36,21 +55,23 @@ export default function socialProfileHorizontal() {
         </Flex>
         <Stack
           flex={1}
-          flexDirection="column"
-          justifyContent="center"
-          alignItems="center"
+          flexDirection='column'
+          justifyContent='center'
+          alignItems='center'
           p={1}
-          pt={2}>
+          pt={2}
+        >
           <Heading fontSize={'2xl'} fontFamily={'body'}>
             Lindsey James
           </Heading>
-          <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
+          <Text fontWeight={600} color={'gray.500'} size='sm' mb={4}>
             @lindsey_jam3s
           </Text>
           <Text
             textAlign={'center'}
             color={useColorModeValue('gray.700', 'gray.400')}
-            px={3}>
+            px={3}
+          >
             Actress, musician, songwriter and artist. PM for work inquires or
             <Link href={'#'} color={'blue.400'}>
               #tag{' '}
@@ -62,21 +83,24 @@ export default function socialProfileHorizontal() {
               px={2}
               py={1}
               bg={useColorModeValue('gray.50', 'gray.800')}
-              fontWeight={'400'}>
+              fontWeight={'400'}
+            >
               #art
             </Badge>
             <Badge
               px={2}
               py={1}
               bg={useColorModeValue('gray.50', 'gray.800')}
-              fontWeight={'400'}>
+              fontWeight={'400'}
+            >
               #photography
             </Badge>
             <Badge
               px={2}
               py={1}
               bg={useColorModeValue('gray.50', 'gray.800')}
-              fontWeight={'400'}>
+              fontWeight={'400'}
+            >
               #music
             </Badge>
           </Stack>
@@ -87,14 +111,16 @@ export default function socialProfileHorizontal() {
             direction={'row'}
             padding={2}
             justifyContent={'space-between'}
-            alignItems={'center'}>
+            alignItems={'center'}
+          >
             <Button
               flex={1}
               fontSize={'sm'}
               rounded={'full'}
               _focus={{
                 bg: 'gray.200',
-              }}>
+              }}
+            >
               Message
             </Button>
             <Button
@@ -111,7 +137,8 @@ export default function socialProfileHorizontal() {
               }}
               _focus={{
                 bg: 'blue.500',
-              }}>
+              }}
+            >
               Follow
             </Button>
           </Stack>

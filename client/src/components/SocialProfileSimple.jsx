@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import {
   Heading,
   Avatar,
@@ -14,6 +15,43 @@ import {
 // "Social User Profile Simple" from https://chakra-templates.dev/components/cards
 
 export default function SocialProfileSimple() {
+  const [userId, setUserId] = useState(null);
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
+  const [profileDesc, setProfileDesc] = useState(null);
+  const [tags, setTags] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/user/id`, {
+      method: `GET`,
+      credentials: `include`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUserId(data);
+        console.log(userId);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }, [userId]);
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/user/${userId}`, {
+      method: `GET`,
+      credentials: `include`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setFirstName(data.firstName);
+        setLastName(data.lastName);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }, [userId]);
+
   return (
     <Center py={6}>
       <Box
@@ -23,7 +61,8 @@ export default function SocialProfileSimple() {
         boxShadow={'2xl'}
         rounded={'lg'}
         p={6}
-        textAlign={'center'}>
+        textAlign={'center'}
+      >
         <Avatar
           size={'xl'}
           src={
@@ -45,7 +84,7 @@ export default function SocialProfileSimple() {
           }}
         />
         <Heading fontSize={'2xl'} fontFamily={'body'}>
-          Lindsey James
+          {firstName} {lastName}
         </Heading>
         <Text fontWeight={600} color={'gray.500'} mb={4}>
           @lindsey_jam3s
@@ -53,7 +92,8 @@ export default function SocialProfileSimple() {
         <Text
           textAlign={'center'}
           color={useColorModeValue('gray.700', 'gray.400')}
-          px={3}>
+          px={3}
+        >
           Actress, musician, songwriter and artist. PM for work inquires or{' '}
           <Link href={'#'} color={'blue.400'}>
             #tag
@@ -66,21 +106,24 @@ export default function SocialProfileSimple() {
             px={2}
             py={1}
             bg={useColorModeValue('gray.50', 'gray.800')}
-            fontWeight={'400'}>
+            fontWeight={'400'}
+          >
             #art
           </Badge>
           <Badge
             px={2}
             py={1}
             bg={useColorModeValue('gray.50', 'gray.800')}
-            fontWeight={'400'}>
+            fontWeight={'400'}
+          >
             #photography
           </Badge>
           <Badge
             px={2}
             py={1}
             bg={useColorModeValue('gray.50', 'gray.800')}
-            fontWeight={'400'}>
+            fontWeight={'400'}
+          >
             #music
           </Badge>
         </Stack>
@@ -92,7 +135,8 @@ export default function SocialProfileSimple() {
             rounded={'full'}
             _focus={{
               bg: 'gray.200',
-            }}>
+            }}
+          >
             Message
           </Button>
           <Button
@@ -109,7 +153,8 @@ export default function SocialProfileSimple() {
             }}
             _focus={{
               bg: 'blue.500',
-            }}>
+            }}
+          >
             Follow
           </Button>
         </Stack>

@@ -12,10 +12,18 @@ import {
   AvatarGroup,
   useBreakpointValue,
   Icon,
+  Link,
+  FormControl,
+  FormLabel,
 } from '@chakra-ui/react';
 import { useState } from 'react';
+import FileBase64 from 'react-file-base64';
+import { useNavigate } from 'react-router-dom';
 
 // "Join our Team" from https://chakra-templates.dev/forms/authentication
+
+//TODO:
+//1) linking to user when submit
 
 const avatars = [
   {
@@ -41,23 +49,37 @@ const avatars = [
 ];
 
 export default function Create() {
-  const [newSetup, setNewSetup] = useState('');
+  const [newSetup, setNewSetup] = useState({
+    user: 'Alice',
+    title: '',
+    description: '',
+    products: '',
+    img: '',
+  });
 
-  const [newTitle, setNewTitle] = useState('');
-  const [newDescription, setNewDescription] = useState('');
-  const [newProducts, setNewProducts] = useState('');
-  const [newPhoto, setNewPhoto] = useState('');
+  // const [newTitle, setNewTitle] = useState('');
+  // const [newDescription, setNewDescription] = useState('');
+  // const [newProducts, setNewProducts] = useState('');
+  // const [newImage, setNewImage] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     fetch('http://localhost:8080/api/setup', {
       method: 'POST',
       body: JSON.stringify({
-        user: 'Alice',
-        title: newTitle,
-        description: newDescription,
-        products: newProducts,
-        img: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ7Y3DJGIZejTxIdwspZPJhd40NKcYKHKXbGuoH7MxteDaJZJQl',
+        // user: 'Alice',
+        // title: newTitle,
+        // description: newDescription,
+        // products: newProducts,
+        // //img: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ7Y3DJGIZejTxIdwspZPJhd40NKcYKHKXbGuoH7MxteDaJZJQl',
+        // img: newImage,
+        user: newSetup.user,
+        title: newSetup.title,
+        description: newSetup.description,
+        products: newSetup.products,
+        img: newSetup.img,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -66,6 +88,17 @@ export default function Create() {
       .then((res) => res.json())
       .then((data) => setNewSetup(data.newSetup))
       .catch((err) => console.error({ Error: err }));
+    if (
+      newSetup.title === '' ||
+      newSetup.products === '' ||
+      newSetup.img === ''
+    ) {
+      alert('Please input required field');
+    } else {
+      navigate('/setups');
+      navigate(0);
+    }
+    //console.log('setup', newSetup);
   };
 
   return (
@@ -182,49 +215,82 @@ export default function Create() {
           </Stack>
           <Box as={'form'} mt={10}>
             <Stack spacing={4}>
-              <Input
-                value={newTitle}
-                onChange={(e) => {
-                  setNewTitle(e.target.value);
-                }}
-                placeholder='Title e.g. Productivity Haven'
-                bg={'gray.100'}
-                border={0}
-                color={'gray.500'}
-                _placeholder={{
-                  color: 'gray.500',
-                }}
-              />
-              <Input
-                value={newDescription}
-                onChange={(e) => {
-                  setNewDescription(e.target.value);
-                }}
-                placeholder='Describe your setup'
-                bg={'gray.100'}
-                border={0}
-                color={'gray.500'}
-                _placeholder={{
-                  color: 'gray.500',
-                }}
-              />
-              <Input
-                value={newProducts}
-                onChange={(e) => {
-                  setNewProducts(e.target.value);
-                }}
-                //type='Products'
-                placeholder='desk, monitor, keyboard, mouse'
-                bg={'gray.100'}
-                border={0}
-                color={'gray.500'}
-                _placeholder={{
-                  color: 'gray.500',
-                }}
-              />
-              <Button fontFamily={'heading'} bg={'gray.200'} color={'gray.800'}>
+              <FormControl isRequired>
+                <FormLabel>Title</FormLabel>
+                <Input
+                  // value={newTitle}
+                  // onChange={(e) => {
+                  //   setNewTitle(e.target.value);
+                  // }}
+                  //value={newSetup.title} -> putting this become undefined error
+                  onChange={(e) => {
+                    setNewSetup({ ...newSetup, title: e.target.value });
+                  }}
+                  placeholder='e.g. Productivity Haven'
+                  bg={'gray.100'}
+                  border={0}
+                  color={'gray.500'}
+                  _placeholder={{
+                    color: 'gray.500',
+                  }}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Description</FormLabel>
+                <Input
+                  // value={newDescription}
+                  // onChange={(e) => {
+                  //   setNewDescription(e.target.value);
+                  // }}
+                  //value={newSetup.description} -> putting this become undefined error
+                  onChange={(e) => {
+                    setNewSetup({ ...newSetup, description: e.target.value });
+                  }}
+                  placeholder='Describe your setup'
+                  bg={'gray.100'}
+                  border={0}
+                  color={'gray.500'}
+                  _placeholder={{
+                    color: 'gray.500',
+                  }}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel>Products</FormLabel>
+                <Input
+                  // value={newProducts}
+                  // onChange={(e) => {
+                  //   setNewProducts(e.target.value.split(/\s*,\s*/));
+                  // }}
+                  //value={newSetup.products} -> putting this become undefined error
+                  onChange={(e) => {
+                    setNewSetup({
+                      ...newSetup,
+                      products: e.target.value.split(/\s*,\s*/),
+                    });
+                  }}
+                  placeholder='eg: desk, monitor, keyboard, mouse'
+                  bg={'gray.100'}
+                  border={0}
+                  color={'gray.500'}
+                  _placeholder={{
+                    color: 'gray.500',
+                  }}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel>Image</FormLabel>
+                <FileBase64
+                  type='file'
+                  multiple={false}
+                  onDone={({ base64 }) =>
+                    setNewSetup({ ...newSetup, img: base64 })
+                  }
+                />
+              </FormControl>
+              {/* <Button fontFamily={'heading'} bg={'gray.200'} color={'gray.800'}>
                 Upload Photo
-              </Button>
+              </Button> */}
             </Stack>
             <Button
               onClick={handleSubmit}

@@ -5,7 +5,19 @@ A rating and review website for computer desk setups (gaming/trading/programming
 ## Explanations of the technologies used
 
 - MERN
-- [Chakra UI](https://chakra-ui.com/getting-started) + [Chakra Templates](https://chakra-templates.dev/)
+- [Vite](https://vitejs.dev/) development tool for faster and smoother workflow
+- [Chakra UI](https://chakra-ui.com/getting-started) + [Chakra Templates](https://chakra-templates.dev/) for styling and pre-made components and templates
+- [Tailwind CSS](https://tailwindcss.com/docs/guides/vite) for styling
+- [Framer Motion](https://www.framer.com/motion/) for animations
+
+### Tools
+
+- [SVG Icons from SVG Repo](https://www.svgrepo.com/)
+- [AI-generated images from Midjourney](https://www.midjourney.com/)
+
+### Tutorials
+
+- [Landing page tutorial with Framer Motion and Tailwind CSS](https://youtu.be/ugCN_gynFYw)
 
 ## A couple paragraphs about the general approach you took
 
@@ -47,6 +59,12 @@ Frontend:
 3. `npm create vite@latest ./` then choose React framework and JavaScript variant.
 4. Install dependencies: `npm i react-router-dom`
 5. Install Chakra UI: `npm i @chakra-ui/react @chakra-ui/icons @emotion/react @emotion/styled framer-motion`
+6. Install Tailwind CSS: `npm install -D tailwindcss postcss autoprefixer` then `npx tailwindcss init -p`. Then, add the Tailwind directives to root CSS file:
+```
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
 
 Backend:
 1. In root, type `mkdir server`
