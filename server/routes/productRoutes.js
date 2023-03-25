@@ -94,6 +94,15 @@ router.post('/seed', async (req, res) => {
         ratings: [{ user: 'Alice', rating: 4 }],
         reviews: [{ user: 'Alice', review: 'This great product' }],
       },
+      {
+        user: 'Daniel',
+        img: 'https://press.razer.com/wp-content/uploads/2020/01/DAV2_1-1024x576.png',
+        type: 'Mouse',
+        brand: 'Razer',
+        model: 'Deathadder V2',
+        ratings: [{ user: 'Daniel', rating: 1 }],
+        reviews: [{ user: 'Daniel', review: 'Not good!' }],
+      },
     ]);
     res.status(200).send(createdProduct);
   } catch (e) {
