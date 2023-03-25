@@ -16,7 +16,7 @@ const Feedback = () => (
       <div className="flex lg:flex-row flex-col justify-between">
         <motion.div
           variants={fadeIn('right', 'tween', 0.2, 1)}
-          className="flex-[0.5] flex justify-end flex-col gradient-05 sm:p-8 p-4 lg:mb-0 sm:mb-3 lg:mr-3 sm:mr-0 mr-5 rounded-[32px] border-[1px] border-[#6a6a6a] relative"
+          className="flex-[0.5] flex justify-end flex-col gradient-05 sm:p-8 p-4 lg:mb-0 sm:mb-3 lg:mr-3 mr-0 mb-3 rounded-[32px] border-[1px] border-[#6a6a6a] relative"
         >
           <div className="feedback-gradient" />
           <div>
@@ -29,7 +29,7 @@ const Feedback = () => (
         </motion.div>
         <motion.div
           variants={fadeIn('left', 'tween', 0.2, 1)}
-          className="flex-[0.5] flex justify-end flex-col gradient-05 sm:p-8 p-4 lg:mt-0 sm:mt-3 lg:ml-3 sm:ml-0 ml-5 rounded-[32px] border-[1px] border-[#6a6a6a] relative"
+          className="flex-[0.5] flex justify-end flex-col gradient-05 sm:p-8 p-4 lg:mt-0 sm:mt-3 lg:ml-3 ml-0 mt-3 rounded-[32px] border-[1px] border-[#6a6a6a] relative"
         >
           <div className="feedback-gradient" />
           <div>
