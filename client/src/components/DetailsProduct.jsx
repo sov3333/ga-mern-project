@@ -85,6 +85,8 @@ export default function DetailsProduct({
                   ))}
                 </Text>
               )}
+              <Button>Add Review</Button>
+              <Button>Update Review</Button>
             </Text>
           </Box>
 
