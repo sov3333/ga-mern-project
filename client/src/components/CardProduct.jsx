@@ -6,12 +6,8 @@ import {
   Image,
   Badge,
   useColorModeValue,
-  // Icon,
-  // chakra,
-  // Tooltip,
 } from '@chakra-ui/react';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
-// import { FiShoppingCart } from 'react-icons/fi';
 
 // "Product with Add to Cart" from https://chakra-templates.dev/components/cards
 
@@ -27,7 +23,7 @@ const data = {
 
 function Rating({ rating, numReviews }) {
   return (
-    <Box d="flex" alignItems="center">
+    <Box d="flex" alignItems="center" color="gray.400">
         <Flex>
         {Array(5)
             .fill('')
@@ -48,7 +44,7 @@ function Rating({ rating, numReviews }) {
             return <BsStar key={i} style={{ marginLeft: '1' }} />;
         })}
         </Flex>
-        <Box as="span" ml="2" color="gray.600" fontSize="sm">
+        <Box as="span" ml="2" color="gray.300" fontSize="sm">
             {numReviews} review{numReviews > 1 && 's'}
         </Box>
     </Box>
@@ -57,7 +53,7 @@ function Rating({ rating, numReviews }) {
 
 function CardProduct({ img, type, brand, model, slug }) {
   return (
-    <Flex p={50} w="full" alignItems="center" justifyContent="center">
+    <Flex p={50} w="full" alignItems="center" justifyContent="center" className="p-16">
       <Link 
         to={slug}
         state={{
@@ -68,7 +64,7 @@ function CardProduct({ img, type, brand, model, slug }) {
       >
       
       <Box
-        bg={useColorModeValue('white', 'gray.800')}
+        bg={useColorModeValue('gray.700')}
         maxW="sm"
         borderWidth="1px"
         rounded="lg"
@@ -113,29 +109,15 @@ function CardProduct({ img, type, brand, model, slug }) {
               fontWeight="semibold"
               as="h4"
               lineHeight="tight"
-              isTruncated>
+              isTruncated
+              color={'gray.300'}
+            >
               {model}
             </Box>
-            {/* <Tooltip
-              label="Add to cart"
-              bg="white"
-              placement={'top'}
-              color={'gray.800'}
-              fontSize={'1.2em'}>
-              <chakra.a href={'#'} display={'flex'}>
-                <Icon as={FiShoppingCart} h={7} w={7} alignSelf={'center'} />
-              </chakra.a>
-            </Tooltip> */}
           </Flex>
 
           <Flex justifyContent="space-between" alignContent="center">
             <Rating rating={data.rating} numReviews={data.numReviews} />
-            {/* <Box fontSize="2xl" color={useColorModeValue('gray.800', 'white')}>
-              <Box as="span" color={'gray.600'} fontSize="lg">
-                →
-              </Box>
-              View
-            </Box> */}
           </Flex>
         </Box>
       </Box>
