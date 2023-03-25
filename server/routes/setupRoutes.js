@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
 //         title: 'Blue Battlestation',
 //         description:
 //           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
-//         products: ['Desk', 'Monitor', 'Keyboard', 'Mouse', 'Chair'],
+//         products: ['desk', 'monitor', 'keyboard', 'mouse', 'chair'],
 //       },
 //       {
 //         img: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT13ujza2Re0zLk0Vk5VviScLa1zYzu0VGxdW1igIYd63UDxtJA',
@@ -46,7 +46,7 @@ router.post('/', async (req, res) => {
 //         title: 'Mellow Woods',
 //         description:
 //           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
-//         products: ['Desk', 'Monitor', 'Keyboard', 'Mouse', 'Mousepad', 'Chair'],
+//         products: ['desk', 'monitor', 'keyboard', 'mouse', 'mousepad', 'chair'],
 //       },
 //       {
 //         img: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSKdjQk306iqnHH4Ews6MqBkTkbgWIPBT0JTrC3-jgO5wWhR0ck',
@@ -54,7 +54,7 @@ router.post('/', async (req, res) => {
 //         title: 'Coding Club',
 //         description:
 //           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
-//         products: ['Desk', 'Monitor', 'Speaker', 'PC', 'Keyboard', 'Mousepad'],
+//         products: ['desk', 'monitor', 'speaker', 'pc', 'keyboard', 'mousepad'],
 //       },
 //       {
 //         img: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ7Y3DJGIZejTxIdwspZPJhd40NKcYKHKXbGuoH7MxteDaJZJQl',
@@ -62,7 +62,7 @@ router.post('/', async (req, res) => {
 //         title: 'Autumn Dev',
 //         description:
 //           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
-//         products: ['Desk', 'Monitor', 'Monitor', 'Speaker', 'Mouse'],
+//         products: ['desk', 'monitor', 'speaker', 'mouse'],
 //       }
 //     );
 //     res.status(200).send(createdSetup);
