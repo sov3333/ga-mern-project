@@ -1,8 +1,9 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import user from '../mongodb/models/User.js';
 import requireAuth from '../auth/authMiddleware.js';
+import cookieParser from 'cookie-parser';
+import User from '../mongodb/models/User.js';
 
 const router = express.Router();
 
@@ -59,8 +60,7 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-  user
-    .findOne({ email: req.body.email })
+  User.findOne({ email: req.body.email })
     .then((user) => {
       bcrypt
         .compare(req.body.password, user.password)
@@ -98,20 +98,30 @@ router.post('/login', async (req, res) => {
     });
 });
 
-//cookies test
-// router.get('/set-cookies', (req, res) => {
-//   res.cookie('newUser', false, {
-//     maxAge: 1000 * 60 * 60 * 24,
-//     httpOnly: true,
-//   });
-//   res.send('cookies obtained');
-// });
+//User Routes
 
-// router.get('/read-cookies', (req, res) => {
-//   s;
-//   const cookies = req.cookies;
-//   console.log(cookies);
-//   res.json(cookies.newUser);
-// });
+router.get('/all', async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.status(200).send(users);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+});
+router.get('/id', cookieParser(), (req, res) => {
+  // Decode JWT token and extract user ID
+  const token = req.cookies.jwt;
+  const decodedToken = jwt.verify(token, 'secretid');
+  res.json(decodedToken.id);
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    res.status(200).send(user);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+});
 
 export default router;
