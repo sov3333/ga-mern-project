@@ -26,7 +26,7 @@ export default function CardSetup() {
         (parsedData) => setSetups(parsedData),
         (err) => console.log(err)
       );
-  }, [setups]);
+  }, []);
 
   return (
     <Center py={12}>
