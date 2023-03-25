@@ -2,7 +2,7 @@ import { Flex, Select, Text } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { CardProduct } from '../components';
 import { productsData } from '../constants';
-
+import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [username, setUsername] = useState('');
@@ -120,6 +120,8 @@ const Products = () => {
               type={item.type}
               brand={item.brand}
               model={item.model}
+              ratings={item.ratings}
+              reviews={item.reviews}
               slug={`/products/${item.type}`}
             />
           </div>
@@ -133,13 +135,35 @@ const Products = () => {
             </h2>
             <img src={product.img} alt={product.model} />
             <p>Type: {product.type}</p>
-            <p>
-              Rating:{' '}
-              {product.ratings
-                .map((rating) => rating.rating)
-                .reduce((a, b) => a + b, 0) / product.ratings.length}{' '}
-              out of 5
-            </p>
+            <div>
+              <Flex>
+                {Array(5)
+                  .fill('')
+                  .map((_, i) => {
+                    const roundedRating =
+                      Math.round(
+                        (product.ratings
+                          .map((rating) => rating.rating)
+                          .reduce((a, b) => a + b, 0) /
+                          product.ratings.length) *
+                          2
+                      ) / 2;
+                    if (roundedRating - i >= 1) {
+                      return (
+                        <BsStarFill
+                          key={i}
+                          style={{ marginLeft: '1' }}
+                          color={i < roundedRating ? 'teal.500' : 'gray.300'}
+                        />
+                      );
+                    }
+                    if (roundedRating - i === 0.5) {
+                      return <BsStarHalf key={i} style={{ marginLeft: '1' }} />;
+                    }
+                    return <BsStar key={i} style={{ marginLeft: '1' }} />;
+                  })}
+              </Flex>
+            </div>
             <p>Number of Reviews: {product.reviews.length}</p>
             {/* <button onClick={() => setShowReviews(!showReviews)}>
               {showReviews ? 'Hide Reviews' : 'Show Reviews'}
