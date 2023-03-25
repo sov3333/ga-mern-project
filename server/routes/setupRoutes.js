@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
 
 // To send the seed files to DB
 // 1) comment out top router.post (line 15 to 23)
-// 2) uncomment below router.post (line 30 to 67)
+// 2) uncomment below router.post (line 31 to 72)
 // 3) to save to seed to the DB => got to create page and click submit
 // 4) comment line 30 to 67 out after done.
 // 5) uncomment out top router.post (line 15 to 23) and save.
