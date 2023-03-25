@@ -19,14 +19,23 @@ import {
 import { MdLocalShipping } from 'react-icons/md';
 
 // "Simple" from https://chakra-templates.dev/page-sections/productDetails
-
-export default function DetailsProduct({ img, brand, model }) {
+import React, { useState } from 'react';
+//import { useState }
+export default function DetailsProduct({
+  img,
+  brand,
+  model,
+  ratings,
+  reviews,
+}) {
+  const [showReviews, setShowReviews] = useState(false);
   return (
     <Container maxW={'7xl'}>
       <SimpleGrid
         columns={{ base: 1, lg: 2 }}
         spacing={{ base: 8, md: 10 }}
-        py={{ base: 18, md: 24 }}>
+        py={{ base: 18, md: 24 }}
+      >
         <Flex>
           <Image
             rounded={'md'}
@@ -43,14 +52,39 @@ export default function DetailsProduct({ img, brand, model }) {
             <Heading
               lineHeight={1.1}
               fontWeight={600}
-              fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}>
+              fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}
+            >
               {model}
             </Heading>
             <Text
-              color={useColorModeValue('gray.900', 'gray.400')}
+              color={useColorModeValue('gray.500', 'gray.400')}
               fontWeight={300}
-              fontSize={'2xl'}>
+              fontSize={'2xl'}
+            >
               {brand}
+            </Text>
+            <Text
+              color={useColorModeValue('gray.500', 'gray.400')}
+              fontWeight={300}
+              fontSize={'2xl'}
+            >
+              {reviews.length} review{reviews.length > 1 && 's'}
+              <Button onClick={() => setShowReviews(!showReviews)}>
+                {showReviews ? 'Hide reviews' : 'Show reviews'}
+              </Button>
+              {showReviews && (
+                <Text
+                  color={useColorModeValue('gray.500', 'gray.400')}
+                  fontWeight={300}
+                  fontSize={'2xl'}
+                >
+                  {reviews.map((review) => (
+                    <div key={review._id}>
+                      <b>{review.user}:</b> {review.review}
+                    </div>
+                  ))}
+                </Text>
+              )}
             </Text>
           </Box>
 
@@ -61,12 +95,14 @@ export default function DetailsProduct({ img, brand, model }) {
               <StackDivider
                 borderColor={useColorModeValue('gray.200', 'gray.600')}
               />
-            }>
+            }
+          >
             <VStack spacing={{ base: 4, sm: 6 }}>
               <Text
                 color={useColorModeValue('gray.500', 'gray.400')}
                 fontSize={'2xl'}
-                fontWeight={'300'}>
+                fontWeight={'300'}
+              >
                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
                 diam nonumy eirmod tempor invidunt ut labore
               </Text>
@@ -83,7 +119,8 @@ export default function DetailsProduct({ img, brand, model }) {
                 color={useColorModeValue('yellow.500', 'yellow.300')}
                 fontWeight={'500'}
                 textTransform={'uppercase'}
-                mb={'4'}>
+                mb={'4'}
+              >
                 Features
               </Text>
 
@@ -106,7 +143,8 @@ export default function DetailsProduct({ img, brand, model }) {
                 color={useColorModeValue('yellow.500', 'yellow.300')}
                 fontWeight={'500'}
                 textTransform={'uppercase'}
-                mb={'4'}>
+                mb={'4'}
+              >
                 Product Details
               </Text>
 
@@ -170,11 +208,12 @@ export default function DetailsProduct({ img, brand, model }) {
             _hover={{
               transform: 'translateY(2px)',
               boxShadow: 'lg',
-            }}>
+            }}
+          >
             Purchase
           </Button>
 
-          <Stack direction="row" alignItems="center" justifyContent={'center'}>
+          <Stack direction='row' alignItems='center' justifyContent={'center'}>
             <MdLocalShipping />
             <Text>You will be redirected to an external website</Text>
           </Stack>
