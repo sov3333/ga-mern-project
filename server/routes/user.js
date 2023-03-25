@@ -29,7 +29,7 @@ router.post('/register', async (req, res) => {
   bcrypt
     .hash(req.body.password, 10)
     .then((hashedPassword) => {
-      const createdUser = new user({
+      const createdUser = new User({
         firstName: firstName,
         lastName: lastName,
         email: email,

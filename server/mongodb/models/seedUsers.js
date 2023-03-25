@@ -5,8 +5,8 @@ const ROLE = {
 
 const users = [
   {
-    first_name: 'Lindsey',
-    last_name: 'James',
+    firstName: 'Lindsey',
+    firstName: 'James',
     email: 'lindseyJ@gmail.com',
     password: 'abcd',
     tags: ['Programming', 'Photography'],
