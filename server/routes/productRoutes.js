@@ -73,10 +73,7 @@ router.post('/seed', async (req, res) => {
         type: 'Desk',
         brand: 'Omnidesk',
         model: 'Ascent Wildwood+',
-        ratings: [
-          { user: 'Alice', rating: 4 },
-          { user: 'Bob', rating: 5 },
-        ],
+        ratings: [{ user: 'Alice', rating: 4 }],
         reviews: { user: 'Alice', review: 'This is a great Desk!' },
       },
       {
@@ -86,10 +83,7 @@ router.post('/seed', async (req, res) => {
         brand: 'Razer',
         model: 'Deathadder V2',
         ratings: [{ user: 'Lindsey', rating: 4 }],
-        reviews: [
-          { user: 'Lindsey', review: 'This great product' },
-          { user: 'Bob', review: 'This Mouse is Good!' },
-        ],
+        reviews: [{ user: 'Lindsey', review: 'This great product' }],
       },
       {
         user: 'Alice',
@@ -98,10 +92,7 @@ router.post('/seed', async (req, res) => {
         brand: 'Razer',
         model: 'Deathadder V2',
         ratings: [{ user: 'Alice', rating: 4 }],
-        reviews: [
-          { user: 'Alice', review: 'This great product' },
-          { user: 'Bob', review: 'This Mouse is Good!' },
-        ],
+        reviews: [{ user: 'Alice', review: 'This great product' }],
       },
     ]);
     res.status(200).send(createdProduct);
