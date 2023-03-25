@@ -1,5 +1,5 @@
 import { Flex, Select, Text } from '@chakra-ui/react';
-
+import { useState, useEffect } from 'react';
 import { CardSetup } from '../components';
 import { setupsData } from '../constants';
 
@@ -9,6 +9,20 @@ import { setupsData } from '../constants';
 // Alternatively, might be easier to find a ready-made template (even if its using other frameworks) for SORT+FILTER ui rather than trying to build it from scratch.
 
 const Setups = () => {
+  const [setups, setSetups] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:8080/api/setup')
+      .then(
+        (data) => data.json(),
+        (err) => console.log(err)
+      )
+      .then(
+        (parsedData) => setSetups(parsedData),
+        (err) => console.log(err)
+      );
+  }, []);
+
   return (
     <div>
       <h1>Lorem ipsum dolor sit amet consectetur.</h1>
@@ -77,7 +91,19 @@ const Setups = () => {
                     />
                 </div>
             ))} */}
-        <CardSetup />
+        {/* <CardSetup /> */}
+        {setups.map((post) => (
+          <div key={post._id}>
+            <CardSetup
+              img={post.img}
+              user={post.user}
+              title={post.title}
+              description={post.description}
+              products={post.products}
+              slug={`/setups/${post._id}`}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
