@@ -130,41 +130,6 @@ const Products = () => {
       <div>
         {products.map((product) => (
           <div key={product._id}>
-            <h2>
-              {product.brand} {product.model}
-            </h2>
-            <img src={product.img} alt={product.model} />
-            <p>Type: {product.type}</p>
-            <div>
-              <Flex>
-                {Array(5)
-                  .fill('')
-                  .map((_, i) => {
-                    const roundedRating =
-                      Math.round(
-                        (product.ratings
-                          .map((rating) => rating.rating)
-                          .reduce((a, b) => a + b, 0) /
-                          product.ratings.length) *
-                          2
-                      ) / 2;
-                    if (roundedRating - i >= 1) {
-                      return (
-                        <BsStarFill
-                          key={i}
-                          style={{ marginLeft: '1' }}
-                          color={i < roundedRating ? 'teal.500' : 'gray.300'}
-                        />
-                      );
-                    }
-                    if (roundedRating - i === 0.5) {
-                      return <BsStarHalf key={i} style={{ marginLeft: '1' }} />;
-                    }
-                    return <BsStar key={i} style={{ marginLeft: '1' }} />;
-                  })}
-              </Flex>
-            </div>
-            <p>Number of Reviews: {product.reviews.length}</p>
             {/* <button onClick={() => setShowReviews(!showReviews)}>
               {showReviews ? 'Hide Reviews' : 'Show Reviews'}
             </button>
