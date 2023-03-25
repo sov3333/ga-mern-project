@@ -6,7 +6,7 @@ const setupSchema = new mongoose.Schema(
     user: { type: String, required: true },
     title: { type: String, required: true },
     description: { type: String },
-    products: [{ type: String, required: true }],
+    products: { type: [String], required: true },
   },
   { timestamps: true }
 );
