@@ -72,24 +72,24 @@ export default function CardSignUp() {
       minH={'100vh'}
       align={'center'}
       justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}
+      // bg={useColorModeValue('gray.50', 'gray.800')}
     >
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
-          <Heading fontSize={'4xl'} textAlign={'center'}>
+          <Heading fontSize={'4xl'} textAlign={'center'} color={'gray.100'}>
             Sign up
           </Heading>
-          <Text fontSize={'lg'} color={'gray.600'}>
+          <Text fontSize={'lg'} color={'gray.200'}>
             to enjoy all of our cool features ✌️
           </Text>
         </Stack>
         <Box
           rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
+          bg={useColorModeValue('gray.700')}
           boxShadow={'lg'}
           p={8}
         >
-          <Stack spacing={4}>
+          <Stack spacing={4} color={'gray.300'}>
             <form onSubmit={signUpUser}>
               <HStack>
                 <Box>
