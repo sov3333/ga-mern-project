@@ -68,6 +68,7 @@ router.post('/seed', async (req, res) => {
   try {
     const createdProduct = await Product.create([
       {
+        user: 'Alice',
         img: 'https://assets.hardwarezone.com/img/2021/11/omnidesk.jpg',
         type: 'Desk',
         brand: 'Omnidesk',
@@ -79,6 +80,7 @@ router.post('/seed', async (req, res) => {
         reviews: { user: 'Alice', review: 'This is a great Desk!' },
       },
       {
+        user: 'Lindsey',
         img: 'https://press.razer.com/wp-content/uploads/2020/01/DAV2_1-1024x576.png',
         type: 'Mouse',
         brand: 'Razer',
@@ -86,6 +88,18 @@ router.post('/seed', async (req, res) => {
         ratings: [{ user: 'Lindsey', rating: 4 }],
         reviews: [
           { user: 'Lindsey', review: 'This great product' },
+          { user: 'Bob', review: 'This Mouse is Good!' },
+        ],
+      },
+      {
+        user: 'Alice',
+        img: 'https://press.razer.com/wp-content/uploads/2020/01/DAV2_1-1024x576.png',
+        type: 'Mouse',
+        brand: 'Razer',
+        model: 'Deathadder V2',
+        ratings: [{ user: 'Alice', rating: 4 }],
+        reviews: [
+          { user: 'Alice', review: 'This great product' },
           { user: 'Bob', review: 'This Mouse is Good!' },
         ],
       },
