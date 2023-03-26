@@ -16,11 +16,21 @@ router.get('/testLoggedIn', requireAuth, async (req, res) => {
   res.send('I AM LOGGED IN, I AM SHOWN');
 });
 
-router.get('/logout', (req, res) => {
-  // Delete JWT Cookie by replacing it with a blank cookie with a super short expiry
-  res.cookie('jwt', '', { maxAge: 1 }); //jwt, token value, {maxAge: 1}
-  console.log('logging out');
-  res.redirect('http://localhost:5173/');
+// router.post('/logout', (req, res) => {
+//   // // Delete JWT Cookie by replacing it with a blank cookie with a super short expiry
+//   // res.cookie('jwt', '', { maxAge: 1 });
+//   // res.json({ jwt: '' });
+//   // // console.log('logging out');
+//   // // // res.redirect('http://localhost:5173/');
+//   // console.log('logging out');
+//   console.log('hi, im here');
+// });
+
+router.post('/logout', (req, res) => {
+  res.cookie('jwt', '', { maxAge: 1 });
+  res.status(200).send({
+    message: 'Logout Successful',
+  });
 });
 
 router.post('/register', async (req, res) => {

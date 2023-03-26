@@ -3,24 +3,25 @@ import { motion } from 'framer-motion';
 import { Avatar, Button, IconButton, Link } from '@chakra-ui/react';
 import { AddIcon, ViewIcon } from '@chakra-ui/icons';
 import { UserContext } from '../../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 import styles from '../../styles';
 import NavMenu from './NavMenu';
 
 const Navbar = () => {
   const { logInOut, setLogInOut } = useContext(UserContext);
+  const navigate = useNavigate();
+
   const handleSignOut = () => {
-    fetch('localhost:8080/api/user/logout', {
+    fetch('http://localhost:8080/api/user/logout', {
       method: 'POST',
       credentials: 'include', // include cookies in the request
     })
       .then((response) => {
-        if (response.ok) {
-          // perform sign-out actions on the frontend
-          // ...
-        } else {
-          throw new Error('Failed to sign out');
-        }
+        setLogInOut(!logInOut);
+        console.log(response);
+        window.scrollTo(0, 0);
+        navigate('/');
       })
       .catch((error) => {
         console.error(error);
@@ -57,12 +58,11 @@ const Navbar = () => {
                 {/* If name prop is passed to Avatar, default image will be replaced with initials and random bg color */}
                 <Avatar name={''} size='sm' className='ml-5' />
               </Link>
-              <Link href='/' className='no-underline'>
+              <Link className='no-underline'>
                 <Button
                   size='sm'
                   colorScheme='pink'
                   onClick={() => {
-                    setLogInOut(!logInOut);
                     handleSignOut();
                   }}
                 >
