@@ -6,6 +6,7 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('');
+  const [selectedModel, setSelectedModel] = useState('');
 
   useEffect(() => {
     fetch('http://localhost:8080/api/product')
@@ -25,6 +26,9 @@ const Products = () => {
   const availableTypes = [...new Set(products.map((product) => product.type))];
   const avaliableBrands = [
     ...new Set(products.map((product) => product.brand)),
+  ];
+  const avaliableModels = [
+    ...new Set(products.map((product) => product.model)),
   ];
 
   const groupedProducts = products.reduce((acc, item) => {
@@ -52,16 +56,47 @@ const Products = () => {
   }, []);
   // Filtered products based on selected product type and brand
   const filteredProducts = groupedProducts.filter((product) => {
-    if (selectedProduct && selectedBrand) {
+    if (selectedProduct && selectedBrand && selectedModel) {
       return (
-        product.type === selectedProduct && product.brand === selectedBrand
+        product.type === selectedProduct &&
+        product.brand === selectedBrand &&
+        product.model === selectedModel
+      );
+    } else if (selectedProduct && selectedBrand) {
+      return (
+        (product.type === selectedProduct ||
+          product.brand === selectedProduct) &&
+        (product.type === selectedBrand || product.brand === selectedBrand)
+      );
+    } else if (selectedProduct && selectedModel) {
+      return (
+        (product.type === selectedProduct ||
+          product.brand === selectedProduct) &&
+        product.model === selectedModel
+      );
+    } else if (selectedBrand && selectedModel) {
+      return (
+        (product.type === selectedBrand || product.brand === selectedBrand) &&
+        product.model === selectedModel
       );
     } else if (selectedProduct) {
       return (
-        product.type === selectedProduct || product.brand === selectedProduct
+        product.type === selectedProduct ||
+        product.brand === selectedProduct ||
+        product.model === selectedProduct
       );
     } else if (selectedBrand) {
-      return product.type === selectedBrand || product.brand === selectedBrand;
+      return (
+        product.type === selectedBrand ||
+        product.brand === selectedBrand ||
+        product.model === selectedBrand
+      );
+    } else if (selectedModel) {
+      return (
+        product.type === selectedModel ||
+        product.brand === selectedModel ||
+        product.model === selectedModel
+      );
     } else {
       return true;
     }
@@ -94,7 +129,7 @@ const Products = () => {
         <Select
           placeholder='Brand'
           value={selectedProduct}
-          onChange={(e) => setSelectedProduct(e.target.value)}
+          onChange={(e) => setSelectedBrand(e.target.value)}
         >
           {/* Dynamically generated options */}
           {avaliableBrands.map((brand) => (
@@ -103,7 +138,18 @@ const Products = () => {
             </option>
           ))}
         </Select>
-
+        <Select
+          placeholder='Model'
+          value={selectedProduct}
+          onChange={(e) => setSelectedProduct(e.target.value)}
+        >
+          {/* Dynamically generated options */}
+          {avaliableModels.map((model) => (
+            <option key={model} value={model}>
+              {model}
+            </option>
+          ))}
+        </Select>
         {/* Sort */}
         <Text>Sort by</Text>
         <Select placeholder='Sort by'>
