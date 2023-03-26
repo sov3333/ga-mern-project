@@ -16,6 +16,71 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Route to get all reviews for a specific brand
+router.get('/:brand/reviews', async (req, res) => {
+  const brand = req.params.brand;
+  const products = await Product.find({ brand: brand });
+
+  if (products.length === 0) {
+    // No products found for this brand
+    res.send('No reviews found for this brand.');
+  } else {
+    let reviews = [];
+    for (let i = 0; i < products.length; i++) {
+      // Retrieve all reviews for this product
+      reviews = reviews.concat(products[i].reviews);
+    }
+
+    if (reviews.length === 0) {
+      // No reviews found for this brand
+      res.send('No reviews found for this brand.');
+    } else {
+      // Reviews found, show "Update Review" button for each review
+      let response = '';
+      for (let i = 0; i < reviews.length; i++) {
+        response += `Review found. <button>Update Review (ID: ${reviews[i]._id})</button><br>`;
+      }
+      res.send(response);
+    }
+  }
+});
+
+// Route to add or update a review for a specific product by model
+router.post('/:brand/reviews', async (req, res) => {
+  const brand = req.params.brand;
+  const reviewText = req.body.reviewText;
+
+  try {
+    // Find product with matching model
+    const product = await Product.findOne({ brand });
+
+    if (!product) {
+      // No product found with matching model
+      res.send('No product found with matching brand.');
+    } else {
+      // Check if a review exists for this product
+      const existingReview = product.reviews.find(
+        (review) => review.user === req.user
+      );
+
+      if (existingReview) {
+        // Update existing review
+        existingReview.review = reviewText;
+        await product.save();
+        res.send('Review updated.');
+      } else {
+        // Create new review
+        product.reviews.push({ user: req.user, review: reviewText });
+        await product.save();
+        res.send('Review added.');
+      }
+    }
+  } catch (e) {
+    // Error occurred, send error message
+    res.send(`Error: ${error.message}`);
+  }
+});
+
 //Get on the ratings and reviews
 // http://localhost:8080/api/product/Keyboard (search by type)
 
