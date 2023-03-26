@@ -27,7 +27,7 @@ import AuthContext from './context/AuthContext';
 
 const App = () => {
   const [logInOut, setLogInOut] = useState(false);
-  const [isAuthenticated, setAuthenticated] = useState(false);
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
     const loginStatus = window.localStorage.getItem('secretKey');
@@ -41,7 +41,7 @@ const App = () => {
   }, [logInOut]);
 
   return (
-    <AuthContext.Provider value={{}}>
+    <AuthContext.Provider value={{ role, setRole }}>
       <UserContext.Provider value={{ logInOut, setLogInOut }}>
         <BrowserRouter>
           <div className='bg-primary-black overflow-hidden'>
