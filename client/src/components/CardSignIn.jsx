@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 
 import ModalWithForm from './ModalWithForm';
 import { UserContext } from '../context/UserContext';
+import AuthContext from '../context/AuthContext';
 
 // "Simple Login Card" from https://chakra-templates.dev/forms/authentication
 
@@ -28,6 +29,7 @@ export default function CardSignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { logInOut, setLogInOut } = useContext(UserContext);
+  const { isAuthenticated, setAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const signInUser = async (e) => {
@@ -49,6 +51,7 @@ export default function CardSignIn() {
     const data = await response.json();
     const user = Promise.resolve(data);
     user.then((user) => {
+      // setAuthenticated(true);
       setLogInOut(true);
       console.log(user);
     });
