@@ -6,37 +6,39 @@ const ROLE = {
 const users = [
   {
     firstName: 'Lindsey',
-    firstName: 'James',
+    lastName: 'James',
     email: 'lindseyJ@gmail.com',
     password: 'abcd',
     tags: ['Programming', 'Photography'],
     role: ROLE.ADMIN,
   },
   {
-    first_name: 'Alice',
+    firstName: 'Alice',
+    lastName: 'Drew',
     email: 'alice123@gmail.com',
     password: 'abcddefgh',
     tags: ['Gaming', 'Photography', 'Art', 'Food'],
     role: ROLE.USER,
   },
   {
-    first_name: 'Bob',
-    last_name: 'Joe',
+    firstName: 'Bob',
+    lastName: 'Joe',
     email: 'bobby89@gmail.com',
     password: 'qwerty',
     tags: ['Coding', 'Game', 'Music'],
     role: ROLE.USER,
   },
   {
-    first_name: 'Charlie',
-    last_name: 'Junior',
+    firstName: 'Charlie',
+    lastName: 'Junior',
     email: 'kingcharles@gmail.com',
     password: 'hello',
     tags: ['Game', 'Dance', 'Youtuber', 'Skate', 'Travel'],
     role: ROLE.USER,
   },
   {
-    first_name: 'Frodo',
+    firstName: 'Frodo',
+    lastName: 'Mordor',
     email: 'frofro@yahoo.com',
     password: 'lotr',
     tags: ['Programming', 'Cycling'],
@@ -44,4 +46,4 @@ const users = [
   },
 ];
 
-module.exports = users;
+export default users;
