@@ -20,6 +20,7 @@ export default function SocialProfileSimple() {
   const [lastName, setLastName] = useState(null);
   const [profileDesc, setProfileDesc] = useState(null);
   const [tags, setTags] = useState(null);
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
     fetch(`http://localhost:8080/api/user/id`, {
@@ -46,6 +47,7 @@ export default function SocialProfileSimple() {
         console.log(data);
         setFirstName(data.firstName);
         setLastName(data.lastName);
+        setRole(data.role);
       })
       .catch((e) => {
         console.error(e);
@@ -87,7 +89,7 @@ export default function SocialProfileSimple() {
           {firstName} {lastName}
         </Heading>
         <Text fontWeight={600} color={'gray.500'} mb={4}>
-          @lindsey_jam3s
+          {role}
         </Text>
         <Text
           textAlign={'center'}

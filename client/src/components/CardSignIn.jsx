@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import {
   Flex,
   Box,
@@ -29,7 +29,7 @@ export default function CardSignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { logInOut, setLogInOut } = useContext(UserContext);
-  const { isAuthenticated, setAuthenticated } = useContext(AuthContext);
+  const { role, setRole } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const signInUser = async (e) => {
@@ -56,8 +56,8 @@ export default function CardSignIn() {
       if (user.message !== 'Login Successful') {
         navigate('/signin');
       }
+      setRole(user.role);
       setLogInOut(true);
-      console.log(user);
     });
     window.scrollTo(0, 0);
     navigate('/');
