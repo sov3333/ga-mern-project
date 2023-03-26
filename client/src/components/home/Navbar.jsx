@@ -19,7 +19,7 @@ const Navbar = () => {
     })
       .then((response) => {
         setLogInOut(!logInOut);
-        console.log(response);
+        console.log(response.status, response.statusText);
         window.scrollTo(0, 0);
         navigate('/');
       })
