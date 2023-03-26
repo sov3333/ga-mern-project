@@ -4,32 +4,8 @@ import { CardProduct } from '../components';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   const response = await fetch(
-  //     `http://localhost:8080/api/product/${products.Type}/reviews`,
-  //     {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         user: username,
-  //         review: review,
-  //       }),
-  //     }
-  //   );
-
-  //   const data = await response.json();
-  //   console.log(data);
-  //   // update state with the new product data returned from the server
-  //   setProducts(data);
-  //   // clear the form inputs
-  //   setUsername('');
-  //   setReview('');
-  // };
+  const [selectedProduct, setSelectedProduct] = useState('');
+  const [selectedBrand, setSelectedBrand] = useState('');
 
   useEffect(() => {
     fetch('http://localhost:8080/api/product')
@@ -68,6 +44,20 @@ const Products = () => {
     }
     return acc;
   }, []);
+  // Filtered products based on selected product type and brand
+  const filteredProducts =
+    selectedProduct && selectedBrand
+      ? groupedProducts.filter(
+          (products) =>
+            products.type === selectedProduct &&
+            products.brand === selectedBrand
+        )
+      : selectedProduct
+      ? groupedProducts.filter((products) => products.type === selectedProduct)
+      : selectedBrand
+      ? groupedProducts.filter((products) => products.brand === selectedBrand)
+      : groupedProducts;
+
   return (
     <div>
       <h1>Lorem ipsum dolor sit amet consectetur.</h1>
@@ -80,25 +70,33 @@ const Products = () => {
       <Flex direction='row' justify='space-between' align='center' px='5%'>
         {/* Filter */}
         <Text>Filter by</Text>
-        <Select placeholder='Products'>
-          <option value='option1'>Desk</option>
-          <option value='option2'>Monitor</option>
-          <option value='option3'>Chair</option>
-          <option value='option4'>Keyboard</option>
-          <option value='option5'>Mouse</option>
-          <option value='option6'>Mousepad</option>
-          <option value='option7'>Speaker</option>
-          <option value='option8'>Headphone</option>
-          <option value='option9'>PC</option>
-          <option value='option10'>Laptop</option>
-          <option value='option11'>Light</option>
-          <option value='option12'>Riser</option>
-          <option value='option13'>Accessories</option>
+        <Select
+          placeholder='Products'
+          value={selectedProduct}
+          onChange={(e) => setSelectedProduct(e.target.value)}
+        >
+          <option value='Desk'>Desk</option>
+          <option value='Monitor'>Monitor</option>
+          <option value='Chair'>Chair</option>
+          <option value='Keyboard'>Keyboard</option>
+          <option value='Mouse'>Mouse</option>
+          <option value='Mousepad'>Mousepad</option>
+          <option value='Speaker'>Speaker</option>
+          <option value='Headphone'>Headphone</option>
+          <option value='PC'>PC</option>
+          <option value='Laptop'>Laptop</option>
+          <option value='Light'>Light</option>
+          <option value='Riser'>Riser</option>
+          <option value='Accessories'>Accessories</option>
         </Select>
-        <Select placeholder='Brands'>
-          <option value='option1'>Option 1</option>
-          <option value='option2'>Option 2</option>
-          <option value='option3'>Option 3</option>
+        <Select
+          placeholder='Brands'
+          value={selectedBrand}
+          onChange={(e) => setSelectedBrand(e.target.value)}
+        >
+          <option value='Ominidesk'>Ominidesk</option>
+          <option value='Xiaomi'>Xiaomi</option>
+          <option value='Razer'>Razer</option>
         </Select>
 
         {/* Sort */}
@@ -120,18 +118,7 @@ const Products = () => {
           flexWrap: 'wrap',
         }}
       >
-        {/* {productsData.map((item) => (
-          <div key={item.productId}>
-            <CardProduct
-              img={item.img}
-              type={item.type}
-              brand={item.brand}
-              model={item.model}
-              slug={`/products/${item.productId}`}
-            />
-          </div>
-        ))} */}
-        {groupedProducts.map((group) => (
+        {filteredProducts.map((group) => (
           <div key={group.type}>
             <CardProduct
               img={group.img}
@@ -147,42 +134,6 @@ const Products = () => {
         ))}
         This code should group the products correctly and render the CardProduct
         components with the grouped user data.
-      </div>
-      <div>
-        {products.map((product) => (
-          <div key={product._id}>
-            {/* <button onClick={() => setShowReviews(!showReviews)}>
-              {showReviews ? 'Hide Reviews' : 'Show Reviews'}
-            </button>
-            {showReviews && (
-              <ul>
-                {product.reviews.map((review) => (
-                  <li key={review._id}>
-                    {review.user}: {review.review}
-                  </li>
-                ))}
-              </ul>
-            )}
-            <form onSubmit={handleSubmit}>
-              <label htmlFor='username'>Username:</label>
-              <input
-                type='text'
-                id='username'
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <br />
-              <label htmlFor='review'>Review:</label>
-              <textarea
-                id='review'
-                value={review}
-                onChange={(e) => setReview(e.target.value)}
-              ></textarea>
-              <br />
-              <button type='submit'>Add Review</button>
-            </form> */}
-          </div>
-        ))}
       </div>
     </div>
   );

@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 // import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 import { MdLocalShipping } from 'react-icons/md';
-
+import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 // "Simple" from https://chakra-templates.dev/page-sections/productDetails
 import React, { useState } from 'react';
 //import { useState }
@@ -36,7 +36,26 @@ export default function DetailsProduct({
 
   const [showReviews, setShowReviews] = useState(false);
 
-  console.log(reviews);
+  const [selectedRating, setSelectedRating] = useState('');
+  const [comment, setComment] = useState('');
+
+  const updateReview = () => {
+    const user = 'Alice'; // replace with actual user
+    const reviewIndex = reviews.findIndex((review) => review.user === user);
+    if (reviewIndex !== -1) {
+      const updatedReviews = [...reviews];
+      updatedReviews[reviewIndex] = {
+        ...updatedReviews[reviewIndex],
+        rating: selectedRating,
+        reviews: comment,
+      };
+      // call a function to update the reviews in the database or state
+      console.log('Review updated:', updatedReviews[reviewIndex]);
+    } else {
+      console.log(`No review found for ${user}`);
+    }
+  };
+
   return (
     <Container maxW={'7xl'}>
       <SimpleGrid
@@ -68,38 +87,83 @@ export default function DetailsProduct({
               {brand}
             </Text>
             <Text color={textColor} fontWeight={300} fontSize={'2xl'}>
-              <div key={reviews.length}>
+              <p key={reviews.length}>
                 {reviews.length} review{reviews.length > 1 && 's'}
-              </div>
+              </p>
+              <Flex>
+                {Array(5)
+                  .fill('')
+                  .map((_, i) => {
+                    const roundedRating =
+                      Math.round(
+                        (ratings
+                          .map((rating) => rating.rating)
+                          .reduce((a, b) => a + b, 0) /
+                          ratings.length) *
+                          2
+                      ) / 2;
+                    if (roundedRating - i >= 1) {
+                      return (
+                        <BsStarFill
+                          key={i}
+                          style={{ marginLeft: '1' }}
+                          color={i < roundedRating ? 'teal.500' : 'gray.300'}
+                        />
+                      );
+                    }
+
+                    if (roundedRating - i === 0.5) {
+                      return <BsStarHalf key={i} style={{ marginLeft: '1' }} />;
+                    }
+                    return <BsStar key={i} style={{ marginLeft: '1' }} />;
+                  })}
+              </Flex>
               <Button onClick={() => setShowReviews(!showReviews)}>
                 {showReviews ? 'Hide reviews' : 'Show reviews'}
               </Button>
               {showReviews && (
                 <Text color={textColor} fontWeight={300} fontSize={'2xl'}>
-                  {reviews.map((review) => (
-                    <div key={review._id}>
-                      <b>{review.user}:</b> {review.review}
-                    </div>
-                  ))}
+                  {reviews
+                    .filter(
+                      (review) =>
+                        review.user === review.user &&
+                        review.model === review.model
+                    )
+                    .map((review) => (
+                      <p key={review._id}>
+                        <b>{review.user}:</b> {review.review}
+                      </p>
+                    ))}
                 </Text>
               )}
-              <Button>Add Review</Button>
-              <Button>Update Review</Button>
-              {/* <div>
-                <label htmlFor='rating'>Rating</label>
-                <select id='rating'>
-                  <option value=''>Select</option>
-                  <option value='1'>1- Poor</option>
-                  <option value='2'>2- Fair</option>
-                  <option value='3'>3- Good</option>
-                  <option value='4'>4- Very good</option>
-                  <option value='5'>5- Excelent</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor='comment'>Comment</label>
-                <textarea id='comment'></textarea>
-              </div> */}
+
+              {/* update review form */}
+              <Box my='4'>
+                <p>
+                  <label htmlFor='rating'>Rating</label>
+                  <select
+                    id='rating'
+                    value={selectedRating}
+                    onChange={(e) => setSelectedRating(e.target.value)}
+                  >
+                    <option value=''>Select</option>
+                    <option value='1'>1- Poor</option>
+                    <option value='2'>2- Fair</option>
+                    <option value='3'>3- Good</option>
+                    <option value='4'>4- Very good</option>
+                    <option value='5'>5- Excelent</option>
+                  </select>
+                </p>
+                <p>
+                  <label htmlFor='comment'>Comment</label>
+                  <textarea
+                    id='comment'
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                  ></textarea>
+                </p>
+                <Button onClick={updateReview}>Update Review</Button>
+              </Box>
             </Text>
           </Box>
 

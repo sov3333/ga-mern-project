@@ -16,68 +16,74 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Route to get all reviews for a specific brand
-router.get('/:brand/reviews', async (req, res) => {
-  const brand = req.params.brand;
-  const products = await Product.find({ brand: brand });
+// Route to get all reviews by a specific user
+//localhost:8080/api/product/reviews/Alice
+router.get('/:user/reviews', async (req, res) => {
+  const user = req.params.user;
+  const products = await Product.find({});
 
-  if (products.length === 0) {
-    // No products found for this brand
-    res.send('No reviews found for this brand.');
+  let reviews = [];
+  for (let i = 0; i < products.length; i++) {
+    // Retrieve all reviews for this product from the specified user
+    const productReviews = products[i].reviews.filter(
+      (review) => review.user === user
+    );
+    reviews = reviews.concat(productReviews);
+  }
+
+  if (reviews.length === 0) {
+    // No reviews found for this user
+    res.json({ message: 'No reviews found for this user.' });
   } else {
-    let reviews = [];
-    for (let i = 0; i < products.length; i++) {
-      // Retrieve all reviews for this product
-      reviews = reviews.concat(products[i].reviews);
-    }
+    // Reviews found
+    res.json(reviews);
+  }
+});
 
-    if (reviews.length === 0) {
-      // No reviews found for this brand
-      res.send('No reviews found for this brand.');
-    } else {
-      // Reviews found, show "Update Review" button for each review
-      let response = '';
-      for (let i = 0; i < reviews.length; i++) {
-        response += `Review found. <button>Update Review (ID: ${reviews[i]._id})</button><br>`;
-      }
-      res.send(response);
-    }
+router.get('/:user/reviews/:model', async (req, res) => {
+  const user = req.params.user;
+  const model = req.params.model;
+
+  // Find the product with the given model and the user's reviews for that product
+  const product = await Product.findOne(
+    { model: model, reviews: { $elemMatch: { user: user } } },
+    { reviews: { $elemMatch: { user: user } } }
+  );
+
+  if (!product) {
+    // No product found
+    res.status(404).json({ message: 'Product not found.' });
+  } else {
+    // Review found
+    const review = product.reviews[0];
+    res.json(review);
   }
 });
 
 // Route to add or update a review for a specific product by model
-router.post('/:brand/reviews', async (req, res) => {
-  const brand = req.params.brand;
-  const reviewText = req.body.reviewText;
+router.post('/:user/reviews/:model', async (req, res) => {
+  const user = req.params.user;
+  const model = req.params.model;
+  const { rating, review } = req.body;
 
   try {
-    // Find product with matching model
-    const product = await Product.findOne({ brand });
+    const product = await Product.findOneAndUpdate(
+      { model: model, reviews: { $elemMatch: { user: user } } },
+      { $set: { 'reviews.$.rating': rating, 'reviews.$.review': review } },
+      { new: true }
+    );
 
     if (!product) {
-      // No product found with matching model
-      res.send('No product found with matching brand.');
+      // No product found
+      res.status(404).json({ message: 'Product not found.' });
     } else {
-      // Check if a review exists for this product
-      const existingReview = product.reviews.find(
-        (review) => review.user === req.user
-      );
-
-      if (existingReview) {
-        // Update existing review
-        existingReview.review = reviewText;
-        await product.save();
-        res.send('Review updated.');
-      } else {
-        // Create new review
-        product.reviews.push({ user: req.user, review: reviewText });
-        await product.save();
-        res.send('Review added.');
-      }
+      // Review updated
+      const updatedReview = product.reviews.find((rev) => rev.user === user);
+      res.json(updatedReview);
     }
   } catch (e) {
-    // Error occurred, send error message
-    res.send(`Error: ${error.message}`);
+    console.error(e);
+    res.status(500).json({ message: 'Internal server error.' });
   }
 });
 
@@ -165,6 +171,24 @@ router.post('/seed', async (req, res) => {
         type: 'Mouse',
         brand: 'Razer',
         model: 'Deathadder V2',
+        ratings: [{ user: 'Daniel', rating: 1 }],
+        reviews: [{ user: 'Daniel', review: 'Not good!' }],
+      },
+      {
+        user: 'Bob',
+        img: 'https://lh3.googleusercontent.com/T0U0k8tsnwhXkA0gyb7to3loVVTlXXjFCe2RbpeBcu2FE9FSXzS4_-Phe9YrgAB-Co6_FIZtuf1FKdtURbtssiE4RzGiR8rTutiFW1oY',
+        type: 'Monitor',
+        brand: 'Xiaomi',
+        model: 'Curved Gaming Monitor 34',
+        ratings: [{ user: 'Bob', rating: 4 }],
+        reviews: { user: 'Bob', review: 'This is a great Monitor!' },
+      },
+      {
+        user: 'Daniel',
+        img: 'https://lh3.googleusercontent.com/T0U0k8tsnwhXkA0gyb7to3loVVTlXXjFCe2RbpeBcu2FE9FSXzS4_-Phe9YrgAB-Co6_FIZtuf1FKdtURbtssiE4RzGiR8rTutiFW1oY',
+        type: 'Monitor',
+        brand: 'Xiaomi',
+        model: 'Curved Gaming Monitor 34',
         ratings: [{ user: 'Daniel', rating: 1 }],
         reviews: [{ user: 'Daniel', review: 'Not good!' }],
       },
