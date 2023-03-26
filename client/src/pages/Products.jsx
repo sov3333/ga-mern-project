@@ -21,6 +21,12 @@ const Products = () => {
       );
   }, []);
 
+  // Get available product types from the fetched data
+  const availableTypes = [...new Set(products.map((product) => product.type))];
+  const avaliableBrands = [
+    ...new Set(products.map((product) => product.brand)),
+  ];
+
   const groupedProducts = products.reduce((acc, item) => {
     const { type, brand, model, img, ratings, reviews } = item;
     const existingProduct = acc.find(
@@ -45,18 +51,21 @@ const Products = () => {
     return acc;
   }, []);
   // Filtered products based on selected product type and brand
-  const filteredProducts =
-    selectedProduct && selectedBrand
-      ? groupedProducts.filter(
-          (products) =>
-            products.type === selectedProduct &&
-            products.brand === selectedBrand
-        )
-      : selectedProduct
-      ? groupedProducts.filter((products) => products.type === selectedProduct)
-      : selectedBrand
-      ? groupedProducts.filter((products) => products.brand === selectedBrand)
-      : groupedProducts;
+  const filteredProducts = groupedProducts.filter((product) => {
+    if (selectedProduct && selectedBrand) {
+      return (
+        product.type === selectedProduct && product.brand === selectedBrand
+      );
+    } else if (selectedProduct) {
+      return (
+        product.type === selectedProduct || product.brand === selectedProduct
+      );
+    } else if (selectedBrand) {
+      return product.type === selectedBrand || product.brand === selectedBrand;
+    } else {
+      return true;
+    }
+  });
 
   return (
     <div>
@@ -75,28 +84,24 @@ const Products = () => {
           value={selectedProduct}
           onChange={(e) => setSelectedProduct(e.target.value)}
         >
-          <option value='Desk'>Desk</option>
-          <option value='Monitor'>Monitor</option>
-          <option value='Chair'>Chair</option>
-          <option value='Keyboard'>Keyboard</option>
-          <option value='Mouse'>Mouse</option>
-          <option value='Mousepad'>Mousepad</option>
-          <option value='Speaker'>Speaker</option>
-          <option value='Headphone'>Headphone</option>
-          <option value='PC'>PC</option>
-          <option value='Laptop'>Laptop</option>
-          <option value='Light'>Light</option>
-          <option value='Riser'>Riser</option>
-          <option value='Accessories'>Accessories</option>
+          {/* Dynamically generated options */}
+          {availableTypes.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
         </Select>
         <Select
-          placeholder='Brands'
-          value={selectedBrand}
-          onChange={(e) => setSelectedBrand(e.target.value)}
+          placeholder='Brand'
+          value={selectedProduct}
+          onChange={(e) => setSelectedProduct(e.target.value)}
         >
-          <option value='Ominidesk'>Ominidesk</option>
-          <option value='Xiaomi'>Xiaomi</option>
-          <option value='Razer'>Razer</option>
+          {/* Dynamically generated options */}
+          {avaliableBrands.map((brand) => (
+            <option key={brand} value={brand}>
+              {brand}
+            </option>
+          ))}
         </Select>
 
         {/* Sort */}
