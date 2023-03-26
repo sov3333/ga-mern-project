@@ -52,6 +52,10 @@ export default function CardSignIn() {
     const user = Promise.resolve(data);
     user.then((user) => {
       // setAuthenticated(true);
+
+      if (user.message !== 'Login Successful') {
+        navigate('/signin');
+      }
       setLogInOut(true);
       console.log(user);
     });
