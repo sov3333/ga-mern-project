@@ -1,6 +1,7 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
+import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import cookieParser from 'cookie-parser';
 
@@ -21,7 +22,10 @@ app.use(
     origin: true,
   })
 );
-app.use(express.json());
+
+// Increase the limit of the request body size to 50mb
+app.use(bodyParser.json({ limit: '2mb' }))
+app.use(bodyParser.urlencoded({ limit: '2mb', extended: true }))
 app.use(cookieParser());
 app.use(methodOverride('_method'));
 
