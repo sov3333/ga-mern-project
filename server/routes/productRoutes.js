@@ -132,6 +132,28 @@ router.post('/:type/reviews', async (req, res) => {
   }
 });
 
+router.post('/', async (req, res) => {
+  try {
+    const { user, img, type, brand, model, ratings, reviews } = req.body;
+
+    const newProduct = new Product({
+      user,
+      img,
+      type,
+      brand,
+      model,
+      ratings,
+      reviews,
+    });
+
+    const savedProduct = await newProduct.save();
+    res.status(201).json({ newProduct: savedProduct });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 //Post
 // curl -X POST localhost:8080/api/product/seed
 
