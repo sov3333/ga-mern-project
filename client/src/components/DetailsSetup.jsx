@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import {
   Box,
   Container,
@@ -18,6 +19,7 @@ import {
 // import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 // import { MdLocalShipping } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 // "Simple" from https://chakra-templates.dev/page-sections/productDetails
 
@@ -29,6 +31,8 @@ export default function DetailsSetup({
   products,
 }) {
   const navigate = useNavigate();
+  const { role, setRole } = useContext(AuthContext);
+  console.log(role);
 
   const currentID = location.pathname.slice(7);
   //console.log('id', currentID);
@@ -203,20 +207,26 @@ export default function DetailsSetup({
           >
             Swipe
           </Button>
-          <Button
-            onClick={handleDelete}
-            fontFamily={'heading'}
-            mt={8}
-            w={'full'}
-            bgGradient='linear(to-r, red.400,pink.400)'
-            color={'white'}
-            _hover={{
-              bgGradient: 'linear(to-r, red.400,pink.400)',
-              boxShadow: 'xl',
-            }}
-          >
-            Delete Setup
-          </Button>
+          {role === 'admin' ? (
+            <>
+              <Button
+                onClick={handleDelete}
+                fontFamily={'heading'}
+                mt={8}
+                w={'full'}
+                bgGradient='linear(to-r, red.400,pink.400)'
+                color={'white'}
+                _hover={{
+                  bgGradient: 'linear(to-r, red.400,pink.400)',
+                  boxShadow: 'xl',
+                }}
+              >
+                Delete Setup
+              </Button>
+            </>
+          ) : (
+            <></>
+          )}
 
           {/* <Stack direction="row" alignItems="center" justifyContent={'center'}>
             <MdLocalShipping />

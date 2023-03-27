@@ -26,6 +26,7 @@ import {
 
 import { logo } from '../assets';
 import { UserContext } from '../context/UserContext';
+import { AuthContext } from '../context/AuthContext';
 
 // "With Sub-Navigation & CTA" from https://chakra-templates.dev/navigation/navbar
 
@@ -37,7 +38,8 @@ import { UserContext } from '../context/UserContext';
 export default function Nav() {
   const { isOpen, onToggle } = useDisclosure();
   const { logInOut, setLogInOut } = useContext(UserContext);
-  console.log(logInOut);
+  const { role, setRole } = useContext(AuthContext);
+  console.log(logInOut, role);
 
   return (
     <Box>
@@ -106,6 +108,7 @@ export default function Nav() {
                 href={'/signin'}
                 onClick={() => {
                   setLogInOut(false);
+                  setRole(null);
                 }}
               >
                 Sign Out
