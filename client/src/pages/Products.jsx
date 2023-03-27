@@ -128,7 +128,7 @@ const Products = () => {
         </Select>
         <Select
           placeholder='Brand'
-          value={selectedProduct}
+          value={selectedBrand}
           onChange={(e) => setSelectedBrand(e.target.value)}
         >
           {/* Dynamically generated options */}
@@ -140,8 +140,8 @@ const Products = () => {
         </Select>
         <Select
           placeholder='Model'
-          value={selectedProduct}
-          onChange={(e) => setSelectedProduct(e.target.value)}
+          value={selectedModel}
+          onChange={(e) => setSelectedModel(e.target.value)}
         >
           {/* Dynamically generated options */}
           {avaliableModels.map((model) => (
