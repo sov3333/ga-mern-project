@@ -1,8 +1,19 @@
 import express from 'express';
+import * as dotenv from 'dotenv';
+import { v2 as cloudinary } from 'cloudinary';
+
 import setup from '../mongodb/models/setup.js';
 import requireAuth from '../auth/authMiddleware.js';
 
+dotenv.config();
 const router = express.Router();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 
 router.get('/', async (req, res) => {
   try {
@@ -14,9 +25,19 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  console.log(req.body);
+  console.log(`hello from the /api/setup post route!`)
+  // console.log(req.body);
   try {
-    const createdSetup = await setup.create(req.body);
+    const { img } = req.body;
+    const photoUrl = await cloudinary.uploader.upload(img);
+    const newPost = {
+      ...req.body,
+      img: photoUrl.url,
+    };
+  
+    console.log(newPost);
+
+    const createdSetup = await setup.create(newPost);
     res.status(200).send(createdSetup);
   } catch (err) {
     res.status(400).json({ error: err.message });
