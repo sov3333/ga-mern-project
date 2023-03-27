@@ -107,8 +107,7 @@ export default function Nav() {
                 variant={'link'}
                 href={'/signin'}
                 onClick={() => {
-                  setLogInOut(false);
-                  setRole(null);
+                  localStorage.clear();
                 }}
               >
                 Sign Out

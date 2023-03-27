@@ -4,12 +4,14 @@ import { Avatar, Button, IconButton, Link } from '@chakra-ui/react';
 import { AddIcon, ViewIcon } from '@chakra-ui/icons';
 import { UserContext } from '../../context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
 import styles from '../../styles';
 import NavMenu from './NavMenu';
 
 const Navbar = () => {
   const { logInOut, setLogInOut } = useContext(UserContext);
+  const { role, setRole } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSignOut = () => {
@@ -19,6 +21,8 @@ const Navbar = () => {
     })
       .then((response) => {
         setLogInOut(!logInOut);
+        setRole(null);
+        localStorage.clear();
         console.log(response.status, response.statusText);
         window.scrollTo(0, 0);
         navigate('/');
