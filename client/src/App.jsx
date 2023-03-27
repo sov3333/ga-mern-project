@@ -23,7 +23,7 @@ import { Navbar, Footer } from './components/home';
 
 import './App.css';
 import { UserContext } from './context/UserContext';
-import AuthContext from './context/AuthContext';
+import { AuthContext } from './context/AuthContext';
 
 const App = () => {
   const [logInOut, setLogInOut] = useState(false);
@@ -33,6 +33,13 @@ const App = () => {
     const loginStatus = window.localStorage.getItem('secretKey');
     if (loginStatus !== null) {
       setLogInOut(JSON.parse(loginStatus));
+    }
+  }, []);
+
+  useEffect(() => {
+    const role = window.localStorage.getItem('role');
+    if (role !== null) {
+      setRole(JSON.parse(role));
     }
   }, []);
 

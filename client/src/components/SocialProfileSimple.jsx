@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
   Heading,
   Avatar,
@@ -11,6 +11,7 @@ import {
   Badge,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { AuthContext } from '../context/AuthContext';
 
 // "Social User Profile Simple" from https://chakra-templates.dev/components/cards
 
@@ -20,7 +21,7 @@ export default function SocialProfileSimple() {
   const [lastName, setLastName] = useState(null);
   const [profileDesc, setProfileDesc] = useState(null);
   const [tags, setTags] = useState(null);
-  const [role, setRole] = useState(null);
+  const { role, setRole } = useContext(AuthContext);
 
   useEffect(() => {
     fetch(`http://localhost:8080/api/user/id`, {

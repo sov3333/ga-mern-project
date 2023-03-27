@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 
 import ModalWithForm from './ModalWithForm';
 import { UserContext } from '../context/UserContext';
-import AuthContext from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContext';
 
 // "Simple Login Card" from https://chakra-templates.dev/forms/authentication
 
@@ -56,6 +56,7 @@ export default function CardSignIn() {
       if (user.message !== 'Login Successful') {
         navigate('/signin');
       }
+      window.localStorage.setItem('role', JSON.stringify(user.role));
       setRole(user.role);
       setLogInOut(true);
     });
