@@ -23,9 +23,8 @@ app.use(
   })
 );
 
-// Increase the limit of the request body size to 50mb
-app.use(bodyParser.json({ limit: '2mb' }))
-app.use(bodyParser.urlencoded({ limit: '2mb', extended: true }))
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(cookieParser());
 app.use(methodOverride('_method'));
 
@@ -36,7 +35,7 @@ app.use('/api/product', productRoutes);
 
 const PORT = process.env.PORT || 8080;
 const MONGODB_URL =
-  process.env.MONGODB_URL || 'mongodb://localhost:27017/swipesetups'; // Edit by weiliang
+  process.env.MONGODB_URL || 'mongodb://localhost:27017/swipes';
 
 app.get('/', async (req, res) => {
   res.send('Server says hello!');
