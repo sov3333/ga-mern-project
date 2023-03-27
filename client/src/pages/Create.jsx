@@ -15,6 +15,7 @@ import {
   Link,
   FormControl,
   FormLabel,
+  Select,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import FileBase64 from 'react-file-base64';
@@ -88,9 +89,30 @@ export default function Create() {
       .then((res) => res.json())
       .then((data) => setNewSetup(data.newSetup))
       .catch((err) => console.error({ Error: err }));
+    //send data to products collection
+    fetch('http://localhost:8080/api/product', {
+      method: 'POST',
+      body: JSON.stringify({
+        user: newSetup.user,
+        img: newSetup.img, // need to change
+        type: newSetup.type,
+        brand: newSetup.brand,
+        model: newSetup.model,
+        ratings: newSetup.ratings,
+        reviews: newSetup.reviews,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => console.log('New product created:', data))
+      .catch((err) => console.error('Error creating new product:', err));
     if (
       newSetup.title === '' ||
-      newSetup.products === '' ||
+      newSetup.type === '' ||
+      newSetup.brand === '' ||
+      newSetup.model === '' ||
       newSetup.img === ''
     ) {
       alert('Please input required field');
@@ -98,7 +120,7 @@ export default function Create() {
       navigate('/setups');
       navigate(0);
     }
-    //console.log('setup', newSetup);
+    // console.log('setup', newSetup);
   };
 
   return (
@@ -257,19 +279,62 @@ export default function Create() {
               </FormControl>
               <FormControl isRequired>
                 <FormLabel>Products</FormLabel>
+                Type
                 <Input
-                  // value={newProducts}
+                  // value={newDescription}
                   // onChange={(e) => {
-                  //   setNewProducts(e.target.value.split(/\s*,\s*/));
+                  //   setNewDescription(e.target.value);
                   // }}
-                  //value={newSetup.products} -> putting this become undefined error
+                  //value={newSetup.description} -> putting this become undefined error
                   onChange={(e) => {
-                    setNewSetup({
-                      ...newSetup,
-                      products: e.target.value.split(/\s*,\s*/),
-                    });
+                    const capitalizedType =
+                      e.target.value.charAt(0).toUpperCase() +
+                      e.target.value.slice(1).toLowerCase();
+                    setNewSetup({ ...newSetup, type: capitalizedType });
                   }}
-                  placeholder='eg: desk, monitor, keyboard, mouse'
+                  placeholder='e.g. Desk'
+                  bg={'gray.100'}
+                  border={0}
+                  color={'gray.500'}
+                  _placeholder={{
+                    color: 'gray.500',
+                  }}
+                />
+                Brand
+                <Input
+                  // value={newDescription}
+                  // onChange={(e) => {
+                  //   setNewDescription(e.target.value);
+                  // }}
+                  //value={newSetup.description} -> putting this become undefined error
+                  onChange={(e) => {
+                    const capitalizedBrand =
+                      e.target.value.charAt(0).toUpperCase() +
+                      e.target.value.slice(1).toLowerCase();
+                    setNewSetup({ ...newSetup, brand: capitalizedBrand });
+                  }}
+                  placeholder='e.g. Omindesk'
+                  bg={'gray.100'}
+                  border={0}
+                  color={'gray.500'}
+                  _placeholder={{
+                    color: 'gray.500',
+                  }}
+                />
+                Model
+                <Input
+                  // value={newDescription}
+                  // onChange={(e) => {
+                  //   setNewDescription(e.target.value);
+                  // }}
+                  //value={newSetup.description} -> putting this become undefined error
+                  onChange={(e) => {
+                    const capitalizedModel =
+                      e.target.value.charAt(0).toUpperCase() +
+                      e.target.value.slice(1).toLowerCase();
+                    setNewSetup({ ...newSetup, model: capitalizedModel });
+                  }}
+                  placeholder='e.g. Ascent Wildwood+'
                   bg={'gray.100'}
                   border={0}
                   color={'gray.500'}
