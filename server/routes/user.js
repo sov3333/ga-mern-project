@@ -135,6 +135,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+//Update Route to update profile
 router.put('/:id', async (req, res) => {
   try {
     const updatedProfile = req.body;
@@ -149,6 +150,20 @@ router.put('/:id', async (req, res) => {
     res.status(200).json({ message: 'User profile updated successfully' });
   } catch (error) {
     res.status(400).json({ error: error.message });
+  }
+});
+
+//Update Route for swipe page 
+router.put('/swipe/:id', async (req, res) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true } // to return document after `update` was applied
+    );
+    res.status(200).send(updatedUser);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 });
 

@@ -12,7 +12,6 @@ import { ImageSwipe, ImageLike } from '../components'
 
 // TODO:
 // 1. check if user has liked/disliked currentSetup, if yes, skip to next setup
-// 2. connect with users collection, create liked array in users collection, add the setup id to liked arrayß
 
 const Swipe = () => {
   const [userId, setUserId] = useState(null);
@@ -98,7 +97,7 @@ const Swipe = () => {
     if (balanceSetups.length > 0) {      
 
       // update setup in db
-      fetch(`http://localhost:8080/api/setup/${currentSetup._id}`, {
+      fetch(`http://localhost:8080/api/setup/swipe/${currentSetup._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -118,9 +117,38 @@ const Swipe = () => {
       .then((res) => res.json())
       .then((updatedSetup) => {
 
-        console.log(updatedSetup.swipes[updatedSetup.swipes.length-1])
+        console.log(`updatedSetup`, updatedSetup.swipes[updatedSetup.swipes.length-1])
 
         console.log(`Update Setup id ${updatedSetup._id} (${updatedSetup.title}) | by UserId ${updatedSetup.swipes[updatedSetup.swipes.length-1].userId} (${userEmail}) | LIKED? ${updatedSetup.swipes[updatedSetup.swipes.length-1].liked} | timestamp: ${updatedSetup.swipes[updatedSetup.swipes.length-1].timestamp}`);
+
+        // then also update user in db
+        fetch(`http://localhost:8080/api/user/${userId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            // push new swipe object to the swipedSetups array of this user
+            $push: {
+              "swipedSetups": {
+                "setupId": updatedSetup._id,
+                "liked": bool,
+                $currentDate: { 
+                  "lastModified": true,
+                  $type: "timestamp",
+                },
+              },
+            },
+          })
+        })
+        .then((res) => res.json())
+        .then((updatedUser) => {
+
+          console.log(`updatedUser`. updatedUser)
+          console.log(`updatedUser swipedSetups`, updatedUser.swipedSetups[updatedUser.swipedSetups.length-1])
+
+          console.log(`Update User id ${updatedUser._id} (${updatedUser.email}) | Swiped ${updatedUser.swipedSetups[updatedUser.swipedSetups.length-1].setupId} | LIKED? ${updatedUser.swipedSetups[updatedUser.swipedSetups.length-1].liked} | timestamp: ${updatedUser.swipedSetups[updatedUser.swipedSetups.length-1].timestamp}`);
+
+        })
+        .catch((err) => console.error({ error: err }));
 
       })
       .catch((err) => console.error({ error: err }));
