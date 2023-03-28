@@ -3,15 +3,10 @@ import { Container } from '@chakra-ui/react'
 
 import { ImageSwipe, ImageLike } from '../components'
 
-// randomly pick 1 of the items from all setups
-// if user swiped before, skip to next
-// if user not swiped before, show it to let user make action: swipe/like or next/dislike
-// once swipe/like, update action/stat to db collections `users` to know which setups user rated and which ones liked, and `setups` to know the # of ratings and likes for each setup.
-// show next setup, and repeat until all photos shown
-// if all photos swiped before, show "no more new photos to show :( try again later"
-
-// TODO:
-// 1. check if user has liked/disliked currentSetup, if yes, skip to next setup
+// BUG / TODO:
+// - doesnt show first or last (not sure which) setup to like
+// - when loading render the array of items left to show to already filter out the setups that user already swiped
+// -
 
 const Swipe = () => {
   const [userId, setUserId] = useState(null);
@@ -68,12 +63,6 @@ const Swipe = () => {
         // create temp array to store all setups
         let tempSetupsArray = parsedData;
 
-        // look through the tempSwipesArray
-        // if userId === one of the tempSwipesArray[i].userId 
-        // means user already liked/disliked this item
-        // so remove this item from the array
-        // then re-roll the array
-        // console.log(`tempSetupsArray`, tempSetupsArray);
         console.log(`parsedData1111`, parsedData);
 
         console.log(`userId`, userId)
@@ -81,6 +70,13 @@ const Swipe = () => {
         // BUG / TODO:
         // trying to filter away setups that user already swiped.
         // doesn't work on page load. but after loading page, save the Swipe.jsx file in code editor, and should see frontend update with some setups removed from the balanceSetups.
+
+        // TODO:
+        //  if (user rated this setup before) {
+        //   remove the item and repeat to pick next random item;
+        // } else {
+        //   show this setup to user;
+        // }
       
         // loop through the parsedData (all setups)
         for (let i=0; i<parsedData.length; i++) {
@@ -120,12 +116,6 @@ const Swipe = () => {
         // store remainder array (less removedItem) to balanceSetups state
         setBalanceSetups(tempSetupsArray);
 
-        // TODO:
-        //  if (user rated this setup before) {
-        //   remove the item and repeat to pick next random item;
-        // } else {
-        //   show this setup to user;
-        // }
 
       },
       (err) => console.log(err)
@@ -141,7 +131,7 @@ const Swipe = () => {
     if (balanceSetups.length > 0) {
 
       // update setup in db
-      fetch(`http://localhost:8080/api/setup/swipe/${currentSetup._id}`, {
+      fetch(`http://localhost:8080/api/setup/${currentSetup._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
