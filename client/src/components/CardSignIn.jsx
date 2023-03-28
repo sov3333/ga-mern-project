@@ -51,14 +51,13 @@ export default function CardSignIn() {
     const data = await response.json();
     const user = Promise.resolve(data);
     user.then((user) => {
-      // setAuthenticated(true);
-
-      if (user.message !== 'Login Successful') {
+      if (user.message !== 'Login Successful' || user === undefined) {
         navigate('/signin');
+      } else {
+        window.localStorage.setItem('role', JSON.stringify(user.role));
+        setRole(user.role);
+        setLogInOut(true);
       }
-      window.localStorage.setItem('role', JSON.stringify(user.role));
-      setRole(user.role);
-      setLogInOut(true);
     });
     window.scrollTo(0, 0);
     navigate('/');

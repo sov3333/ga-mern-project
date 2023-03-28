@@ -36,12 +36,12 @@ const App = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   const role = window.localStorage.getItem('role');
-  //   if (role !== null) {
-  //     setRole(JSON.parse(role));
-  //   }
-  // }, []);
+  useEffect(() => {
+    const role = window.localStorage.getItem('role');
+    if (role !== null) {
+      setRole(JSON.parse(role));
+    }
+  }, []);
 
   useEffect(() => {
     window.localStorage.setItem('secretKey', JSON.stringify(logInOut));

@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { SmallCloseIcon } from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // "User Profile Edit" from https://chakra-templates.dev/forms/authentication
 
@@ -25,6 +26,7 @@ export default function ProfileEdit() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`http://localhost:8080/api/user/id`, {
@@ -52,7 +54,9 @@ export default function ProfileEdit() {
         setFirstName(data.firstName);
         setLastName(data.lastName);
         setEmail(data.email);
-        setUsername(data.username);
+        if (data.username) {
+          setUsername(data.username);
+        }
       })
       .catch((e) => {
         console.error(e);
@@ -87,6 +91,8 @@ export default function ProfileEdit() {
       .catch((e) => {
         console.error(e);
       });
+    navigate('/profile');
+    window.scrollTo(0, 0);
   };
 
   return (
