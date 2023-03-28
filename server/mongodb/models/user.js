@@ -8,6 +8,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   tags: [{ type: String }],
   role: { type: String, enum: ['user', 'admin'], default: 'admin' },
+  username: { type: String, trim: true },
 });
 
 // UserSchema.post('save', function (doc, ext) {
