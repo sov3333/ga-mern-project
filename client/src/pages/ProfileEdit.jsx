@@ -7,23 +7,95 @@ import {
   Input,
   Stack,
   useColorModeValue,
-//   HStack,
+  //   HStack,
   Avatar,
   AvatarBadge,
   IconButton,
   Center,
 } from '@chakra-ui/react';
 import { SmallCloseIcon } from '@chakra-ui/icons';
+import { useState, useEffect } from 'react';
 
 // "User Profile Edit" from https://chakra-templates.dev/forms/authentication
 
 export default function ProfileEdit() {
+  const [userId, setUserId] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/user/id`, {
+      method: `GET`,
+      credentials: `include`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUserId(data);
+        console.log(userId);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }, [userId]);
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/user/${userId}`, {
+      method: `GET`,
+      credentials: `include`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setFirstName(data.firstName);
+        setLastName(data.lastName);
+        setEmail(data.email);
+        setUsername(data.username);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }, [userId]);
+
+  const handleSubmit = (e) => {
+    const updatedProfile = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      username: username,
+    };
+
+    fetch(`http://localhost:8080/api/user/${userId}`, {
+      method: `PUT`,
+      credentials: `include`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedProfile),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+          throw new Error('Network response was not ok.');
+        }
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
   return (
     <Flex
       minH={'100vh'}
       align={'center'}
       justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}>
+      bg={useColorModeValue('gray.50', 'gray.800')}
+    >
       <Stack
         spacing={4}
         w={'full'}
@@ -32,72 +104,109 @@ export default function ProfileEdit() {
         rounded={'xl'}
         boxShadow={'lg'}
         p={6}
-        my={12}>
+        my={12}
+      >
         <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
           User Profile Edit
         </Heading>
-        <FormControl id="userName">
+        <FormControl id='userName'>
           <FormLabel>User Icon</FormLabel>
           <Stack direction={['column', 'row']} spacing={6}>
             <Center>
-              <Avatar size="xl" src="https://bit.ly/sage-adebayo">
+              <Avatar size='xl' src='https://bit.ly/sage-adebayo'>
                 <AvatarBadge
                   as={IconButton}
-                  size="sm"
-                  rounded="full"
-                  top="-10px"
-                  colorScheme="red"
-                  aria-label="remove Image"
+                  size='sm'
+                  rounded='full'
+                  top='-10px'
+                  colorScheme='red'
+                  aria-label='remove Image'
                   icon={<SmallCloseIcon />}
                 />
               </Avatar>
             </Center>
-            <Center w="full">
-              <Button w="full">Change Icon</Button>
+            <Center w='full'>
+              <Button w='full'>Change Icon</Button>
             </Center>
           </Stack>
         </FormControl>
-        <FormControl id="userName" isRequired>
-          <FormLabel>User name</FormLabel>
+        <FormControl id='userName' isRequired>
+          <FormLabel>First Name</FormLabel>
           <Input
-            placeholder="UserName"
+            value={firstName}
             _placeholder={{ color: 'gray.500' }}
-            type="text"
+            type='text'
+            onChange={(e) => {
+              setFirstName(e.target.value);
+            }}
           />
         </FormControl>
-        <FormControl id="email" isRequired>
+        <FormControl id='userName' isRequired>
+          <FormLabel>Last Name</FormLabel>
+          <Input
+            value={lastName}
+            _placeholder={{ color: 'gray.500' }}
+            type='text'
+            onChange={(e) => {
+              setLastName(e.target.value);
+            }}
+          />
+        </FormControl>
+        <FormControl id='userName' isRequired>
+          <FormLabel>Username</FormLabel>
+          <Input
+            value={username}
+            _placeholder={{ color: 'gray.500' }}
+            type='text'
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+          />
+        </FormControl>
+        <FormControl id='email' isRequired>
           <FormLabel>Email address</FormLabel>
           <Input
-            placeholder="your-email@example.com"
+            value={email}
             _placeholder={{ color: 'gray.500' }}
-            type="email"
+            type='email'
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
           />
         </FormControl>
-        <FormControl id="password" isRequired>
+        {/* <FormControl id='password' isRequired>
           <FormLabel>Password</FormLabel>
           <Input
-            placeholder="password"
+            placeholder='Password'
             _placeholder={{ color: 'gray.500' }}
-            type="password"
+            type='password'
+            // onChange={(e) => {
+            //   setPassword(e.target.value);
+            // }}
           />
-        </FormControl>
+        </FormControl> */}
         <Stack spacing={6} direction={['column', 'row']}>
           <Button
             bg={'red.400'}
             color={'white'}
-            w="full"
+            w='full'
             _hover={{
               bg: 'red.500',
-            }}>
+            }}
+          >
             Cancel
           </Button>
           <Button
             bg={'blue.400'}
             color={'white'}
-            w="full"
+            w='full'
             _hover={{
               bg: 'blue.500',
-            }}>
+            }}
+            onClick={() => {
+              handleSubmit();
+            }}
+          >
             Submit
           </Button>
         </Stack>

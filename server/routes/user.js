@@ -135,4 +135,21 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedProfile = req.body;
+    const user = await User.findOneAndUpdate(
+      { _id: req.params.id },
+      updatedProfile,
+      {
+        new: true,
+      }
+    );
+    console.log(user);
+    res.status(200).json({ message: 'User profile updated successfully' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 export default router;

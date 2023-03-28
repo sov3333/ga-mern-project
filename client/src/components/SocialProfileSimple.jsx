@@ -19,7 +19,7 @@ export default function SocialProfileSimple() {
   const [userId, setUserId] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
-  const [profileDesc, setProfileDesc] = useState(null);
+  const [username, setUsername] = useState(null);
   const [tags, setTags] = useState(null);
   const { role, setRole } = useContext(AuthContext);
 
@@ -48,6 +48,7 @@ export default function SocialProfileSimple() {
         console.log(data);
         setFirstName(data.firstName);
         setLastName(data.lastName);
+        setUsername(data.username);
         setRole(data.role);
       })
       .catch((e) => {
@@ -91,6 +92,9 @@ export default function SocialProfileSimple() {
         </Heading>
         <Text fontWeight={600} color={'gray.500'} mb={4}>
           {role}
+        </Text>
+        <Text fontWeight={600} color={'gray.500'} mb={4}>
+          {username}
         </Text>
         <Text
           textAlign={'center'}
