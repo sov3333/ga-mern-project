@@ -5,7 +5,7 @@ import { DetailsSetup } from '../components';
 
 const SetupOne = () => {
   const location = useLocation();
-  const { img, user, title, description, products } = location.state;
+  const { img, user, title, description, type } = location.state;
 
   return (
     <div>
@@ -24,7 +24,7 @@ const SetupOne = () => {
         user={user}
         title={title}
         description={description}
-        products={products}
+        type={type}
       />
     </div>
   );

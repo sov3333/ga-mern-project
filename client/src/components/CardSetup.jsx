@@ -18,23 +18,9 @@ export default function CardSetup({
   user,
   title,
   description,
-  products,
+  type,
   slug,
 }) {
-  // const [setups, setSetups] = useState([]);
-
-  // useEffect(() => {
-  //   fetch('http://localhost:8080/api/setup')
-  //     .then(
-  //       (data) => data.json(),
-  //       (err) => console.log(err)
-  //     )
-  //     .then(
-  //       (parsedData) => setSetups(parsedData),
-  //       (err) => console.log(err)
-  //     );
-  // }, []);
-
   return (
     <Center py={12} className='p-16'>
       <Link
@@ -44,13 +30,10 @@ export default function CardSetup({
           user: user,
           title: title,
           description: description,
-          products: products,
+          type: type,
         }}
       >
-        {/* {setups.map((setup) => { */}
-        {/* return ( */}
         <Box
-          // key={setup._id}
           role={'group'}
           p={6}
           maxW={'330px'}
@@ -76,7 +59,6 @@ export default function CardSetup({
               top: 5,
               left: 0,
               backgroundImage: `url(${img})`,
-              // backgroundImage: `url(${setup.img})`,
               filter: 'blur(15px)',
               zIndex: -1,
             }}
@@ -92,7 +74,6 @@ export default function CardSetup({
               width={282}
               objectFit={'cover'}
               src={img}
-              //src={setup.img}
             />
           </Box>
           <Stack pt={10} align={'center'}>
@@ -102,7 +83,6 @@ export default function CardSetup({
               textTransform={'uppercase'}
             >
               @{user}
-              {/* @{setup.user} */}
             </Text>
             <Heading
               fontSize={'2xl'}
@@ -111,12 +91,10 @@ export default function CardSetup({
               color={'gray.300'}
             >
               {title}
-              {/* {setup.title} */}
             </Heading>
             <Stack direction={'row'} align={'center'}>
               <Wrap>
-                {products.map((item, index) => (
-                  //{setup.products.map((item, index) => (
+                {type.map((item, index) => (
                   <Text
                     key={index}
                     fontWeight={400}
@@ -157,8 +135,6 @@ export default function CardSetup({
             </Stack>
           </Stack>
         </Box>
-        );
-        {/* })} */}
       </Link>
     </Center>
   );

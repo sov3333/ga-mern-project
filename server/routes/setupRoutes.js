@@ -14,7 +14,6 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-
 router.get('/', async (req, res) => {
   try {
     const currentSetup = await setup.find({});
@@ -25,7 +24,7 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  console.log(`hello from the /api/setup post route!`)
+  console.log(`hello from the /api/setup post route!`);
   // console.log(req.body);
   try {
     const { img } = req.body;
@@ -34,7 +33,7 @@ router.post('/', async (req, res) => {
       ...req.body,
       img: photoUrl.url,
     };
-  
+
     console.log(newPost);
 
     const createdSetup = await setup.create(newPost);
@@ -60,7 +59,7 @@ router.post('/', async (req, res) => {
 //         title: 'Blue Battlestation',
 //         description:
 //           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
-//         products: ['desk', 'monitor', 'keyboard', 'mouse', 'chair'],
+//         type: ['desk', 'monitor', 'keyboard', 'mouse', 'chair'],
 //       },
 //       {
 //         img: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT13ujza2Re0zLk0Vk5VviScLa1zYzu0VGxdW1igIYd63UDxtJA',
@@ -68,7 +67,7 @@ router.post('/', async (req, res) => {
 //         title: 'Mellow Woods',
 //         description:
 //           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
-//         products: ['desk', 'monitor', 'keyboard', 'mouse', 'mousepad', 'chair'],
+//         type: ['desk', 'monitor', 'keyboard', 'mouse', 'mousepad', 'chair'],
 //       },
 //       {
 //         img: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSKdjQk306iqnHH4Ews6MqBkTkbgWIPBT0JTrC3-jgO5wWhR0ck',
@@ -76,7 +75,7 @@ router.post('/', async (req, res) => {
 //         title: 'Coding Club',
 //         description:
 //           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
-//         products: ['desk', 'monitor', 'speaker', 'pc', 'keyboard', 'mousepad'],
+//         type: ['desk', 'monitor', 'speaker', 'pc', 'keyboard', 'mousepad'],
 //       },
 //       {
 //         img: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ7Y3DJGIZejTxIdwspZPJhd40NKcYKHKXbGuoH7MxteDaJZJQl',
@@ -84,7 +83,7 @@ router.post('/', async (req, res) => {
 //         title: 'Autumn Dev',
 //         description:
 //           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
-//         products: ['desk', 'monitor', 'speaker', 'mouse'],
+//         type: ['desk', 'monitor', 'speaker', 'mouse'],
 //       }
 //     );
 //     res.status(200).send(createdSetup);
