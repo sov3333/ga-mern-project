@@ -19,7 +19,7 @@ import {
 import { MdLocalShipping } from 'react-icons/md';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 // "Simple" from https://chakra-templates.dev/page-sections/productDetails
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 //import { useState }
 export default function DetailsProduct({
   img,
@@ -36,23 +36,127 @@ export default function DetailsProduct({
 
   const [showReviews, setShowReviews] = useState(false);
 
-  const [selectedRating, setSelectedRating] = useState('');
-  const [comment, setComment] = useState('');
+  const [review, setReview] = useState('');
+  const [rating, setRating] = useState('');
+  const [userRatingReviews, setUserRatingReviews] = useState([]);
 
-  const updateReview = () => {
+  useEffect(() => {
+    console.log('Reviews and Ratings:', reviews, ratings);
+    console.log('useEffect', userRatingReviews);
+    setUserRatingReviews(
+      reviews.map((review, index) => ({
+        user: review.user,
+        rating: ratings[index].rating,
+        review: review.review,
+      }))
+    );
+  }, [reviews, ratings]);
+
+  const addReview = async () => {
+    const user = 'Alice'; // replace with actual user
+    const newRatingReview = {
+      user,
+      rating,
+      review,
+    };
+    console.log('User Rating Review:', newRatingReview);
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/product/${user}/reviews/${model}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newRatingReview),
+        }
+      );
+
+      if (response.ok) {
+        console.log('Review added successfully!');
+        setRating('');
+        setReview('');
+        setShowReviews(true); // show updated list of reviews
+      } else {
+        console.error('Failed to add review:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error adding review:', error);
+    }
+  };
+
+  const updateReview = async () => {
     const user = 'Alice'; // replace with actual user
     const reviewIndex = reviews.findIndex((review) => review.user === user);
-    if (reviewIndex !== -1) {
+    const ratingIndex = ratings.findIndex((rating) => rating.user === user);
+
+    if (reviewIndex !== 1 && ratingIndex !== 1) {
       const updatedReviews = [...reviews];
+      const updatedRatings = [...ratings];
       updatedReviews[reviewIndex] = {
         ...updatedReviews[reviewIndex],
-        rating: selectedRating,
-        reviews: comment,
+        review,
       };
-      // call a function to update the reviews in the database or state
-      console.log('Review updated:', updatedReviews[reviewIndex]);
+      updatedRatings[ratingIndex] = {
+        ...updatedRatings[ratingIndex],
+        rating,
+      };
+      const newRatingReview = {
+        user,
+        rating,
+        review,
+      };
+      console.log('User Rating Review:', newRatingReview);
+      // call a function to update the reviews and ratings in the database or state
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/product/${user}/reviews/${model}`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newRatingReview),
+          }
+        );
+
+        if (response.ok) {
+          console.log('Review updated successfully!');
+        } else {
+          console.error('Failed to update review:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error updating review:', error);
+      }
     } else {
       console.log(`No review found for ${user}`);
+    }
+  };
+
+  const deleteReview = async () => {
+    const user = 'Alice'; // replace with actual user
+    const newRatingReview = {
+      user,
+      rating,
+      review,
+    };
+    console.log('User Rating Review:', newRatingReview);
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/product/${user}/reviews/${model}`,
+        {
+          method: 'DELETE',
+        }
+      );
+
+      if (response.ok) {
+        console.log('Review deleted successfully!');
+      } else {
+        console.error('Failed to delete review:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error deleting review:', error);
     }
   };
 
@@ -118,7 +222,12 @@ export default function DetailsProduct({
                     return <BsStar key={i} style={{ marginLeft: '1' }} />;
                   })}
               </Flex>
-              <Button onClick={() => setShowReviews(!showReviews)}>
+              <Button
+                onClick={() => {
+                  setShowReviews(!showReviews);
+                  console.log('Button clicked, showReviews:', showReviews);
+                }}
+              >
                 {showReviews ? 'Hide reviews' : 'Show reviews'}
               </Button>
               {showReviews && (
@@ -143,8 +252,8 @@ export default function DetailsProduct({
                   <label htmlFor='rating'>Rating</label>
                   <select
                     id='rating'
-                    value={selectedRating}
-                    onChange={(e) => setSelectedRating(e.target.value)}
+                    value={rating}
+                    onChange={(e) => setRating(e.target.value)}
                   >
                     <option value=''>Select</option>
                     <option value='1'>1- Poor</option>
@@ -155,14 +264,16 @@ export default function DetailsProduct({
                   </select>
                 </p>
                 <p>
-                  <label htmlFor='comment'>Comment</label>
+                  <label htmlFor='review'>Review</label>
                   <textarea
-                    id='comment'
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
+                    id='review'
+                    value={review}
+                    onChange={(e) => setReview(e.target.value)}
                   ></textarea>
                 </p>
+                <Button onClick={addReview}>Add</Button>
                 <Button onClick={updateReview}>Update Review</Button>
+                <Button onClick={deleteReview}>Delete</Button>
               </Box>
             </Text>
           </Box>
