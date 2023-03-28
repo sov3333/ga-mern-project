@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Box, Image } from "@chakra-ui/react";
 
-const ImageSwipe = ({ src }) => {
+const ImageSwipe = ({ src, handleLiked }) => {
   // State for tracking whether the image is being dragged and the current x position of the image
   const [dragging, setDragging] = useState(false);
   const [x, setX] = useState(0);
@@ -16,28 +16,19 @@ const ImageSwipe = ({ src }) => {
     setDragging(false);
     if (x < -50) {
       // if swipe left, dislike
-      console.log("Disliked!");
-      handleDislike();
+      console.log("Swiped Left :(");
+
+      handleLiked(false);
+
     } else if (x > 50) {
       // if swipe right, like
-      console.log("Liked!");
-      handleLike();
+      console.log("Swiped Right :)");
+      handleLiked(true); // from props
+
+      
+
     }
     setX(0);
-  };
-  
-
-  // Event handlers for liking and disliking the image
-  const handleLike = () => {
-    if (x < -50) {
-      console.log("Liked!");
-    }
-  };
-  
-  const handleDislike = () => {
-    if (x > 50) {
-      console.log("Disliked!");
-    }
   };
 
   // Variants for the Framer Motion animation

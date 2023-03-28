@@ -6,7 +6,14 @@ const setupSchema = new mongoose.Schema(
     user: { type: String, required: true },
     title: { type: String, required: true },
     description: { type: String },
-    products: { type: [String], required: true },
+    products: { type: [String] },
+    swipes: [
+      {
+        userId: { type: String },
+        liked: { type: Boolean },
+        timestamp: { type: Date, default: Date.now },
+      },
+    ],
   },
   { timestamps: true }
 );
