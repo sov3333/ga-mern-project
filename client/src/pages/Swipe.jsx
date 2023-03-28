@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { ImageSwipe, ImageLike } from '../components'
-import { setup1 } from '../assets/setups'
 import { Container } from '@chakra-ui/react'
+
+import { ImageSwipe, ImageLike } from '../components'
 
 // randomly pick 1 of the items from all setups
 // if user swiped before, skip to next
@@ -15,8 +15,45 @@ import { Container } from '@chakra-ui/react'
 // 2. connect with users collection, create liked array in users collection, add the setup id to liked arrayß
 
 const Swipe = () => {
+  const [userId, setUserId] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
+
   const [currentSetup, setCurrentSetup] = useState({});
   const [balanceSetups, setBalanceSetups] = useState([]);
+
+  useEffect(() => {
+
+    // get user data
+    fetch(`http://localhost:8080/api/user/id`, {
+      method: `GET`,
+      credentials: `include`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUserId(data);
+        console.log(`userId`, userId);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+
+
+    fetch(`http://localhost:8080/api/user/${userId}`, {
+      method: `GET`,
+      credentials: `include`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(`data`, data);
+        setUserEmail(data.email);
+        // setRole(data.role);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+
+
+  }, [userId]);
 
   useEffect(() => {
 
@@ -68,7 +105,7 @@ const Swipe = () => {
           // push new swipe object to the swipes array of this setup
           $push: {
             "swipes": {
-              "userId": "Like recorded!",
+              "userId": userId,
               "liked": bool,
               $currentDate: { 
                 "lastModified": true,
@@ -80,7 +117,10 @@ const Swipe = () => {
       })
       .then((res) => res.json())
       .then((updatedSetup) => {
-        console.log(`Update Setup id ${updatedSetup._id} | LIKED? ${updatedSetup.swipes[updatedSetup.swipes.length-1].liked} | timestamp: ${updatedSetup.swipes[updatedSetup.swipes.length-1].timestamp}`);
+
+        console.log(updatedSetup.swipes[updatedSetup.swipes.length-1])
+
+        console.log(`Update Setup id ${updatedSetup._id} (${updatedSetup.title}) | by UserId ${updatedSetup.swipes[updatedSetup.swipes.length-1].userId} (${userEmail}) | LIKED? ${updatedSetup.swipes[updatedSetup.swipes.length-1].liked} | timestamp: ${updatedSetup.swipes[updatedSetup.swipes.length-1].timestamp}`);
 
       })
       .catch((err) => console.error({ error: err }));
