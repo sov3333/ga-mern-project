@@ -48,9 +48,9 @@ const Swipe = () => {
 
       },
       (err) => console.log(err)
-      );
+    );
       
-    }, [])
+  }, [])
     
     // if (user swipes the currentSetup) {
       //   1. write to mongodb:
@@ -61,10 +61,10 @@ const Swipe = () => {
       
       //   3. re-render component to show next setup.
       // }
+
       
-      
-      // handle user click like button or swipe right on mobile
-      const handleLiked = () => {
+  // handle user click like button or swipe right on mobile
+  const handleLiked = () => {
         
         console.log(`handling update!`);
         console.log(`currentSetup?`, currentSetup);
@@ -92,17 +92,54 @@ const Swipe = () => {
           .then((res) => res.json())
           .then((updatedSetup) => {
             console.log(`updated setup with new swipe data!`, updatedSetup);
+            
+
+
+            // handle updating balanceSetups and currentSetup states after Liking
+
+            // show next item in balanceSetups
+            if (balanceSetups.length > 0) {
+              
+              // create temp array to store all setups
+              let tempBalanceArray = balanceSetups;
+
+              // randomly pick 1 setup (removes item from tempArray)
+              let randomIndex = Math.floor(Math.random() * tempBalanceArray.length);
+              let removedItem = tempBalanceArray.splice(randomIndex, 1); // returns array with 1 item
+
+              // store randomly picked item as currentSetup to show on UI
+              setCurrentSetup(removedItem[0]);
+
+              // store remainder array (less removedItem) to balanceSetups state
+              setBalanceSetups(tempBalanceArray);
+
+              console.log(`update balanceSetups state after swipe complete!`);
+
+            } else {
+              console.log("no more new photos to show :( try again later");
+              setBalanceSetups([]);
+            }
+
+
             // navigate(`/setups/${currentSetup}`);
           })
           .catch((err) => console.error({ error: err }));
-      };
+  };
       
   return (
     <Container p="10px">
-        Swipe the image (on mobile)!
-        <ImageSwipe src={currentSetup.img} handleLiked={handleLiked} />
-        Like the image
-        <ImageLike src={currentSetup.img} handleLiked={handleLiked} />
+      { 
+        (balanceSetups.length > 0) ? (
+          <>
+          Swipe the image (on mobile)!
+          <ImageSwipe src={currentSetup.img} handleLiked={handleLiked} />
+          Like the image
+          <ImageLike src={currentSetup.img} handleLiked={handleLiked} />
+          </>
+        ) : (
+          <p>no more new photos to show :( try again later</p>
+        )
+      }
         <div>
           <h3>CURRENT SETUP</h3>
           <p>{currentSetup.title}</p>
