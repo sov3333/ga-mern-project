@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 });
 
 // Route to get all reviews by a specific user
-//localhost:8080/api/product/reviews/Alice
+//localhost:8080/api/product/Alice/reviews
 router.get('/:user/reviews', async (req, res) => {
   const user = req.params.user;
   const products = await Product.find({});
@@ -40,14 +40,23 @@ router.get('/:user/reviews', async (req, res) => {
   }
 });
 
+// Route to get all reviews (rating + review) by a specific user and model
+//localhost:8080/api/product/Alice/reviews/Deathadder%20V2
 router.get('/:user/reviews/:model', async (req, res) => {
   const user = req.params.user;
   const model = req.params.model;
 
-  // Find the product with the given model and the user's reviews for that product
+  // Find the product with the given model and the user's reviews and ratings for that product
   const product = await Product.findOne(
-    { model: model, reviews: { $elemMatch: { user: user } } },
-    { reviews: { $elemMatch: { user: user } } }
+    {
+      model: model,
+      reviews: { $elemMatch: { user: user } },
+      ratings: { $elemMatch: { user: user } },
+    },
+    {
+      reviews: { $elemMatch: { user: user } },
+      ratings: { $elemMatch: { user: user } },
+    }
   );
 
   if (!product) {
@@ -56,11 +65,15 @@ router.get('/:user/reviews/:model', async (req, res) => {
   } else {
     // Review found
     const review = product.reviews[0];
-    res.json(review);
+    const rating = product.ratings[0];
+    res.json({ user: user, review: review, rating: rating });
   }
 });
 
-// Route to add or update a review for a specific product by model
+// curl -X POST   -H "Content-Type: application/json"   -d '{"rating": 4, "review": "Great mouse!"}'   http://localhost:8080/api/product/Alice/reviews/Deathadder%20V2
+// {"user":"Alice","review":"Great mouse!","rating":4}
+
+// Route to add a review and rating for a specific product by model
 router.post('/:user/reviews/:model', async (req, res) => {
   const user = req.params.user;
   const model = req.params.model;
@@ -68,8 +81,13 @@ router.post('/:user/reviews/:model', async (req, res) => {
 
   try {
     const product = await Product.findOneAndUpdate(
-      { model: model, reviews: { $elemMatch: { user: user } } },
-      { $set: { 'reviews.$.rating': rating, 'reviews.$.review': review } },
+      { model: model },
+      {
+        $push: {
+          reviews: { user: user, review: review },
+          ratings: { user: user, rating: rating },
+        },
+      },
       { new: true }
     );
 
@@ -77,9 +95,14 @@ router.post('/:user/reviews/:model', async (req, res) => {
       // No product found
       res.status(404).json({ message: 'Product not found.' });
     } else {
-      // Review updated
-      const updatedReview = product.reviews.find((rev) => rev.user === user);
-      res.json(updatedReview);
+      // Review and rating added
+      const addedReview = product.reviews.find((rev) => rev.user === user);
+      const addedRating = product.ratings.find((rat) => rat.user === user);
+      res.json({
+        user: user,
+        review: addedReview.review,
+        rating: addedRating.rating,
+      });
     }
   } catch (e) {
     console.error(e);
@@ -87,50 +110,72 @@ router.post('/:user/reviews/:model', async (req, res) => {
   }
 });
 
-//Get on the ratings and reviews
-// http://localhost:8080/api/product/Keyboard (search by type)
+// curl -X PUT -H "Content-Type: application/json" -d '{"rating": 1, "review": "NO good!"}' http://localhost:8080/api/product/Alice/reviews/Deathadder%20V2
 
-router.get('/:type', async (req, res) => {
+// Route to update a review and rating for a specific product by model
+router.put('/:user/reviews/:model', async (req, res) => {
+  const user = req.params.user;
+  const model = req.params.model;
+  const { rating, review } = req.body;
+
   try {
-    const { type } = req.params;
-
-    const product = await Product.findOne({ type }, { ratings: 1, reviews: 1 });
-
-    if (!product) {
-      return res.status(404).json({ message: 'Product type not found' });
-    }
-
-    res.json({ ratings: product.ratings, reviews: product.reviews });
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ error: 'Something went wrong' });
-  }
-});
-
-//Post a new review
-// curl -X POST -H "Content-Type: application/json" -d '{"user":"John","review":"This product is awesome!"}' http://localhost:8080/api/product/:type/reviews
-
-router.post('/:type/reviews', async (req, res) => {
-  try {
-    const { type } = req.params;
-    const { user, review } = req.body;
-
-    const updatedProduct = await Product.findOneAndUpdate(
-      { type },
-      { $push: { reviews: { user, review } } },
+    const product = await Product.findOneAndUpdate(
+      {
+        model: model,
+        reviews: { $elemMatch: { user: user } },
+        ratings: { $elemMatch: { user: user } },
+      },
+      { $set: { 'reviews.$.review': review, 'ratings.$.rating': rating } },
       { new: true }
     );
 
-    if (!updatedProduct) {
-      return res.status(404).json({ message: 'Product type not found' });
+    if (!product) {
+      // No product found
+      res.status(404).json({ message: 'Product not found.' });
+    } else {
+      // Review and rating updated
+      const updatedReview = product.reviews.find((rev) => rev.user === user);
+      const updatedRating = product.ratings.find((rat) => rat.user === user);
+      res.json({
+        user: user,
+        review: updatedReview.review,
+        rating: updatedRating.rating,
+      });
     }
-
-    res.json(updatedProduct);
   } catch (e) {
-    console.log(e);
-    res.status(500).json({ error: 'Something went wrong' });
+    console.error(e);
+    res.status(500).json({ message: 'Internal server error.' });
   }
 });
+
+// curl -X DELETE http://localhost:8080/api/product/Alice/reviews/Deathadder%20V2 -d '{"user": "Alice"}' -H "Content-Type: application/json"
+
+// Route to delete a review and rating for a specific product by model
+router.delete('/:user/reviews/:model', async (req, res) => {
+  const user = req.params.user;
+  const model = req.params.model;
+
+  try {
+    const product = await Product.findOneAndUpdate(
+      { model: model },
+      { $pull: { reviews: { user: user }, ratings: { user: user } } },
+      { new: true }
+    );
+
+    if (!product) {
+      // No product found
+      res.status(404).json({ message: 'Product not found.' });
+    } else {
+      // Review and rating deleted
+      res.json({ message: 'Review and rating deleted.' });
+    }
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ message: 'Internal server error.' });
+  }
+});
+
+//Post for create.jsx
 
 router.post('/', async (req, res) => {
   try {

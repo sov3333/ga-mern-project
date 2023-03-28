@@ -6,7 +6,7 @@ import { DetailsProduct } from '../components';
 const ProductOne = () => {
   const location = useLocation();
   const { img, brand, model, ratings, reviews } = location.state;
-  console.log(reviews);
+
   return (
     <div>
       <h1>Product</h1>
