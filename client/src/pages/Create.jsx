@@ -54,7 +54,7 @@ export default function Create() {
     user: 'Alice',
     title: '',
     description: '',
-    products: '',
+    type: '',
     img: '',
   });
 
@@ -79,7 +79,7 @@ export default function Create() {
         user: newSetup.user,
         title: newSetup.title,
         description: newSetup.description,
-        products: newSetup.products,
+        type: newSetup.type,
         img: newSetup.img,
       }),
       headers: {

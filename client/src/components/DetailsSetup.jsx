@@ -23,13 +23,7 @@ import { AuthContext } from '../context/AuthContext';
 
 // "Simple" from https://chakra-templates.dev/page-sections/productDetails
 
-export default function DetailsSetup({
-  img,
-  user,
-  title,
-  description,
-  products,
-}) {
+export default function DetailsSetup({ img, user, title, description, type }) {
   const navigate = useNavigate();
   const { role, setRole } = useContext(AuthContext);
   console.log(role);
@@ -44,7 +38,7 @@ export default function DetailsSetup({
       .then((deletedSetup) => {
         navigate('/setups');
       })
-      .catch((err) => console.error({ error: err })); 
+      .catch((err) => console.error({ error: err }));
   };
 
   return (
@@ -115,7 +109,7 @@ export default function DetailsSetup({
 
               <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
                 <List spacing={2}>
-                  {products.map((item, index) => (
+                  {type.map((item, index) => (
                     <ListItem key={index}>{item}</ListItem>
                   ))}
                   {/* <ListItem>Chronograph</ListItem>
@@ -141,7 +135,7 @@ export default function DetailsSetup({
               </Text>
 
               <List spacing={2}>
-                {products.map((item, index) => (
+                {type.map((item, index) => (
                   <ListItem key={index}>{item}</ListItem>
                 ))}
                 {/* <ListItem>

@@ -99,7 +99,7 @@ const Setups = () => {
               user={post.user}
               title={post.title}
               description={post.description}
-              products={post.products}
+              type={post.type}
               slug={`/setups/${post._id}`}
             />
           </div>
