@@ -3,7 +3,6 @@ import { ImageSwipe, ImageLike } from '../components'
 import { setup1 } from '../assets/setups'
 import { Container } from '@chakra-ui/react'
 
-// TODO:
 // randomly pick 1 of the items from all setups
 // if user swiped before, skip to next
 // if user not swiped before, show it to let user make action: swipe/like or next/dislike
@@ -11,11 +10,13 @@ import { Container } from '@chakra-ui/react'
 // show next setup, and repeat until all photos shown
 // if all photos swiped before, show "no more new photos to show :( try again later"
 
+// TODO:
+// 1. check if user has liked/disliked currentSetup, if yes, skip to next setup
+// 2. connect with users collection, create liked array in users collection, add the setup id to liked arrayß
+
 const Swipe = () => {
   const [currentSetup, setCurrentSetup] = useState({});
   const [balanceSetups, setBalanceSetups] = useState([]);
-
-  const [likedState, setLikedState] = useState(null);
 
   useEffect(() => {
 
@@ -54,41 +55,11 @@ const Swipe = () => {
       
   }, [])
     
-  // if (user swipes the currentSetup) {
-  //     1. write to mongodb:
-  //     a) `users` collection: add `_id` of `setup`, plus `rated` is `true`, plus`liked` is `true` or `false`.
-  //     b) `setups` collection: add `_id` of `user` who rated, add counter +1 to `numberRatings`, add counter +1 to `numberLikes` or `numberSkips`.
-    
-  //     2. update state for `action made on currentSetup`, set new `currentSetup`, set new `balanceSetups`.
-    
-  //     3. re-render component to show next setup.
-  //   }
-
-  const handleChildStateChange = (childState) => {
-    setLikedState(childState);
-  }
-
-
-  // BUG / TODO : 
-  // handleLiked function is using the old state of likedState instead of the updated one.
-
-      
   // handle user click like button or swipe right on mobile
-  const handleLiked = () => {
-        
-    console.log(`handling update!`);
-    console.log(`currentSetup?`, currentSetup);
-
-    // TODO
-    // update the likedState to the latest from child before execucting the fetch PUT request
-    
+  const handleLiked = (bool) => {
 
     if (balanceSetups.length > 0) {      
 
-      console.log(`likedState`, likedState);
-
-      // handle updating balanceSetups and currentSetup states after Liking
-      // show next item in balanceSetups
       // update setup in db
       fetch(`http://localhost:8080/api/setup/${currentSetup._id}`, {
         method: 'PUT',
@@ -98,7 +69,7 @@ const Swipe = () => {
           $push: {
             "swipes": {
               "userId": "Like recorded!",
-              "liked": likedState,
+              "liked": bool,
               $currentDate: { 
                 "lastModified": true,
                 $type: "timestamp",
@@ -109,13 +80,12 @@ const Swipe = () => {
       })
       .then((res) => res.json())
       .then((updatedSetup) => {
-        console.log(`updated setup with new swipe data!`, updatedSetup);
-
-
-        // navigate(`/setups/${currentSetup}`);
+        console.log(`Update Setup id ${updatedSetup._id} | LIKED? ${updatedSetup.swipes[updatedSetup.swipes.length-1].liked} | timestamp: ${updatedSetup.swipes[updatedSetup.swipes.length-1].timestamp}`);
 
       })
       .catch((err) => console.error({ error: err }));
+
+      // handle updating balanceSetups and currentSetup states after Liking
 
       // create temp array to store all setups
       let tempBalanceArray = balanceSetups;
@@ -126,7 +96,7 @@ const Swipe = () => {
       setCurrentSetup(removedItem[0]);
       // store remainder array (less removedItem) to balanceSetups state
       setBalanceSetups(tempBalanceArray);
-      console.log(`update balanceSetups state after swipe complete!`);
+
     } else {
       console.log("no more new photos to show :( try again later");
       setBalanceSetups([]);
@@ -142,9 +112,9 @@ const Swipe = () => {
         (balanceSetups.length > 0) ? (
           <>
           Swipe the image (on mobile)!
-          <ImageSwipe src={currentSetup.img} onChildStateChange={handleChildStateChange} handleLiked={handleLiked} />
+          <ImageSwipe src={currentSetup.img} handleLiked={handleLiked} />
           Like the image
-          <ImageLike src={currentSetup.img} onChildStateChange={handleChildStateChange} handleLiked={handleLiked} />
+          <ImageLike src={currentSetup.img} handleLiked={handleLiked} />
           </>
         ) : (
           <p>no more new photos to show :( try again later</p>

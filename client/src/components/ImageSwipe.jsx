@@ -17,12 +17,16 @@ const ImageSwipe = ({ src, handleLiked }) => {
     if (x < -50) {
       // if swipe left, dislike
       console.log("Swiped Left :(");
-      // handleDislike();
+
+      handleLiked(false);
+
     } else if (x > 50) {
       // if swipe right, like
       console.log("Swiped Right :)");
-      handleLiked(); // from props
-      // handleLike();
+      handleLiked(true); // from props
+
+      
+
     }
     setX(0);
   };
