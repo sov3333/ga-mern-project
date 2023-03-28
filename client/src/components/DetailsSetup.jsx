@@ -44,7 +44,7 @@ export default function DetailsSetup({
       .then((deletedSetup) => {
         navigate('/setups');
       })
-      .catch((err) => console.error({ Error: err }));
+      .catch((err) => console.error({ error: err })); 
   };
 
   return (
