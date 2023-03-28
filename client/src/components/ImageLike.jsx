@@ -1,17 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Image, Button } from "@chakra-ui/react";
 
-const ImageLike = ({ src, handleLiked }) => {
-  const [liked, setLiked] = useState(false);
+const ImageLike = ({ src, handleLiked, onChildStateChange }) => {
+  const [liked, setLiked] = useState(null);
+
+  useEffect(() => {
+    const handleChildStateChange = () => {
+      console.log(`sending props to parent as liked =`, liked);
+      onChildStateChange(liked);
+    }
+    
+    handleChildStateChange(liked);
+
+  }, [liked])
+  
 
   const handleLike = () => {
     console.log("Liked!");
     handleLiked(); // from props
+    // handleChildStateChange(true);
+
     setLiked(true);
   };
 
   const handleNext = () => {
     console.log("Next!");
+    handleLiked(); // from props
+    // handleChildStateChange(false);
     setLiked(false);
   };
 
