@@ -52,78 +52,68 @@ const Swipe = () => {
       
   }, [])
     
-    // if (user swipes the currentSetup) {
-      //   1. write to mongodb:
-      //   a) `users` collection: add `_id` of `setup`, plus `rated` is `true`, plus`liked` is `true` or `false`.
-      //   b) `setups` collection: add `_id` of `user` who rated, add counter +1 to `numberRatings`, add counter +1 to `numberLikes` or `numberSkips`.
-      
-      //   2. update state for `action made on currentSetup`, set new `currentSetup`, set new `balanceSetups`.
-      
-      //   3. re-render component to show next setup.
-      // }
+  // if (user swipes the currentSetup) {
+  //     1. write to mongodb:
+  //     a) `users` collection: add `_id` of `setup`, plus `rated` is `true`, plus`liked` is `true` or `false`.
+  //     b) `setups` collection: add `_id` of `user` who rated, add counter +1 to `numberRatings`, add counter +1 to `numberLikes` or `numberSkips`.
+    
+  //     2. update state for `action made on currentSetup`, set new `currentSetup`, set new `balanceSetups`.
+    
+  //     3. re-render component to show next setup.
+  //   }
 
       
   // handle user click like button or swipe right on mobile
   const handleLiked = () => {
         
-        console.log(`handling update!`);
-        console.log(`currentSetup?`, currentSetup);
-        
-        // update setup in db
-        fetch(`http://localhost:8080/api/setup/${currentSetup._id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-  
-          body: JSON.stringify({
-            // push new swipe object to the swipes array of this setup
-            $push: {
-              "swipes": {
-                "userId": "Like recorded!",
-                "liked": true,
-                $currentDate: { 
-                  "lastModified": true,
-                  $type: "timestamp",
-                },
-              },
+    console.log(`handling update!`);
+    console.log(`currentSetup?`, currentSetup);
+    
+    // update setup in db
+    fetch(`http://localhost:8080/api/setup/${currentSetup._id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        // push new swipe object to the swipes array of this setup
+        $push: {
+          "swipes": {
+            "userId": "Like recorded!",
+            "liked": true,
+            $currentDate: { 
+              "lastModified": true,
+              $type: "timestamp",
             },
-          })
-  
-        })
-          .then((res) => res.json())
-          .then((updatedSetup) => {
-            console.log(`updated setup with new swipe data!`, updatedSetup);
-            
+          },
+        },
+      })
+    })
+    .then((res) => res.json())
+    .then((updatedSetup) => {
+      console.log(`updated setup with new swipe data!`, updatedSetup);
+          
+      // handle updating balanceSetups and currentSetup states after Liking
+      // show next item in balanceSetups
+      if (balanceSetups.length > 0) {      
+        // create temp array to store all setups
+        let tempBalanceArray = balanceSetups;
+        // randomly pick 1 setup (removes item from tempArray)
+        let randomIndex = Math.floor(Math.random() * tempBalanceArray.length);
+        let removedItem = tempBalanceArray.splice(randomIndex, 1); // returns array with 1 item
+        // store randomly picked item as currentSetup to show on UI
+        setCurrentSetup(removedItem[0]);
+        // store remainder array (less removedItem) to balanceSetups state
+        setBalanceSetups(tempBalanceArray);
+        console.log(`update balanceSetups state after swipe complete!`);
+      } else {
+        console.log("no more new photos to show :( try again later");
+        setBalanceSetups([]);
+      }
 
+      // navigate(`/setups/${currentSetup}`);
 
-            // handle updating balanceSetups and currentSetup states after Liking
+    })
+    .catch((err) => console.error({ error: err }));
 
-            // show next item in balanceSetups
-            if (balanceSetups.length > 0) {
-              
-              // create temp array to store all setups
-              let tempBalanceArray = balanceSetups;
-
-              // randomly pick 1 setup (removes item from tempArray)
-              let randomIndex = Math.floor(Math.random() * tempBalanceArray.length);
-              let removedItem = tempBalanceArray.splice(randomIndex, 1); // returns array with 1 item
-
-              // store randomly picked item as currentSetup to show on UI
-              setCurrentSetup(removedItem[0]);
-
-              // store remainder array (less removedItem) to balanceSetups state
-              setBalanceSetups(tempBalanceArray);
-
-              console.log(`update balanceSetups state after swipe complete!`);
-
-            } else {
-              console.log("no more new photos to show :( try again later");
-              setBalanceSetups([]);
-            }
-
-
-            // navigate(`/setups/${currentSetup}`);
-          })
-          .catch((err) => console.error({ error: err }));
   };
       
   return (
