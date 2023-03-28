@@ -131,7 +131,7 @@ const Swipe = () => {
     if (balanceSetups.length > 0) {
 
       // update setup in db
-      fetch(`http://localhost:8080/api/setup/swipe/${currentSetup._id}`, {
+      fetch(`http://localhost:8080/api/setup/${currentSetup._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
