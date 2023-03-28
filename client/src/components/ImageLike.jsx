@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Box, Image, Button } from "@chakra-ui/react";
 
-const ImageLike = ({ src }) => {
+const ImageLike = ({ src, handleLiked }) => {
   const [liked, setLiked] = useState(false);
 
   const handleLike = () => {
     console.log("Liked!");
+    handleLiked(); // from props
     setLiked(true);
   };
 

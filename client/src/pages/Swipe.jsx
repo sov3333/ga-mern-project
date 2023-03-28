@@ -48,26 +48,61 @@ const Swipe = () => {
 
       },
       (err) => console.log(err)
-    );
+      );
+      
+    }, [])
     
-  }, [])
-
-  // if (user swipes the currentSetup) {
-  //   1. write to mongodb:
-  //   a) `users` collection: add `_id` of `setup`, plus `rated` is `true`, plus`liked` is `true` or `false`.
-  //   b) `setups` collection: add `_id` of `user` who rated, add counter +1 to `numberRatings`, add counter +1 to `numberLikes` or `numberSkips`.
-
-  //   2. update state for `action made on currentSetup`, set new `currentSetup`, set new `balanceSetups`.
-    
-  //   3. re-render component to show next setup.
-  // }
+    // if (user swipes the currentSetup) {
+      //   1. write to mongodb:
+      //   a) `users` collection: add `_id` of `setup`, plus `rated` is `true`, plus`liked` is `true` or `false`.
+      //   b) `setups` collection: add `_id` of `user` who rated, add counter +1 to `numberRatings`, add counter +1 to `numberLikes` or `numberSkips`.
+      
+      //   2. update state for `action made on currentSetup`, set new `currentSetup`, set new `balanceSetups`.
+      
+      //   3. re-render component to show next setup.
+      // }
+      
+      
+      // handle user click like button or swipe right on mobile
+      const handleLiked = () => {
+        
+        console.log(`handling update!`);
+        console.log(`currentSetup?`, currentSetup);
+        
+        // update setup in db
+        fetch(`http://localhost:8080/api/setup/${currentSetup._id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
   
+          body: JSON.stringify({
+            // push new swipe object to the swipes array of this setup
+            $push: {
+              "swipes": {
+                "userId": "Like recorded!",
+                "liked": true,
+                $currentDate: { 
+                  "lastModified": true,
+                  $type: "timestamp",
+                },
+              },
+            },
+          })
+  
+        })
+          .then((res) => res.json())
+          .then((updatedSetup) => {
+            console.log(`updated setup with new swipe data!`, updatedSetup);
+            // navigate(`/setups/${currentSetup}`);
+          })
+          .catch((err) => console.error({ error: err }));
+      };
+      
   return (
     <Container p="10px">
         Swipe the image (on mobile)!
-        <ImageSwipe src={currentSetup.img} />
+        <ImageSwipe src={currentSetup.img} handleLiked={handleLiked} />
         Like the image
-        <ImageLike src={currentSetup.img} />
+        <ImageLike src={currentSetup.img} handleLiked={handleLiked} />
         <div>
           <h3>CURRENT SETUP</h3>
           <p>{currentSetup.title}</p>

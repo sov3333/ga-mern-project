@@ -138,7 +138,7 @@ router.put('/:id', async (req, res) => {
     const updatedSetup = await setup.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }
+      { new: true } // to return document after `update` was applied
     );
     res.status(200).send(updatedSetup);
   } catch (err) {

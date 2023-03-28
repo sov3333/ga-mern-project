@@ -11,6 +11,7 @@ const setupSchema = new mongoose.Schema(
       {
         userId: { type: String },
         liked: { type: Boolean },
+        timestamp: { type: Date, default: Date.now },
       },
     ],
   },
