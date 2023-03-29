@@ -54,8 +54,22 @@ const Products = () => {
     }
     return acc;
   }, []);
+
+  // Remove duplicates from groupedProducts array
+  const uniqueProducts = groupedProducts.reduce((acc, product) => {
+    const existingProductIndex = acc.findIndex(
+      (p) =>
+        p.type === product.type &&
+        p.brand === product.brand &&
+        p.model === product.model
+    );
+    if (existingProductIndex === -1) {
+      acc.push(product);
+    }
+    return acc;
+  }, []);
   // Filtered products based on selected product type and brand
-  const filteredProducts = groupedProducts.filter((product) => {
+  const filteredProducts = uniqueProducts.filter((product) => {
     if (selectedProduct && selectedBrand && selectedModel) {
       return (
         product.type === selectedProduct &&
@@ -104,8 +118,13 @@ const Products = () => {
 
   return (
     <div>
-      <h1 className="mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center">View All Products</h1>
-      <h2 className="mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6">Check out all the top-rated gadgets by programmers, gamers and traders worldwide.</h2>
+      <h1 className='mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center'>
+        View All Products
+      </h1>
+      <h2 className='mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6'>
+        Check out all the top-rated gadgets by programmers, gamers and traders
+        worldwide.
+      </h2>
       <Flex direction='row' justify='space-between' align='center' px='5%'>
         {/* Filter */}
         <Text>Filter by</Text>
@@ -165,7 +184,7 @@ const Products = () => {
         }}
       >
         {filteredProducts.map((group) => (
-          <div key={group.type}>
+          <div key={`${group.type}-${group.brand}-${group.model}`}>
             <CardProduct
               img={group.img}
               type={group.type}
