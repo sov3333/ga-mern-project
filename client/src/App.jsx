@@ -53,6 +53,7 @@ const App = () => {
         <BrowserRouter>
           <div className='bg-primary-black overflow-hidden'>
             <Navbar />
+            <Nav />
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='/home' element={<HomeOld />} />
@@ -75,7 +76,6 @@ const App = () => {
             </Routes>
             <Footer />
           </div>
-          <Nav />
         </BrowserRouter>
       </UserContext.Provider>
     </AuthContext.Provider>
