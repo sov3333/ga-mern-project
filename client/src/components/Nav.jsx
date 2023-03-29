@@ -151,15 +151,7 @@ export default function Nav() {
                     <MenuItem>Settings</MenuItem>
                   </Link>
                   <MenuDivider />
-                  <Link 
-                    href="#"
-                    _hover={{
-                      textDecoration: 'none',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <MenuItem>Sign out</MenuItem>
-                  </Link>
+                  <MenuItem onClick={() => handleSignOut()}>Sign out</MenuItem>
                 </MenuList>
               </Menu>
               </>
