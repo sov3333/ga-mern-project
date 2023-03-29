@@ -24,15 +24,15 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  console.log(`hello from the /api/setup post route!`, req.body);
+  console.log(`hello from the /api/setup post route!`);
   // console.log(req.body);
   try {
-    const {img, userId} = req.body;
+    const { img } = req.body;
     const photoUrl = await cloudinary.uploader.upload(img);
     const newPost = {
       ...req.body,
       img: photoUrl.url,
-      userId: userId,
+      // userId: userId,
     };
 
     console.log(newPost);
