@@ -209,9 +209,10 @@ const Swipe = () => {
 
       
   return (
+    <>
+    <h1 className="mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center">Swipe right to like</h1>
+    <h2 className="mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6">Curate your list of favourite desk setups</h2>
     <Container p="10px">
-      <h1 className="mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center">Swipe right to like</h1>
-      <h2 className="mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6">Curate your list of favourite desk setups</h2>
       { 
         (balanceSetups.length > 0) ? (
           <ImageSwipe src={currentSetup.img} handleLiked={handleLiked} />
@@ -220,6 +221,7 @@ const Swipe = () => {
         )
       }
     </Container>
+    </>
   )
 }
 
