@@ -6,7 +6,13 @@ const setupSchema = new mongoose.Schema(
     user: { type: String, required: true },
     title: { type: String, required: true },
     description: { type: String },
-    type: { type: [String], required: true },
+    products: [
+      {
+        type: { type: String },
+        brand: { type: String },
+        model: { type: String },
+      }
+    ],
     swipes: [
       {
         userId: { type: String },
