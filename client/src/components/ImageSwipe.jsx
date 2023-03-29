@@ -81,7 +81,7 @@ const ImageSwipe = ({ src, handleLiked }) => {
         Next
       </Button>
       <Button
-        onClick={() => handleLiked(true)} colorScheme="green" ml={6}>
+        onClick={() => handleLiked(true)} colorScheme="whatsapp" ml={6}>
         Like
       </Button>
     </Flex>
