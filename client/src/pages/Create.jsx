@@ -88,31 +88,33 @@ export default function Create() {
     event.preventDefault();
     const productList = [];
     newProducts.forEach((product) => {
-      productList.push(product.type);
+      productList.push({
+        type: product.type,
+        brand: product.brand,
+        model: product.model,
+      });
     });
-    //console.log(productList);
+
+    console.log(`productList`, productList);
 
     fetch('http://localhost:8080/api/setup', {
       method: 'POST',
       body: JSON.stringify({
-        // user: 'Alice',
-        // title: newTitle,
-        // description: newDescription,
-        // products: newProducts,
-        // //img: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ7Y3DJGIZejTxIdwspZPJhd40NKcYKHKXbGuoH7MxteDaJZJQl',
-        // img: newImage,
+        img: newSetup.img,
         user: newSetup.user,
         title: newSetup.title,
         description: newSetup.description,
-        type: productList,
-        img: newSetup.img,
+        products: productList,
       }),
       headers: {
         'Content-Type': 'application/json',
       },
     })
       .then((res) => res.json())
-      .then((data) => setNewSetup(data.newSetup))
+      .then((data) => {
+        setNewSetup([]),
+        console.log(`New setup created:`, data)
+      })
       .catch((err) => console.error({Error: err}));
     //send data to products collection
     fetch('http://localhost:8080/api/product', {
@@ -120,7 +122,9 @@ export default function Create() {
       body: JSON.stringify({
         user: newSetup.user,
         //img: newSetup.img, // need to change
-        type: eachType,
+        type: newProducts.forEach((product) => {
+          product.type;
+        }),
         brand: newProducts.forEach((product) => {
           product.brand;
         }),
@@ -155,7 +159,7 @@ export default function Create() {
   return (
     <Box position={'relative'}>
       <h1 className="mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center">Create a Post</h1>
-      <h2 className="mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6">Share your desk setup with and inspire the world!</h2>
+      <h2 className="mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6">Showcase your style & inspire productivity</h2>
       <Container
         as={SimpleGrid}
         maxW={'7xl'}
@@ -257,13 +261,7 @@ export default function Create() {
               </Text>
             </Heading>
             <Text color={'gray.500'} fontSize={{base: 'sm', sm: 'md'}}>
-              Join our community of desk setup enthusiasts and share your own
-              trading gaming or programming workspace. Upload a photo of your
-              setup, add a catchy title and a brief description, and let others
-              rate and comment on your creation. Whether you're a minimalist or
-              a tech enthusiast, we welcome all setups and styles. Share your
-              setup with the world and inspire others to upgrade their own
-              desks!
+              Share your own unique workspace with the world and inspire others to upgrade their own desks! Upload a photo of your setup, add a catchy title and a brief description, and let others rate and comment on your creation. 
             </Text>
           </Stack>
           <Box as={'form'} mt={10}>
