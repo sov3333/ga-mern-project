@@ -178,18 +178,23 @@ router.delete('/:user/reviews/:model', async (req, res) => {
 //Post for create.jsx
 
 router.post('/', async (req, res) => {
+  console.log(`hello from the /api/product post route!`, req.body);
+
   try {
     const { user, img, type, brand, model, ratings, reviews } = req.body;
 
-    const newProduct = new Product({
-      user,
-      img,
-      type,
-      brand,
-      model,
-      ratings,
-      reviews,
-    });
+    const newProduct = new Product(
+      {
+        user,
+        type,
+        brand,
+        model,
+        // img,
+        // ratings,
+        // reviews,
+      }
+      // req.body
+    );
 
     const savedProduct = await newProduct.save();
     res.status(201).json({ newProduct: savedProduct });
