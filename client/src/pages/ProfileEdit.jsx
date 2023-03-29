@@ -96,6 +96,9 @@ export default function ProfileEdit() {
   };
 
   return (
+    <>
+    <h1 className="mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center">Edit Profile</h1>
+    <h2 className="mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6">Edit your profile</h2>
     <Flex
       minH={'100vh'}
       align={'center'}
@@ -218,5 +221,6 @@ export default function ProfileEdit() {
         </Stack>
       </Stack>
     </Flex>
+    </>
   );
 }

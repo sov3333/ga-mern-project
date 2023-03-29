@@ -9,16 +9,8 @@ const SetupOne = () => {
 
   return (
     <div>
-      <h1>A Desk Setup</h1>
-      <h2>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Id totam nisi
-        facere nesciunt, similique explicabo nobis tenetur ratione harum nulla
-        sequi aspernatur minima aliquam doloribus?
-      </h2>
-      <Flex flexDirection='column' justifyContent='center' alignItems='center'>
-        <h3>TODO:</h3>
-        <p></p>
-      </Flex>
+      <h1 className="mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center">Desk Setup</h1>
+      <h2 className="mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6">This is a desk setup</h2>
       <DetailsSetup
         img={img}
         user={user}

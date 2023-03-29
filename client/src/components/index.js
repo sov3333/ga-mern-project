@@ -10,7 +10,6 @@ import PasswordResetForm from "./PasswordResetForm";
 import DetailsProduct from "./DetailsProduct";
 import DetailsSetup from "./DetailsSetup";
 import SocialProfileSimple from "./SocialProfileSimple";
-import SocialProfileHorizontal from "./SocialProfileHorizontal";
 import ModalWithForm from "./ModalWithForm";
 import ImageSwipe from "./ImageSwipe";
 
@@ -27,7 +26,6 @@ export {
     DetailsProduct,
     DetailsSetup,
     SocialProfileSimple,
-    SocialProfileHorizontal,
     ModalWithForm,
     ImageSwipe,
 };

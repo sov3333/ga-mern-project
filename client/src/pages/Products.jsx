@@ -104,13 +104,8 @@ const Products = () => {
 
   return (
     <div>
-      <h1>Lorem ipsum dolor sit amet consectetur.</h1>
-      <h2>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus laborum
-        dolores necessitatibus earum dolore velit, quo distinctio unde facere
-        aperiam accusantium aliquam ea tempore repudiandae officia, animi culpa
-        temporibus illo obcaecati hic ducimus. Cumque, repudiandae.
-      </h2>
+      <h1 className="mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center">View All Products</h1>
+      <h2 className="mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6">Check out all the top-rated gadgets by programmers, gamers and traders worldwide.</h2>
       <Flex direction='row' justify='space-between' align='center' px='5%'>
         {/* Filter */}
         <Text>Filter by</Text>
