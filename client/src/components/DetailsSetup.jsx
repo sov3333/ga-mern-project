@@ -23,10 +23,12 @@ import { AuthContext } from '../context/AuthContext';
 
 // "Simple" from https://chakra-templates.dev/page-sections/productDetails
 
-export default function DetailsSetup({ img, user, title, description, type }) {
+export default function DetailsSetup({ img, user, title, description, products }) {
   const navigate = useNavigate();
   const { role, setRole } = useContext(AuthContext);
   console.log(role);
+
+  console.log(`products`, products);
 
   const currentID = location.pathname.slice(7);
   //console.log('id', currentID);
@@ -65,11 +67,12 @@ export default function DetailsSetup({ img, user, title, description, type }) {
               lineHeight={1.1}
               fontWeight={600}
               fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}
+              color={useColorModeValue('gray.300')}
             >
               {title}
             </Heading>
             <Text
-              color={useColorModeValue('gray.900', 'gray.400')}
+              color={useColorModeValue('gray.400')}
               fontWeight={300}
               fontSize={'2xl'}
             >
@@ -82,19 +85,19 @@ export default function DetailsSetup({ img, user, title, description, type }) {
             direction={'column'}
             divider={
               <StackDivider
-                borderColor={useColorModeValue('gray.200', 'gray.600')}
+                borderColor={useColorModeValue('gray.600')}
               />
             }
           >
             <VStack spacing={{ base: 4, sm: 6 }}>
               <Text
-                color={useColorModeValue('gray.500', 'gray.400')}
+                color={useColorModeValue('gray.300')}
                 fontSize={'2xl'}
                 fontWeight={'300'}
               >
                 {description}
               </Text>
-              <Text fontSize={'lg'}>Second {description}</Text>
+              <Text fontSize={'lg'} color={useColorModeValue('gray.400')}>{description}</Text>
             </VStack>
             <Box>
               <Text
@@ -109,8 +112,8 @@ export default function DetailsSetup({ img, user, title, description, type }) {
 
               <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
                 <List spacing={2}>
-                  {type.map((item, index) => (
-                    <ListItem key={index}>{item}</ListItem>
+                  {products.map((product, index) => (
+                    <ListItem key={index}  className="text-secondary-white">{product.type}</ListItem>
                   ))}
                   {/* <ListItem>Chronograph</ListItem>
                   <ListItem>Master Chronometer Certified</ListItem>{' '}
@@ -135,52 +138,15 @@ export default function DetailsSetup({ img, user, title, description, type }) {
               </Text>
 
               <List spacing={2}>
-                {type.map((item, index) => (
-                  <ListItem key={index}>{item}</ListItem>
+                {products.map((product, index) => (
+                  <ListItem key={index}>
+                    <Flex>
+                      <Text as={'span'} className="text-secondary-white font-bold">
+                        {product.type}: <span className="font-normal">{product.brand} ({product.model})</span>
+                      </Text>
+                    </Flex>
+                  </ListItem>
                 ))}
-                {/* <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Between lugs:
-                  </Text>{' '}
-                  20 mm
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Bracelet:
-                  </Text>{' '}
-                  leather strap
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Case:
-                  </Text>{' '}
-                  Steel
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Case diameter:
-                  </Text>{' '}
-                  42 mm
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Dial color:
-                  </Text>{' '}
-                  Black
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Crystal:
-                  </Text>{' '}
-                  Domed, scratch‑resistant sapphire crystal with anti‑reflective
-                  treatment inside
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Water resistance:
-                  </Text>{' '}
-                  5 bar (50 metres / 167 feet){' '}
-                </ListItem> */}
               </List>
             </Box>
           </Stack>
