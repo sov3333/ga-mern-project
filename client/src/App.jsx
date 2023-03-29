@@ -19,7 +19,7 @@ import {
   Swipe,
 } from './pages';
 import { Nav } from './components';
-import { Navbar, Footer } from './components/home';
+import { Footer } from './components/home';
 
 import './App.css';
 import { UserContext } from './context/UserContext';
@@ -52,7 +52,6 @@ const App = () => {
       <UserContext.Provider value={{ logInOut, setLogInOut }}>
         <BrowserRouter>
           <div className='bg-primary-black overflow-hidden'>
-            <Navbar />
             <Nav />
             <Routes>
               <Route path='/' element={<Home />} />

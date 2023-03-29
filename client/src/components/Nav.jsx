@@ -71,6 +71,7 @@ export default function Nav() {
   return (
     <>
       <Box px={4} className="my-6 xl:mx-[8rem] lg:mx-[5rem] md:mx-[3rem] sm:mx-[1rem] mx-0">
+        <div className="absolute w-[8%] inset-0 gradient-01" />
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
