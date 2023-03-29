@@ -8,7 +8,6 @@
   box-sizing: border-box;
   font-family: "Eudoxus Sans", sans-serif;
   scroll-behavior: smooth;
-  color: grey; /* temporary so can see all text on black bg */
 }
 
 .gradient-01 {

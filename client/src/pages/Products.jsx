@@ -1,39 +1,12 @@
 import { Flex, Select, Text } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { CardProduct } from '../components';
-import { productsData } from '../constants';
-import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
+
 const Products = () => {
   const [products, setProducts] = useState([]);
-  const [username, setUsername] = useState('');
-  const [review, setReview] = useState('');
-  const [showReviews, setShowReviews] = useState(false);
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //Testing
-  //   const response = await fetch(
-  //     `http://localhost:8080/api/product/${products.Type}/reviews`,
-  //     {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         user: username,
-  //         review: review,
-  //       }),
-  //     }
-  //   );
-
-  //   const data = await response.json();
-  //   console.log(data);
-  //   // update state with the new product data returned from the server
-  //   setProducts(data);
-  //   // clear the form inputs
-  //   setUsername('');
-  //   setReview('');
-  // };
+  const [selectedProduct, setSelectedProduct] = useState('');
+  const [selectedBrand, setSelectedBrand] = useState('');
+  const [selectedModel, setSelectedModel] = useState('');
 
   useEffect(() => {
     fetch('http://localhost:8080/api/product')
@@ -43,46 +16,154 @@ const Products = () => {
       )
       .then(
         (parsedData) => {
-          console.log(parsedData);
           setProducts(parsedData);
         },
         (err) => console.log(err)
       );
   }, []);
 
+  // Get available product types from the fetched data
+  const availableTypes = [...new Set(products.map((product) => product.type))];
+  const avaliableBrands = [
+    ...new Set(products.map((product) => product.brand)),
+  ];
+  const avaliableModels = [
+    ...new Set(products.map((product) => product.model)),
+  ];
+
+  const groupedProducts = products.reduce((acc, item) => {
+    const { type, brand, model, img, ratings, reviews } = item;
+    const existingProduct = acc.find(
+      (group) =>
+        group.type === type && group.brand === brand && group.model === model
+    );
+    if (existingProduct) {
+      existingProduct.users.push(item.user);
+      existingProduct.ratings.push(...ratings);
+      existingProduct.reviews.push(...reviews);
+    } else {
+      acc.push({
+        img,
+        type,
+        brand,
+        model,
+        ratings: [...ratings],
+        reviews: [...reviews],
+        users: [item.user],
+      });
+    }
+    return acc;
+  }, []);
+
+  // Remove duplicates from groupedProducts array
+  const uniqueProducts = groupedProducts.reduce((acc, product) => {
+    const existingProductIndex = acc.findIndex(
+      (p) =>
+        p.type === product.type &&
+        p.brand === product.brand &&
+        p.model === product.model
+    );
+    if (existingProductIndex === -1) {
+      acc.push(product);
+    }
+    return acc;
+  }, []);
+  // Filtered products based on selected product type and brand
+  const filteredProducts = uniqueProducts.filter((product) => {
+    if (selectedProduct && selectedBrand && selectedModel) {
+      return (
+        product.type === selectedProduct &&
+        product.brand === selectedBrand &&
+        product.model === selectedModel
+      );
+    } else if (selectedProduct && selectedBrand) {
+      return (
+        (product.type === selectedProduct ||
+          product.brand === selectedProduct) &&
+        (product.type === selectedBrand || product.brand === selectedBrand)
+      );
+    } else if (selectedProduct && selectedModel) {
+      return (
+        (product.type === selectedProduct ||
+          product.brand === selectedProduct) &&
+        product.model === selectedModel
+      );
+    } else if (selectedBrand && selectedModel) {
+      return (
+        (product.type === selectedBrand || product.brand === selectedBrand) &&
+        product.model === selectedModel
+      );
+    } else if (selectedProduct) {
+      return (
+        product.type === selectedProduct ||
+        product.brand === selectedProduct ||
+        product.model === selectedProduct
+      );
+    } else if (selectedBrand) {
+      return (
+        product.type === selectedBrand ||
+        product.brand === selectedBrand ||
+        product.model === selectedBrand
+      );
+    } else if (selectedModel) {
+      return (
+        product.type === selectedModel ||
+        product.brand === selectedModel ||
+        product.model === selectedModel
+      );
+    } else {
+      return true;
+    }
+  });
+
   return (
     <div>
-      <h1>Lorem ipsum dolor sit amet consectetur.</h1>
-      <h2>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus laborum
-        dolores necessitatibus earum dolore velit, quo distinctio unde facere
-        aperiam accusantium aliquam ea tempore repudiandae officia, animi culpa
-        temporibus illo obcaecati hic ducimus. Cumque, repudiandae.
+      <h1 className='mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center'>
+        View All Products
+      </h1>
+      <h2 className='mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6'>
+        Check out all the top-rated gadgets by programmers, gamers and traders
+        worldwide.
       </h2>
       <Flex direction='row' justify='space-between' align='center' px='5%'>
         {/* Filter */}
         <Text>Filter by</Text>
-        <Select placeholder='Products'>
-          <option value='option1'>Desk</option>
-          <option value='option2'>Monitor</option>
-          <option value='option3'>Chair</option>
-          <option value='option4'>Keyboard</option>
-          <option value='option5'>Mouse</option>
-          <option value='option6'>Mousepad</option>
-          <option value='option7'>Speaker</option>
-          <option value='option8'>Headphone</option>
-          <option value='option9'>PC</option>
-          <option value='option10'>Laptop</option>
-          <option value='option11'>Light</option>
-          <option value='option12'>Riser</option>
-          <option value='option13'>Accessories</option>
+        <Select
+          placeholder='Products'
+          value={selectedProduct}
+          onChange={(e) => setSelectedProduct(e.target.value)}
+        >
+          {/* Dynamically generated options */}
+          {availableTypes.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
         </Select>
-        <Select placeholder='Brands'>
-          <option value='option1'>Option 1</option>
-          <option value='option2'>Option 2</option>
-          <option value='option3'>Option 3</option>
+        <Select
+          placeholder='Brand'
+          value={selectedBrand}
+          onChange={(e) => setSelectedBrand(e.target.value)}
+        >
+          {/* Dynamically generated options */}
+          {avaliableBrands.map((brand) => (
+            <option key={brand} value={brand}>
+              {brand}
+            </option>
+          ))}
         </Select>
-
+        <Select
+          placeholder='Model'
+          value={selectedModel}
+          onChange={(e) => setSelectedModel(e.target.value)}
+        >
+          {/* Dynamically generated options */}
+          {avaliableModels.map((model) => (
+            <option key={model} value={model}>
+              {model}
+            </option>
+          ))}
+        </Select>
         {/* Sort */}
         <Text>Sort by</Text>
         <Select placeholder='Sort by'>
@@ -102,66 +183,22 @@ const Products = () => {
           flexWrap: 'wrap',
         }}
       >
-        {/* {productsData.map((item) => (
-          <div key={item.productId}>
+        {filteredProducts.map((group) => (
+          <div key={`${group.type}-${group.brand}-${group.model}`}>
             <CardProduct
-              img={item.img}
-              type={item.type}
-              brand={item.brand}
-              model={item.model}
-              slug={`/products/${item.productId}`}
-            />
-          </div>
-        ))} */}
-        {products.map((item) => (
-          <div key={item.type}>
-            <CardProduct
-              img={item.img}
-              type={item.type}
-              brand={item.brand}
-              model={item.model}
-              ratings={item.ratings}
-              reviews={item.reviews}
-              slug={`/products/${item.type}`}
+              img={group.img}
+              type={group.type}
+              brand={group.brand}
+              model={group.model}
+              ratings={group.ratings}
+              reviews={group.reviews}
+              slug={`/products/${group.type}`}
+              users={group.users}
             />
           </div>
         ))}
-      </div>
-      <div>
-        {products.map((product) => (
-          <div key={product._id}>
-            {/* <button onClick={() => setShowReviews(!showReviews)}>
-              {showReviews ? 'Hide Reviews' : 'Show Reviews'}
-            </button>
-            {showReviews && (
-              <ul>
-                {product.reviews.map((review) => (
-                  <li key={review._id}>
-                    {review.user}: {review.review}
-                  </li>
-                ))}
-              </ul>
-            )}
-            <form onSubmit={handleSubmit}>
-              <label htmlFor='username'>Username:</label>
-              <input
-                type='text'
-                id='username'
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <br />
-              <label htmlFor='review'>Review:</label>
-              <textarea
-                id='review'
-                value={review}
-                onChange={(e) => setReview(e.target.value)}
-              ></textarea>
-              <br />
-              <button type='submit'>Add Review</button>
-            </form> */}
-          </div>
-        ))}
+        This code should group the products correctly and render the CardProduct
+        components with the grouped user data.
       </div>
     </div>
   );

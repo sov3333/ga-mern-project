@@ -1,6 +1,7 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
+import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import cookieParser from 'cookie-parser';
 
@@ -15,8 +16,15 @@ import productRoutes from './routes/productRoutes.js';
 dotenv.config();
 
 const app = express();
-app.use(cors({ credentials: true, origin: true }));
-app.use(express.json());
+app.use(
+  cors({
+    credentials: true,
+    origin: true,
+  })
+);
+
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(cookieParser());
 app.use(methodOverride('_method'));
 
@@ -27,7 +35,7 @@ app.use('/api/product', productRoutes);
 
 const PORT = process.env.PORT || 8080;
 const MONGODB_URL =
-  process.env.MONGODB_URL || 'mongodb://localhost:27017/swipesetups'; // Edit by weiliang
+  process.env.MONGODB_URL || 'mongodb://localhost:27017/swipe';
 
 app.get('/', async (req, res) => {
   res.send('Server says hello!');

@@ -1,417 +1,190 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Flex,
-  Text,
+  Avatar,
+  HStack,
+  Link,
   IconButton,
   Button,
-  Stack,
-  Collapse,
-  Icon,
-  Link,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  useColorModeValue,
-  useBreakpointValue,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
   useDisclosure,
-  Image,
+  useColorModeValue,
+  Stack,
 } from '@chakra-ui/react';
-import {
-  HamburgerIcon,
-  CloseIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-} from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
 
-import { logo } from '../assets';
 import { UserContext } from '../context/UserContext';
+import { AuthContext } from '../context/AuthContext';
 
-// "With Sub-Navigation & CTA" from https://chakra-templates.dev/navigation/navbar
+const Links = [
+  'Setups',
+  'Swipe',
+  'Products',
+];
 
-// TODO:
-// - When logged in, show "sign in" and "sign out", but if logged out show User Profile Icon
-// - Add Create new Post (setup) button
-// -> See "With action button & user dropdown" version of chakra template of navs
+const NavLink = ({ children }) => (
+  <Link
+    px={2}
+    py={1}
+    rounded={'md'}
+    _hover={{
+      textDecoration: 'none',
+      bg: useColorModeValue('gray.600'),
+    }}
+    href={`/${children.toLowerCase()}`}>
+    {children}
+  </Link>
+);
 
 export default function Nav() {
-  const { isOpen, onToggle } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // handle user
   const { logInOut, setLogInOut } = useContext(UserContext);
-  console.log(logInOut);
+  const { role, setRole } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    fetch('http://localhost:8080/api/user/logout', {
+      method: 'POST',
+      credentials: 'include', // include cookies in the request
+    })
+      .then((response) => {
+        setLogInOut(!logInOut);
+        setRole(null);
+        localStorage.clear();
+        console.log(response.status, response.statusText);
+        window.scrollTo(0, 0);
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
-    <Box>
-      <Flex
-        bg={useColorModeValue('white', 'gray.800')}
-        color={useColorModeValue('gray.600', 'white')}
-        minH={'60px'}
-        py={{ base: 2 }}
-        px={{ base: 4 }}
-        borderBottom={1}
-        borderStyle={'solid'}
-        borderColor={useColorModeValue('gray.200', 'gray.900')}
-        align={'center'}
-      >
-        <Flex
-          flex={{ base: 1, md: 'auto' }}
-          ml={{ base: -2 }}
-          display={{ base: 'flex', md: 'none' }}
-        >
+    <>
+      <Box px={4} className="my-6 xl:mx-[8rem] lg:mx-[5rem] md:mx-[3rem] sm:mx-[1rem] mx-0">
+        <div className="absolute w-[8%] inset-0 gradient-01" />
+        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
-            onClick={onToggle}
-            icon={
-              isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
-            }
-            variant={'ghost'}
-            aria-label={'Toggle Navigation'}
+            size={'md'}
+            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+            aria-label={'Open Menu'}
+            display={{ md: 'none' }}
+            onClick={isOpen ? onClose : onOpen}
           />
-        </Flex>
-        <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          {/* <Text
-            textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-            fontFamily={'heading'}
-            color={useColorModeValue('gray.800', 'white')}>
-          */}
-
-          {/* 
-          TODO: Fix Navbar Logo 
-          On smaller devices, the logo is too small.
-          Also, the height of navbar changes as screen changes.
-          */}
-          <Image src={logo} alt='logo' style={{ height: '100%' }} />
-
-          {/* </Text> */}
-          <Flex
-            display={{ base: 'none', md: 'flex' }}
-            ml={10}
-            alignItems='center'
-          >
-            <DesktopNav />
-          </Flex>
-        </Flex>
-
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={'flex-end'}
-          direction={'row'}
-          spacing={6}
-        >
-          {logInOut ? (
-            <>
-              <Button
-                as={'a'}
-                fontSize={'sm'}
-                fontWeight={400}
-                variant={'link'}
-                href={'/signin'}
-                onClick={() => {
-                  setLogInOut(false);
-                }}
-              >
-                Sign Out
-              </Button>{' '}
-            </>
-          ) : (
-            <>
-              <Button
-                as={'a'}
-                fontSize={'sm'}
-                fontWeight={400}
-                variant={'link'}
-                href={'/signin'}
-              >
-                Sign In
-              </Button>
-              <Button
-                as={'a'}
-                display={{ base: 'none', md: 'inline-flex' }}
-                fontSize={'sm'}
-                fontWeight={600}
-                color={'white'}
-                bg={'pink.400'}
-                href={'/signup'}
-                _hover={{
-                  bg: 'pink.300',
-                }}
-              >
-                Sign Up
-              </Button>{' '}
-            </>
-          )}
-        </Stack>
-      </Flex>
-
-      <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
-      </Collapse>
-    </Box>
-  );
-}
-
-const DesktopNav = () => {
-  const { logInOut, setLogInOut } = useContext(UserContext);
-  const linkColor = useColorModeValue('gray.600', 'gray.200');
-  const linkHoverColor = useColorModeValue('gray.800', 'white');
-  const popoverContentBgColor = useColorModeValue('white', 'gray.800');
-
-  return (
-    <Stack direction={'row'} spacing={4}>
-      {NAV_ITEMS_DEFAULT.map((navItem) => (
-        <Box key={navItem.label}>
-          <Popover trigger={'hover'} placement={'bottom-start'}>
-            <PopoverTrigger>
-              <Link
-                p={2}
-                href={navItem.href ?? '#'}
-                fontSize={'sm'}
-                fontWeight={500}
-                color={linkColor}
+          <HStack spacing={8} alignItems={'center'}>
+            <Link 
+              href="/"
+              _hover={{
+                textDecoration: 'none',
+                cursor: 'pointer',
+              }}
+            >
+              <Box className="text-white font-extrabold md:text-[28px] sm:text-[24px] text-[18px]">SWIPE SETUPS</Box>
+            </Link>
+            <HStack
+              as={'nav'}
+              spacing={4}
+              display={{ base: 'none', md: 'flex' }}
+              className="text-white font-extrabold text-[18px]"
+            >
+              {Links.map((link) => (
+                <NavLink key={link}>{link}</NavLink>
+              ))}
+            </HStack>
+          </HStack>
+          <Flex alignItems={'center'}>
+            {/* logic for showing logged in vs logged out menu items */}
+            {logInOut ? (
+              <>
+              <Link 
+                href="/create"
                 _hover={{
                   textDecoration: 'none',
-                  color: linkHoverColor,
                 }}
               >
-                {navItem.label}
+                <Button
+                  variant={'solid'}
+                  colorScheme={'whatsapp'}
+                  size={'sm'}
+                  mr={4}
+                  leftIcon={<AddIcon />}>
+                  Post
+                </Button>
               </Link>
-            </PopoverTrigger>
-
-            {navItem.children && (
-              <PopoverContent
-                border={0}
-                boxShadow={'xl'}
-                bg={popoverContentBgColor}
-                p={4}
-                rounded={'xl'}
-                minW={'sm'}
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rounded={'full'}
+                  variant={'link'}
+                  cursor={'pointer'}
+                  minW={0}>
+                  <Avatar
+                    size={'sm'}
+                    src={
+                      'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
+                    }
+                  />
+                </MenuButton>
+                <MenuList>
+                  <Link 
+                    href="/profile"
+                    _hover={{
+                      textDecoration: 'none',
+                    }}
+                  >
+                    <MenuItem>Profile</MenuItem>
+                  </Link>
+                  <Link 
+                    href="/profile/edit"
+                    _hover={{
+                      textDecoration: 'none',
+                    }}
+                  >
+                    <MenuItem>Settings</MenuItem>
+                  </Link>
+                  <MenuDivider />
+                  <MenuItem onClick={() => handleSignOut()}>Sign out</MenuItem>
+                </MenuList>
+              </Menu>
+              </>
+            ) : (
+              <>
+              <Link href='/signin'>
+                <p className='text-white mr-5 font-bold no-underline sm:block hidden'>
+                  Sign In
+                </p>
+              </Link>
+              <Link 
+                href='/signup'
+                _hover={{ textDecoration: 'none' }}
               >
-                <Stack>
-                  {navItem.children.map((child) => (
-                    <DesktopSubNav key={child.label} {...child} />
-                  ))}
-                </Stack>
-              </PopoverContent>
-            )}
-          </Popover>
-        </Box>
-      ))}
-      {logInOut ? (
-        NAV_ITEMS_LOGIN.map((navItem) => (
-          <Box key={navItem.label}>
-            <Popover trigger={'hover'} placement={'bottom-start'}>
-              <PopoverTrigger>
-                <Link
-                  p={2}
-                  href={navItem.href ?? '#'}
-                  fontSize={'sm'}
-                  fontWeight={500}
-                  color={linkColor}
-                  _hover={{
-                    textDecoration: 'none',
-                    color: linkHoverColor,
-                  }}
-                >
-                  {navItem.label}
-                </Link>
-              </PopoverTrigger>
-
-              {navItem.children && (
-                <PopoverContent
-                  border={0}
-                  boxShadow={'xl'}
-                  bg={popoverContentBgColor}
-                  p={4}
-                  rounded={'xl'}
-                  minW={'sm'}
-                >
-                  <Stack>
-                    {navItem.children.map((child) => (
-                      <DesktopSubNav key={child.label} {...child} />
-                    ))}
-                  </Stack>
-                </PopoverContent>
-              )}
-            </Popover>
-          </Box>
-        ))
-      ) : (
-        <></>
-      )}
-      {/* {} */}
-    </Stack>
-  );
-};
-
-const DesktopSubNav = ({ label, href, subLabel }) => {
-  return (
-    <Link
-      href={href}
-      role={'group'}
-      display={'block'}
-      p={2}
-      rounded={'md'}
-      _hover={{ bg: useColorModeValue('pink.50', 'gray.900') }}
-    >
-      <Stack direction={'row'} align={'center'}>
-        <Box>
-          <Text
-            transition={'all .3s ease'}
-            _groupHover={{ color: 'pink.400' }}
-            fontWeight={500}
-          >
-            {label}
-          </Text>
-          <Text fontSize={'sm'}>{subLabel}</Text>
-        </Box>
-        <Flex
-          transition={'all .3s ease'}
-          transform={'translateX(-10px)'}
-          opacity={0}
-          _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
-          justify={'flex-end'}
-          align={'center'}
-          flex={1}
-        >
-          <Icon color={'pink.400'} w={5} h={5} as={ChevronRightIcon} />
-        </Flex>
-      </Stack>
-    </Link>
-  );
-};
-
-const MobileNav = () => {
-  const { logInOut, setLogInOut } = useContext(UserContext);
-  return (
-    <Stack
-      bg={useColorModeValue('white', 'gray.800')}
-      p={4}
-      display={{ md: 'none' }}
-    >
-      {NAV_ITEMS_DEFAULT.map((navItem) => (
-        <MobileNavItem key={navItem.label} {...navItem} />
-      ))}
-      {/* {NAV_ITEMS_LOGIN.map((navItem) => (
-        <MobileNavItem key={navItem.label} {...navItem} />
-      ))} */}
-    </Stack>
-  );
-};
-
-const MobileNavItem = ({ label, children, href }) => {
-  const { isOpen, onToggle } = useDisclosure();
-
-  return (
-    <Stack spacing={4} onClick={children && onToggle}>
-      <Flex
-        py={2}
-        as={Link}
-        href={href ?? '#'}
-        justify={'space-between'}
-        align={'center'}
-        _hover={{
-          textDecoration: 'none',
-        }}
-      >
-        <Text
-          fontWeight={600}
-          color={useColorModeValue('gray.600', 'gray.200')}
-        >
-          {label}
-        </Text>
-        {children && (
-          <Icon
-            as={ChevronDownIcon}
-            transition={'all .25s ease-in-out'}
-            transform={isOpen ? 'rotate(180deg)' : ''}
-            w={6}
-            h={6}
-          />
-        )}
-      </Flex>
-
-      <Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
-        <Stack
-          mt={2}
-          pl={4}
-          borderLeft={1}
-          borderStyle={'solid'}
-          borderColor={useColorModeValue('gray.200', 'gray.700')}
-          align={'start'}
-        >
-          {children &&
-            children.map((child) => (
-              <Link key={child.label} py={2} href={child.href}>
-                {child.label}
+                <Button size='sm' colorScheme='pink'>
+                  Sign Up
+                </Button>
               </Link>
-            ))}
-        </Stack>
-      </Collapse>
-    </Stack>
+              </>
+            )}
+          </Flex>
+        </Flex>
+        {isOpen ? (
+          <Box pb={4} display={{ md: 'none' }} className="text-white font-extrabold text-[18px]">
+            <Stack as={'nav'} spacing={4}>
+              {Links.map((link) => (
+                <NavLink key={link}>{link}</NavLink>
+              ))}
+            </Stack>
+          </Box>
+        ) : null}
+      </Box>
+    </>
   );
-};
-
-const NAV_ITEMS_DEFAULT = [
-  // {
-  //   label: 'Inspiration',
-  //   children: [
-  //     {
-  //       label: 'Explore Design Work',
-  //       subLabel: 'Trending Design to inspire you',
-  //       href: '#',
-  //     },
-  //     {
-  //       label: 'New & Noteworthy',
-  //       subLabel: 'Up-and-coming Designers',
-  //       href: '#',
-  //     },
-  //   ],
-  // },
-  // {
-  //   label: 'Products',
-  //   children: [
-  //     {
-  //       label: 'Job Board',
-  //       subLabel: 'Find your dream design job',
-  //       href: '#',
-  //     },
-  //     {
-  //       label: 'Freelance Projects',
-  //       subLabel: 'An exclusive list for contract work',
-  //       href: '#',
-  //     },
-  //   ],
-  // },
-  {
-    label: 'Home',
-    href: '/',
-  },
-  {
-    label: 'Setups',
-    href: '/setups',
-  },
-  {
-    label: 'Products',
-    href: '/products',
-  },
-];
-const NAV_ITEMS_LOGIN = [
-  {
-    label: '(test)',
-    href: '/starter',
-  },
-  {
-    label: '(profile)',
-    href: '/profile',
-  },
-  {
-    label: '(create)',
-    href: '/create',
-  },
-  {
-    label: '(reset)',
-    href: '/reset',
-  },
-  {
-    label: '(swipe)',
-    href: '/swipe',
-  },
-];
+}

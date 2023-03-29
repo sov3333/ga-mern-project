@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import {
   Flex,
   Box,
@@ -13,9 +13,11 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 import ModalWithForm from './ModalWithForm';
 import { UserContext } from '../context/UserContext';
+import { AuthContext } from '../context/AuthContext';
 
 // "Simple Login Card" from https://chakra-templates.dev/forms/authentication
 
@@ -27,6 +29,8 @@ export default function CardSignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { logInOut, setLogInOut } = useContext(UserContext);
+  const { role, setRole } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const signInUser = async (e) => {
     e.preventDefault();
@@ -47,9 +51,16 @@ export default function CardSignIn() {
     const data = await response.json();
     const user = Promise.resolve(data);
     user.then((user) => {
-      setLogInOut(true);
-      console.log(user);
+      if (user.message !== 'Login Successful' || user === undefined) {
+        navigate('/signin');
+      } else {
+        window.localStorage.setItem('role', JSON.stringify(user.role));
+        setRole(user.role);
+        setLogInOut(true);
+      }
     });
+    window.scrollTo(0, 0);
+    navigate('/');
   };
 
   return (
@@ -61,7 +72,9 @@ export default function CardSignIn() {
     >
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
-          <Heading fontSize={'4xl'} color={'gray.100'}>Sign in to your account</Heading>
+          <Heading fontSize={'4xl'} color={'gray.100'}>
+            Sign in to your account
+          </Heading>
           <Text fontSize={'lg'} color={'gray.200'}>
             to enjoy all of our cool features ✌️
           </Text>
@@ -104,6 +117,7 @@ export default function CardSignIn() {
                   <ModalWithForm />
                   {/* <Link color={'blue.400'}>Forgot password?</Link> */}
                 </Stack>
+
                 <Button
                   type='submit'
                   bg={'blue.400'}

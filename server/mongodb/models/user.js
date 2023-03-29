@@ -7,6 +7,15 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true, trim: true },
   password: { type: String, required: true },
   tags: [{ type: String }],
+  role: { type: String, enum: ['user', 'admin'], default: 'admin' },
+  username: { type: String, trim: true },
+  swipedSetups: [
+    {
+      setupId: { type: String },
+      liked: { type: Boolean },
+      timestamp: { type: Date, default: Date.now },
+    },
+  ],
 });
 
 // UserSchema.post('save', function (doc, ext) {

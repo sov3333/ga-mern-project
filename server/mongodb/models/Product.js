@@ -2,10 +2,11 @@ import mongoose from 'mongoose';
 
 const productSchema = new mongoose.Schema(
   {
-    img: { type: String, required: true },
-    type: { type: String, required: true },
-    brand: { type: String, required: true },
-    model: { type: String, required: true },
+    user: { type: String },
+    img: { type: String },
+    type: { type: String },
+    brand: { type: String },
+    model: { type: String },
     ratings: [
       {
         user: { type: String },

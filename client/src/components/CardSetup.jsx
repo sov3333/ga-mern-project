@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Box,
@@ -21,20 +20,6 @@ export default function CardSetup({
   products,
   slug,
 }) {
-  // const [setups, setSetups] = useState([]);
-
-  // useEffect(() => {
-  //   fetch('http://localhost:8080/api/setup')
-  //     .then(
-  //       (data) => data.json(),
-  //       (err) => console.log(err)
-  //     )
-  //     .then(
-  //       (parsedData) => setSetups(parsedData),
-  //       (err) => console.log(err)
-  //     );
-  // }, []);
-
   return (
     <Center py={12} className='p-16'>
       <Link
@@ -47,10 +32,7 @@ export default function CardSetup({
           products: products,
         }}
       >
-        {/* {setups.map((setup) => { */}
-        {/* return ( */}
         <Box
-          // key={setup._id}
           role={'group'}
           p={6}
           maxW={'330px'}
@@ -76,7 +58,6 @@ export default function CardSetup({
               top: 5,
               left: 0,
               backgroundImage: `url(${img})`,
-              // backgroundImage: `url(${setup.img})`,
               filter: 'blur(15px)',
               zIndex: -1,
             }}
@@ -92,7 +73,6 @@ export default function CardSetup({
               width={282}
               objectFit={'cover'}
               src={img}
-              //src={setup.img}
             />
           </Box>
           <Stack pt={10} align={'center'}>
@@ -102,7 +82,6 @@ export default function CardSetup({
               textTransform={'uppercase'}
             >
               @{user}
-              {/* @{setup.user} */}
             </Text>
             <Heading
               fontSize={'2xl'}
@@ -111,54 +90,50 @@ export default function CardSetup({
               color={'gray.300'}
             >
               {title}
-              {/* {setup.title} */}
             </Heading>
             <Stack direction={'row'} align={'center'}>
               <Wrap>
-                {products.map((item, index) => (
-                  //{setup.products.map((item, index) => (
+                {products.map((product, index) => (
                   <Text
                     key={index}
                     fontWeight={400}
                     fontSize={'sm'}
                     color={
                       // change color of #hashtag per product
-                      item === 'desk'
+                      product.type === 'desk'
                         ? 'teal'
-                        : item === 'monitor'
+                        : product.type === 'monitor'
                         ? 'green'
-                        : item === 'chair'
+                        : product.type === 'chair'
                         ? 'orange'
-                        : item === 'keyboard'
+                        : product.type === 'keyboard'
                         ? 'peru'
-                        : item === 'mouse'
+                        : product.type === 'mouse'
                         ? 'red'
-                        : item === 'mousepad'
+                        : product.type === 'mousepad'
                         ? 'aqua'
-                        : item === 'speaker'
+                        : product.type === 'speaker'
                         ? 'blue'
-                        : item === 'headphone'
+                        : product.type === 'headphone'
                         ? 'lightgreen'
-                        : item === 'pc'
+                        : product.type === 'pc'
                         ? 'purple'
-                        : item === 'laptop'
+                        : product.type === 'laptop'
                         ? 'pink'
-                        : item === 'light'
+                        : product.type === 'light'
                         ? 'plum'
-                        : item === 'riser'
+                        : product.type === 'riser'
                         ? 'tomato'
-                        : 'black' // fallback color
+                        : 'darkgrey' // fallback color
                     }
                   >
-                    #{item}
+                    #{product.type}
                   </Text>
                 ))}
               </Wrap>
             </Stack>
           </Stack>
         </Box>
-        );
-        {/* })} */}
       </Link>
     </Center>
   );

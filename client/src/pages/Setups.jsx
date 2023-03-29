@@ -25,14 +25,8 @@ const Setups = () => {
 
   return (
     <div>
-      <h1>Lorem ipsum dolor sit amet consectetur.</h1>
-      <h2>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti iure
-        alias in, error necessitatibus, perspiciatis obcaecati dicta nam labore
-        voluptas ipsum id ut, laborum voluptates nemo voluptatibus? Eligendi hic
-        illo cupiditate reiciendis odit quasi? Deserunt facere tempora quidem
-        voluptates harum perferendis cupiditate.
-      </h2>
+      <h1 className="mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center">View All Desk Setups</h1>
+      <h2 className="mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6">Check out all the desk setups in the world</h2>
       <Flex direction='row' justify='space-between' align='center' px='5%'>
         {/* Filter */}
         <Text>Filter by</Text>

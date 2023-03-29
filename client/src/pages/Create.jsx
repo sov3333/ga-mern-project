@@ -15,8 +15,10 @@ import {
   Link,
   FormControl,
   FormLabel,
+  Select,
+  Wrap,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FileBase64 from 'react-file-base64';
 import { useNavigate } from 'react-router-dom';
 
@@ -49,60 +51,154 @@ const avatars = [
 ];
 
 export default function Create() {
+  const [userId, setUserId] = useState('');
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/user/id`, {
+      method: `GET`,
+      credentials: `include`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUserId(data);
+        // console.log(userId);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }, [userId]);
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/user/${userId}`, {
+      method: `GET`,
+      credentials: `include`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUsername(data.username);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }, [userId]);
+
+  console.log(userId, `here`);
+
   const [newSetup, setNewSetup] = useState({
-    user: 'Alice',
+    userId: '',
+    user: '',
     title: '',
     description: '',
-    products: '',
     img: '',
   });
-
+  // const [newType, setNewType] = useState([''])
+  // const [newBrand, setNewBrand] = useState([''])
+  // const [newModel, setNewModel] = useState([''])
   // const [newTitle, setNewTitle] = useState('');
   // const [newDescription, setNewDescription] = useState('');
-  // const [newProducts, setNewProducts] = useState('');
+  const [newProducts, setNewProducts] = useState([
+    {
+      type: '',
+      brand: '',
+      model: '',
+    },
+  ]);
   // const [newImage, setNewImage] = useState('');
-
+  //console.log('show', newProducts);
   const navigate = useNavigate();
+
+  const handleInputChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...newProducts];
+    list[index][name] = value;
+    setNewProducts(list);
+  };
+
+  const handleAddProduct = () => {
+    setNewProducts([...newProducts, { type: '', brand: '', model: '' }]);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const productList = [];
+    newProducts.forEach((product) => {
+      productList.push({
+        type: product.type,
+        brand: product.brand,
+        model: product.model,
+      });
+    });
+
+    console.log(`productList`, productList);
+
     fetch('http://localhost:8080/api/setup', {
       method: 'POST',
       body: JSON.stringify({
-        // user: 'Alice',
-        // title: newTitle,
-        // description: newDescription,
-        // products: newProducts,
-        // //img: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ7Y3DJGIZejTxIdwspZPJhd40NKcYKHKXbGuoH7MxteDaJZJQl',
-        // img: newImage,
-        user: newSetup.user,
+        userId: userId,
+        img: newSetup.img,
+        user: username,
         title: newSetup.title,
         description: newSetup.description,
-        products: newSetup.products,
-        img: newSetup.img,
+        products: productList,
       }),
       headers: {
         'Content-Type': 'application/json',
       },
     })
       .then((res) => res.json())
-      .then((data) => setNewSetup(data.newSetup))
+      .then((data) => {
+        setNewSetup([]), console.log(`New setup created:`, data);
+      })
       .catch((err) => console.error({ Error: err }));
-    if (
-      newSetup.title === '' ||
-      newSetup.products === '' ||
-      newSetup.img === ''
-    ) {
-      alert('Please input required field');
-    } else {
-      navigate('/setups');
-      navigate(0);
-    }
-    //console.log('setup', newSetup);
+    //send data to products collection
+    fetch('http://localhost:8080/api/product', {
+      method: 'POST',
+      body: JSON.stringify({
+        user: newSetup.user,
+        //img: newSetup.img, // need to change
+        type: newProducts.forEach((product) => {
+          product.type;
+        }),
+        brand: newProducts.forEach((product) => {
+          product.brand;
+        }),
+        model: newProducts.forEach((product) => {
+          product.model;
+        }),
+        ratings: newSetup.ratings,
+        reviews: newSetup.reviews,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => console.log('New product created:', data))
+      .catch((err) => console.error('Error creating new product:', err));
+    // if (
+    //   newSetup.title === '' ||
+    //   newSetup.type === '' ||
+    //   newSetup.brand === '' ||
+    //   newSetup.model === '' ||
+    //   newSetup.img === ''
+    // ) {
+    //   alert('Please input required field');
+    // } else {
+    //   navigate('/setups');
+    //   navigate(0);
+    // }
+    // console.log('setup', newSetup);
   };
 
   return (
     <Box position={'relative'}>
+      <h1 className='mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center'>
+        Create a Post
+      </h1>
+      <h2 className='mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6'>
+        Showcase your style & inspire productivity
+      </h2>
       <Container
         as={SimpleGrid}
         maxW={'7xl'}
@@ -115,14 +211,14 @@ export default function Create() {
             lineHeight={1.1}
             fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}
           >
-            Showcase your style{' '}
+            Showcase your style
             <Text
               as={'span'}
               bgGradient='linear(to-r, red.400,pink.400)'
               bgClip='text'
             >
               &
-            </Text>{' '}
+            </Text>
             inspire productivity
           </Heading>
           <Stack direction={'row'} spacing={4} align={'center'}>
@@ -204,13 +300,10 @@ export default function Create() {
               </Text>
             </Heading>
             <Text color={'gray.500'} fontSize={{ base: 'sm', sm: 'md' }}>
-              Join our community of desk setup enthusiasts and share your own
-              trading gaming or programming workspace. Upload a photo of your
-              setup, add a catchy title and a brief description, and let others
-              rate and comment on your creation. Whether you're a minimalist or
-              a tech enthusiast, we welcome all setups and styles. Share your
-              setup with the world and inspire others to upgrade their own
-              desks!
+              Share your own unique workspace with the world and inspire others
+              to upgrade their own desks! Upload a photo of your setup, add a
+              catchy title and a brief description, and let others rate and
+              comment on your creation.
             </Text>
           </Stack>
           <Box as={'form'} mt={10}>
@@ -254,40 +347,118 @@ export default function Create() {
                     color: 'gray.500',
                   }}
                 />
+                <FormControl isRequired mt={4}>
+                  <FormLabel>My Setup Image</FormLabel>
+                  <FileBase64
+                    type='file'
+                    multiple={false}
+                    onDone={({ base64 }) =>
+                      setNewSetup({ ...newSetup, img: base64 })
+                    }
+                  />
+                </FormControl>
               </FormControl>
-              <FormControl isRequired>
-                <FormLabel>Products</FormLabel>
-                <Input
-                  // value={newProducts}
-                  // onChange={(e) => {
-                  //   setNewProducts(e.target.value.split(/\s*,\s*/));
-                  // }}
-                  //value={newSetup.products} -> putting this become undefined error
-                  onChange={(e) => {
-                    setNewSetup({
-                      ...newSetup,
-                      products: e.target.value.split(/\s*,\s*/),
-                    });
-                  }}
-                  placeholder='eg: desk, monitor, keyboard, mouse'
-                  bg={'gray.100'}
-                  border={0}
-                  color={'gray.500'}
-                  _placeholder={{
-                    color: 'gray.500',
-                  }}
-                />
-              </FormControl>
-              <FormControl isRequired>
-                <FormLabel>Image</FormLabel>
-                <FileBase64
-                  type='file'
-                  multiple={false}
-                  onDone={({ base64 }) =>
-                    setNewSetup({ ...newSetup, img: base64 })
-                  }
-                />
-              </FormControl>
+              {newProducts.map((product, index) => (
+                <FormControl isRequired key={index}>
+                  <FormLabel>Products</FormLabel>
+                  <Input
+                    // value={newDescription}
+                    // onChange={(e) => {
+                    //   setNewDescription(e.target.value);
+                    // }}
+                    //value={newSetup.description} -> putting this become undefined error
+                    name='type'
+                    type='text'
+                    id='type'
+                    value={product.type}
+                    onChange={(e) => handleInputChange(e, index)}
+                    required
+                    // onChange={(e) => {
+                    //   const capitalizedType =
+                    //     e.target.value.charAt(0).toUpperCase() +
+                    //     e.target.value.slice(1).toLowerCase();
+                    //   setNewProducts({ ...newType, type: capitalizedType });
+                    // }}
+                    placeholder='e.g. Desk'
+                    bg={'gray.100'}
+                    border={0}
+                    color={'gray.500'}
+                    _placeholder={{
+                      color: 'gray.500',
+                    }}
+                  />
+                  <Input
+                    // value={newDescription}
+                    // onChange={(e) => {
+                    //   setNewDescription(e.target.value);
+                    // }}
+                    //value={newSetup.description} -> putting this become undefined error
+                    name='brand'
+                    type='text'
+                    id='brand'
+                    value={product.brand}
+                    onChange={(e) => handleInputChange(e, index)}
+                    required
+                    // onChange={(e) => {
+                    //   const capitalizedBrand =
+                    //     e.target.value.charAt(0).toUpperCase() +
+                    //     e.target.value.slice(1).toLowerCase();
+                    //   setNewSetup({ ...newSetup, brand: capitalizedBrand });
+                    // }}
+                    placeholder='e.g. Omindesk'
+                    bg={'gray.100'}
+                    border={0}
+                    color={'gray.500'}
+                    _placeholder={{
+                      color: 'gray.500',
+                    }}
+                  />
+                  <Input
+                    // value={newDescription}
+                    // onChange={(e) => {
+                    //   setNewDescription(e.target.value);
+                    // }}
+                    //value={newSetup.description} -> putting this become undefined error
+                    name='model'
+                    type='text'
+                    id='model'
+                    value={product.model}
+                    onChange={(e) => handleInputChange(e, index)}
+                    required
+                    // onChange={(e) => {
+                    //   const capitalizedModel =
+                    //     e.target.value.charAt(0).toUpperCase() +
+                    //     e.target.value.slice(1).toLowerCase();
+                    //   setNewSetup({ ...newSetup, model: capitalizedModel });
+                    // }}
+                    placeholder='e.g. Ascent Wildwood+'
+                    bg={'gray.100'}
+                    border={0}
+                    color={'gray.500'}
+                    _placeholder={{
+                      color: 'gray.500',
+                    }}
+                  />
+                  {/* below to control only 1 button is displayed for multiple inputs */}
+                  {newProducts.length - 1 === index &&
+                    newProducts.length < 4 && (
+                      <Button
+                        onClick={handleAddProduct}
+                        fontFamily={'heading'}
+                        mt={2}
+                        w={'half'}
+                        bgGradient='linear(to-r, blue.400,pink.400)'
+                        color={'white'}
+                        _hover={{
+                          bgGradient: 'linear(to-r, red.400,pink.400)',
+                          boxShadow: 'xl',
+                        }}
+                      >
+                        Add New Product
+                      </Button>
+                    )}
+                </FormControl>
+              ))}
               {/* <Button fontFamily={'heading'} bg={'gray.200'} color={'gray.800'}>
                 Upload Photo
               </Button> */}

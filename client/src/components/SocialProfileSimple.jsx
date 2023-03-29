@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
   Heading,
   Avatar,
@@ -11,6 +11,7 @@ import {
   Badge,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { AuthContext } from '../context/AuthContext';
 
 // "Social User Profile Simple" from https://chakra-templates.dev/components/cards
 
@@ -18,8 +19,9 @@ export default function SocialProfileSimple() {
   const [userId, setUserId] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
-  const [profileDesc, setProfileDesc] = useState(null);
+  const [username, setUsername] = useState(null);
   const [tags, setTags] = useState(null);
+  const { role, setRole } = useContext(AuthContext);
 
   useEffect(() => {
     fetch(`http://localhost:8080/api/user/id`, {
@@ -46,6 +48,8 @@ export default function SocialProfileSimple() {
         console.log(data);
         setFirstName(data.firstName);
         setLastName(data.lastName);
+        setUsername(data.username);
+        setRole(data.role);
       })
       .catch((e) => {
         console.error(e);
@@ -87,7 +91,10 @@ export default function SocialProfileSimple() {
           {firstName} {lastName}
         </Heading>
         <Text fontWeight={600} color={'gray.500'} mb={4}>
-          @lindsey_jam3s
+          {role}
+        </Text>
+        <Text fontWeight={600} color={'gray.500'} mb={4}>
+          {username}
         </Text>
         <Text
           textAlign={'center'}

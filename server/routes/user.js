@@ -16,11 +16,21 @@ router.get('/testLoggedIn', requireAuth, async (req, res) => {
   res.send('I AM LOGGED IN, I AM SHOWN');
 });
 
-router.get('/logout', (req, res) => {
-  // Delete JWT Cookie by replacing it with a blank cookie with a super short expiry
-  res.cookie('jwt', '', { maxAge: 1 }); //jwt, token value, {maxAge: 1}
-  console.log('logging out');
-  res.redirect('http://localhost:5173/');
+// router.post('/logout', (req, res) => {
+//   // // Delete JWT Cookie by replacing it with a blank cookie with a super short expiry
+//   // res.cookie('jwt', '', { maxAge: 1 });
+//   // res.json({ jwt: '' });
+//   // // console.log('logging out');
+//   // // // res.redirect('http://localhost:5173/');
+//   // console.log('logging out');
+//   console.log('hi, im here');
+// });
+
+router.post('/logout', (req, res) => {
+  res.cookie('jwt', '', { maxAge: 1 });
+  res.status(200).send({
+    message: 'Logout Successful',
+  });
 });
 
 router.post('/register', async (req, res) => {
@@ -29,7 +39,7 @@ router.post('/register', async (req, res) => {
   bcrypt
     .hash(req.body.password, 10)
     .then((hashedPassword) => {
-      const createdUser = new user({
+      const createdUser = new User({
         firstName: firstName,
         lastName: lastName,
         email: email,
@@ -87,6 +97,7 @@ router.post('/login', async (req, res) => {
             user: user._id,
             email: user.email,
             token,
+            role: user.role,
           });
         })
         .catch((err) => {
@@ -121,6 +132,38 @@ router.get('/:id', async (req, res) => {
     res.status(200).send(user);
   } catch (error) {
     res.status(404).json({ error: error.message });
+  }
+});
+
+//Update Route to update profile
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedProfile = req.body;
+    const user = await User.findOneAndUpdate(
+      { _id: req.params.id },
+      updatedProfile,
+      {
+        new: true,
+      }
+    );
+    console.log(user);
+    res.status(200).json({ message: 'User profile updated successfully' });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+//Update Route for swipe page 
+router.put('/swipe/:id', async (req, res) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true } // to return document after `update` was applied
+    );
+    res.status(200).send(updatedUser);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 });
 
