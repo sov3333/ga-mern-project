@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Box,
@@ -18,7 +17,7 @@ export default function CardSetup({
   user,
   title,
   description,
-  type,
+  products,
   slug,
 }) {
   return (
@@ -30,7 +29,7 @@ export default function CardSetup({
           user: user,
           title: title,
           description: description,
-          type: type,
+          // type: type,
         }}
       >
         <Box
@@ -94,41 +93,41 @@ export default function CardSetup({
             </Heading>
             <Stack direction={'row'} align={'center'}>
               <Wrap>
-                {type.map((item, index) => (
+                {products.map((product, index) => (
                   <Text
                     key={index}
                     fontWeight={400}
                     fontSize={'sm'}
                     color={
                       // change color of #hashtag per product
-                      item === 'desk'
+                      product.type === 'desk'
                         ? 'teal'
-                        : item === 'monitor'
+                        : product.type === 'monitor'
                         ? 'green'
-                        : item === 'chair'
+                        : product.type === 'chair'
                         ? 'orange'
-                        : item === 'keyboard'
+                        : product.type === 'keyboard'
                         ? 'peru'
-                        : item === 'mouse'
+                        : product.type === 'mouse'
                         ? 'red'
-                        : item === 'mousepad'
+                        : product.type === 'mousepad'
                         ? 'aqua'
-                        : item === 'speaker'
+                        : product.type === 'speaker'
                         ? 'blue'
-                        : item === 'headphone'
+                        : product.type === 'headphone'
                         ? 'lightgreen'
-                        : item === 'pc'
+                        : product.type === 'pc'
                         ? 'purple'
-                        : item === 'laptop'
+                        : product.type === 'laptop'
                         ? 'pink'
-                        : item === 'light'
+                        : product.type === 'light'
                         ? 'plum'
-                        : item === 'riser'
+                        : product.type === 'riser'
                         ? 'tomato'
-                        : 'black' // fallback color
+                        : 'darkgrey' // fallback color
                     }
                   >
-                    #{item}
+                    #{product.type}
                   </Text>
                 ))}
               </Wrap>

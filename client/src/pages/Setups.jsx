@@ -93,7 +93,7 @@ const Setups = () => {
               user={post.user}
               title={post.title}
               description={post.description}
-              type={post.type}
+              products={post.products}
               slug={`/setups/${post._id}`}
             />
           </div>
