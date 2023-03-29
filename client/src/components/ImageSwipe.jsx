@@ -1,8 +1,11 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Box, Button, Flex, Image } from "@chakra-ui/react";
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Box, Button, Flex, Image } from '@chakra-ui/react';
 
-const ImageSwipe = ({ src, handleLiked }) => {
+import { eye } from '../assets/home/';
+import styles from '../styles';
+
+const ImageSwipe = ({ title, user, src, handleLiked }) => {
   // State for tracking whether the image is being dragged and the current x position of the image
   const [dragging, setDragging] = useState(false);
   const [x, setX] = useState(0);
@@ -16,17 +19,13 @@ const ImageSwipe = ({ src, handleLiked }) => {
     setDragging(false);
     if (x < -50) {
       // if swipe left, dislike
-      console.log("Swiped Left :(");
+      console.log('Swiped Left :(');
 
       handleLiked(false);
-
     } else if (x > 50) {
       // if swipe right, like
-      console.log("Swiped Right :)");
+      console.log('Swiped Right :)');
       handleLiked(true); // from props
-
-      
-
     }
     setX(0);
   };
@@ -34,12 +33,12 @@ const ImageSwipe = ({ src, handleLiked }) => {
   // Variants for the Framer Motion animation
   const variants = {
     left: {
-      x: "-100vw",
+      x: '-100vw',
       opacity: 0,
       transition: { duration: 0.2 },
     },
     right: {
-      x: "100vw",
+      x: '100vw',
       opacity: 0,
       transition: { duration: 0.2 },
     },
@@ -52,42 +51,61 @@ const ImageSwipe = ({ src, handleLiked }) => {
 
   return (
     <>
-    <Box
-      position="relative"
-      height="400px"
-      width="100%"
-      onTouchStart={() => setDragging(true)}
-    >
-      <motion.div
-        drag="x"
-        dragConstraints={{ left: 0, right: 0 }}
-        onDrag={handleDrag}
-        onDragEnd={handleDragEnd}
-        animate={dragging ? "center" : x < -50 ? "left" : x > 50 ? "right" : "center"} // Determine which variant to animate to based on the x position of the image
-        variants={variants}
-        style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
+      <Box
+        position='relative'
+        height='400px'
+        width='100%'
+        onTouchStart={() => setDragging(true)}
       >
-        <Image
-          src={src}
-          height="100%"
-          width="100%"
-          objectFit="cover"
-          borderRadius="md"
-        />
-      </motion.div>
-    </Box>
-    <Flex justify='center' className="mt-5">
-      <Button onClick={() => handleLiked(false)} colorScheme="red">
-        Next
-      </Button>
-      <Button
-        onClick={() => handleLiked(true)} colorScheme="whatsapp" ml={6}>
-        Like
-      </Button>
-    </Flex>
+        <motion.div
+          drag='x'
+          dragConstraints={{ left: 0, right: 0 }}
+          onDrag={handleDrag}
+          onDragEnd={handleDragEnd}
+          animate={
+            dragging ? 'center' : x < -50 ? 'left' : x > 50 ? 'right' : 'center'
+          } // Determine which variant to animate to based on the x position of the image
+          variants={variants}
+          style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+        >
+          <Image
+            src={src}
+            height='100%'
+            width='100%'
+            objectFit='cover'
+            borderRadius='md'
+          />
+
+          <div className='absolute bottom-0 p-8 justify-start w-full flex-col bg-[rgba(0,0,0,0.5)] rounded-b-[24px]'>
+            <div
+              className={`${styles.flexCenter} w-[60px] h-[60px] rounded-[24px] glassmorphism mb-[16px] hover:bg-pink-700`}
+            >
+              <img
+                src={eye}
+                alt='view icon'
+                className='w-1/2 h-1/2 object-contain'
+              />
+            </div>
+
+            <p className='font-normal text-[32px] leading-[20px] text-white uppercase'>
+              {title}
+            </p>
+            <h2 className='mt-[24px] font-semibold sm:text-[32px] text-[24px] text-white'>
+              {user}
+            </h2>
+          </div>
+        </motion.div>
+      </Box>
+      <Flex justify='center' className='mt-5'>
+        <Button onClick={() => handleLiked(false)} colorScheme='red'>
+          Next
+        </Button>
+        <Button onClick={() => handleLiked(true)} colorScheme='whatsapp' ml={6}>
+          Like
+        </Button>
+      </Flex>
     </>
   );
-
 };
 
 export default ImageSwipe;
