@@ -154,36 +154,28 @@ export default function Create() {
       .catch((err) => console.error({ Error: err }));
     
     console.log(`i am here about to fetch products api`);
-    //send data to products collection
-    fetch('http://localhost:8080/api/product', {
-      method: 'POST',
-      body: JSON.stringify({
-        user: userId,
-        type: productList[0].type,
-        brand: productList[0].brand,
-        model: productList[0].model,
+    
+    // add all products in productList to products collection
+    productList.map((product) => (
+      //send this product to products collection
+      fetch('http://localhost:8080/api/product', {
+        method: 'POST',
+        body: JSON.stringify({
+          user: userId,
+          type: product.type,
+          brand: product.brand,
+          model: product.model,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => console.log('New product created:', data.newProduct))
+        .catch((err) => console.error('Error creating new product:', err))
+    ))
 
-        // user: newSetup.user,
-        // //img: newSetup.img, // need to change
-        // type: newProducts.forEach((product) => {
-        //   product.type;
-        // }),
-        // brand: newProducts.forEach((product) => {
-        //   product.brand;
-        // }),
-        // model: newProducts.forEach((product) => {
-        //   product.model;
-        // }),
-        // ratings: newSetup.ratings,
-        // reviews: newSetup.reviews,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => console.log('New product created:', data.newProduct))
-      .catch((err) => console.error('Error creating new product:', err));
+    
     // if (
     //   newSetup.title === '' ||
     //   newSetup.type === '' ||
