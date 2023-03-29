@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  console.log(`hello from the /api/setup post route!`);
+  console.log(`hello from the /api/setup post route!`, req.body);
   // console.log(req.body);
   try {
     const { img, userId } = req.body;
