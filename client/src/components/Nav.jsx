@@ -1,4 +1,5 @@
-
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Flex,
@@ -17,6 +18,9 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
+
+import { UserContext } from '../context/UserContext';
+import { AuthContext } from '../context/AuthContext';
 
 const Links = [
   'Setups',
@@ -38,8 +42,31 @@ const NavLink = ({ children }) => (
   </Link>
 );
 
-export default function withAction() {
+export default function Nav() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // handle user
+  const { logInOut, setLogInOut } = useContext(UserContext);
+  const { role, setRole } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    fetch('http://localhost:8080/api/user/logout', {
+      method: 'POST',
+      credentials: 'include', // include cookies in the request
+    })
+      .then((response) => {
+        setLogInOut(!logInOut);
+        setRole(null);
+        localStorage.clear();
+        console.log(response.status, response.statusText);
+        window.scrollTo(0, 0);
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <>
@@ -74,67 +101,87 @@ export default function withAction() {
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
-            <Link 
-              href="/create"
-              _hover={{
-                textDecoration: 'none',
-              }}
-            >
-              <Button
-                variant={'solid'}
-                colorScheme={'whatsapp'}
-                size={'sm'}
-                mr={4}
-                leftIcon={<AddIcon />}>
-                Post
-              </Button>
-            </Link>
-            <Menu>
-              <MenuButton
-                as={Button}
-                rounded={'full'}
-                variant={'link'}
-                cursor={'pointer'}
-                minW={0}>
-                <Avatar
+            {/* logic for showing logged in vs logged out menu items */}
+            {logInOut ? (
+              <>
+              <Link 
+                href="/create"
+                _hover={{
+                  textDecoration: 'none',
+                }}
+              >
+                <Button
+                  variant={'solid'}
+                  colorScheme={'whatsapp'}
                   size={'sm'}
-                  src={
-                    'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                  }
-                />
-              </MenuButton>
-              <MenuList>
-                <Link 
-                  href="/profile"
-                  _hover={{
-                    textDecoration: 'none',
-                  }}
-                >
-                  <MenuItem>Profile</MenuItem>
-                </Link>
-                <Link 
-                  href="/profile/edit"
-                  _hover={{
-                    textDecoration: 'none',
-                  }}
-                >
-                  <MenuItem>Settings</MenuItem>
-                </Link>
-                <MenuDivider />
-                <Link 
-                  href="#"
-                  _hover={{
-                    textDecoration: 'none',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <MenuItem>Sign out</MenuItem>
-                </Link>
-              </MenuList>
-            </Menu>
+                  mr={4}
+                  leftIcon={<AddIcon />}>
+                  Post
+                </Button>
+              </Link>
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rounded={'full'}
+                  variant={'link'}
+                  cursor={'pointer'}
+                  minW={0}>
+                  <Avatar
+                    size={'sm'}
+                    src={
+                      'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
+                    }
+                  />
+                </MenuButton>
+                <MenuList>
+                  <Link 
+                    href="/profile"
+                    _hover={{
+                      textDecoration: 'none',
+                    }}
+                  >
+                    <MenuItem>Profile</MenuItem>
+                  </Link>
+                  <Link 
+                    href="/profile/edit"
+                    _hover={{
+                      textDecoration: 'none',
+                    }}
+                  >
+                    <MenuItem>Settings</MenuItem>
+                  </Link>
+                  <MenuDivider />
+                  <Link 
+                    href="#"
+                    _hover={{
+                      textDecoration: 'none',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <MenuItem>Sign out</MenuItem>
+                  </Link>
+                </MenuList>
+              </Menu>
+              </>
+            ) : (
+              <>
+              <Link href='/signin'>
+                <p className='text-white mr-5 font-bold no-underline sm:block hidden'>
+                  Sign In
+                </p>
+              </Link>
+              <Link 
+                href='/signup'
+                _hover={{ textDecoration: 'none' }}
+              >
+                <Button size='sm' colorScheme='pink'>
+                  Sign Up
+                </Button>
+              </Link>
+              </>
+            )}
           </Flex>
         </Flex>
-
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }} className="text-white font-extrabold text-[18px]">
             <Stack as={'nav'} spacing={4}>
