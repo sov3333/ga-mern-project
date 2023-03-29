@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Box, Image } from "@chakra-ui/react";
+import { Box, Button, Flex, Image } from "@chakra-ui/react";
 
 const ImageSwipe = ({ src, handleLiked }) => {
   // State for tracking whether the image is being dragged and the current x position of the image
@@ -51,6 +51,7 @@ const ImageSwipe = ({ src, handleLiked }) => {
   };
 
   return (
+    <>
     <Box
       position="relative"
       height="400px"
@@ -75,6 +76,16 @@ const ImageSwipe = ({ src, handleLiked }) => {
         />
       </motion.div>
     </Box>
+    <Flex justify='center' className="mt-5">
+      <Button onClick={() => handleLiked(false)} colorScheme="red">
+        Next
+      </Button>
+      <Button
+        onClick={() => handleLiked(true)} colorScheme="green" ml={6}>
+        Like
+      </Button>
+    </Flex>
+    </>
   );
 
 };

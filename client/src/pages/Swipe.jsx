@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Container } from '@chakra-ui/react'
 
-import { ImageSwipe, ImageLike } from '../components'
+import { ImageSwipe } from '../components'
 
 // BUG / TODO:
 // - doesnt show first or last (not sure which) setup to like
@@ -210,29 +210,15 @@ const Swipe = () => {
       
   return (
     <Container p="10px">
+      <h1 className="mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center">Swipe right to like</h1>
+      <h2 className="mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6">Curate your list of favourite desk setups</h2>
       { 
         (balanceSetups.length > 0) ? (
-          <>
-          Swipe the image (on mobile)!
           <ImageSwipe src={currentSetup.img} handleLiked={handleLiked} />
-          Like the image
-          <ImageLike src={currentSetup.img} handleLiked={handleLiked} />
-          </>
         ) : (
-          <p>no more new photos to show :( try again later</p>
+          <h4 className="text-secondary-white text-center">That's all folks! No more desks for you to judge – time to get back to your own cluttered workspace!</h4>
         )
       }
-        <div>
-          <h3>CURRENT SETUP</h3>
-          <p>{currentSetup.title}</p>
-          <img src={currentSetup.img} />
-        </div>
-        <div>
-          <h3>BALANCE SETUPS</h3>
-          {balanceSetups.map(((setup, index) => (
-            <img src={setup.img} key={index} />
-            )))}
-        </div>
     </Container>
   )
 }
