@@ -1,11 +1,10 @@
 import { useLocation } from 'react-router-dom';
-import { Flex } from '@chakra-ui/react';
 
 import { DetailsSetup } from '../components';
 
 const SetupOne = () => {
   const location = useLocation();
-  const { img, user, title, description, type } = location.state;
+  const { img, user, title, description, products } = location.state;
 
   return (
     <div>
@@ -16,7 +15,7 @@ const SetupOne = () => {
         user={user}
         title={title}
         description={description}
-        type={type}
+        products={products}
       />
     </div>
   );

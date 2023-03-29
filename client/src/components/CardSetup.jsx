@@ -29,7 +29,7 @@ export default function CardSetup({
           user: user,
           title: title,
           description: description,
-          // type: type,
+          products: products,
         }}
       >
         <Box
