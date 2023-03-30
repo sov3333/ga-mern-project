@@ -342,7 +342,6 @@ export default function Create() {
               {/* 
 
                 STRETCH TODO: Improve the "add product" section form
-                - Type field should be dropdown, predefined and include an "Others" option.
                 - Brand field if possible, make dropdown, and show brands depending on type. If option don't exist, user can add new.
                 - Model field if possible, make dropdown, and show models depenidng on brand. If option don't exist, user can add new.
 
@@ -352,6 +351,7 @@ export default function Create() {
               {newProducts.map((product, index) => (
                 <FormControl key={index}>
                   <FormLabel color={'gray.300'}>Product #{index+1}</FormLabel>
+                  {/* Dropdown for selecting product's type */}
                   <Select
                     name='type'
                     id='type'
@@ -371,6 +371,45 @@ export default function Create() {
                       <option value={type} key={i}>{type}</option>
                     ))}
                   </Select>
+                  {/* Optional code: If user select "Others", show a new field for user text input */}
+                  {/* <Flex>
+                    <Select
+                      name='type'
+                      id='type'
+                      value={product.type}
+                      onChange={(e) => handleInputChange(e, index)}
+                      required
+                      placeholder='Select a product type'
+                      border='1px' 
+                      borderColor='gray.600'
+                      color={'gray.300'}
+                      _placeholder={{
+                        color: 'gray.500',
+                      }}
+                      mr={2}
+                    >
+                      {products.map((product, i) => (
+                        <option value={product.type} key={i}>{product.type}</option>
+                      ))}
+                      <option value='Other'>Other</option>
+                    </Select>
+                    {product.type === 'Other' && (
+                      <Input
+                        name='typeOther'
+                        type='text'
+                        id='typeOther'
+                        value={product.typeOther}
+                        onChange={(e) => handleInputChange(e, index)}
+                        placeholder='Enter a new product type'
+                        border='1px' 
+                        borderColor='gray.600'
+                        color={'gray.300'}
+                        _placeholder={{
+                          color: 'gray.500',
+                        }}
+                      />
+                    )}
+                  </Flex> */}
                   <Input
                     name='brand'
                     type='text'
