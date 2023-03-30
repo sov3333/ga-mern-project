@@ -1,213 +1,188 @@
 import express from 'express';
 import Product from '../mongodb/models/product.js';
+import setup from '../mongodb/models/setup.js';
 
 const router = express.Router();
 
-//Get
-//http://localhost:8080/api/product
-
-router.get('/', async (req, res) => {
-  try {
-    const currentProduct = await Product.find({});
-    res.status(200).json(currentProduct);
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ message: 'Server Error' });
-  }
-});
-
-// Route to get all reviews by a specific user
-//localhost:8080/api/product/Alice/reviews
-router.get('/:user/reviews', async (req, res) => {
-  const user = req.params.user;
-  const products = await Product.find({});
-
-  let reviews = [];
-  for (let i = 0; i < products.length; i++) {
-    // Retrieve all reviews for this product from the specified user
-    const productReviews = products[i].reviews.filter(
-      (review) => review.user === user
-    );
-    reviews = reviews.concat(productReviews);
-  }
-
-  if (reviews.length === 0) {
-    // No reviews found for this user
-    res.json({ message: 'No reviews found for this user.' });
-  } else {
-    // Reviews found
-    res.json(reviews);
-  }
-});
-
-// Route to get all reviews (rating + review) by a specific user and model
-//localhost:8080/api/product/Alice/reviews/Deathadder%20V2
-router.get('/:user/reviews/:model', async (req, res) => {
-  const user = req.params.user;
-  const model = req.params.model;
-
-  // Find the product with the given model and the user's reviews and ratings for that product
-  const product = await Product.findOne(
-    {
-      model: model,
-      reviews: { $elemMatch: { user: user } },
-      ratings: { $elemMatch: { user: user } },
-    },
-    {
-      reviews: { $elemMatch: { user: user } },
-      ratings: { $elemMatch: { user: user } },
-    }
-  );
-
-  if (!product) {
-    // No product found
-    res.status(404).json({ message: 'Product not found.' });
-  } else {
-    // Review found
-    const review = product.reviews[0];
-    const rating = product.ratings[0];
-    res.json({ user: user, review: review, rating: rating });
-  }
-});
-
-// curl -X POST   -H "Content-Type: application/json"   -d '{"rating": 4, "review": "Great mouse!"}'   http://localhost:8080/api/product/Alice/reviews/Deathadder%20V2
-// {"user":"Alice","review":"Great mouse!","rating":4}
-
-// Route to add a review and rating for a specific product by model
-router.post('/:user/reviews/:model', async (req, res) => {
-  const user = req.params.user;
-  const model = req.params.model;
-  const { rating, review } = req.body;
-
-  try {
-    const product = await Product.findOneAndUpdate(
-      { model: model },
-      {
-        $push: {
-          reviews: { user: user, review: review },
-          ratings: { user: user, rating: rating },
-        },
-      },
-      { new: true }
-    );
-
-    if (!product) {
-      // No product found
-      res.status(404).json({ message: 'Product not found.' });
-    } else {
-      // Review and rating added
-      const addedReview = product.reviews.find((rev) => rev.user === user);
-      const addedRating = product.ratings.find((rat) => rat.user === user);
-      res.json({
-        user: user,
-        review: addedReview.review,
-        rating: addedRating.rating,
-      });
-    }
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ message: 'Internal server error.' });
-  }
-});
-
-// curl -X PUT -H "Content-Type: application/json" -d '{"rating": 1, "review": "NO good!"}' http://localhost:8080/api/product/Alice/reviews/Deathadder%20V2
-
-// Route to update a review and rating for a specific product by model
-router.put('/:user/reviews/:model', async (req, res) => {
-  const user = req.params.user;
-  const model = req.params.model;
-  const { rating, review } = req.body;
-
-  try {
-    const product = await Product.findOneAndUpdate(
-      {
-        model: model,
-        reviews: { $elemMatch: { user: user } },
-        ratings: { $elemMatch: { user: user } },
-      },
-      { $set: { 'reviews.$.review': review, 'ratings.$.rating': rating } },
-      { new: true }
-    );
-
-    if (!product) {
-      // No product found
-      res.status(404).json({ message: 'Product not found.' });
-    } else {
-      // Review and rating updated
-      const updatedReview = product.reviews.find((rev) => rev.user === user);
-      const updatedRating = product.ratings.find((rat) => rat.user === user);
-      res.json({
-        user: user,
-        review: updatedReview.review,
-        rating: updatedRating.rating,
-      });
-    }
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ message: 'Internal server error.' });
-  }
-});
-
-// curl -X DELETE http://localhost:8080/api/product/Alice/reviews/Deathadder%20V2 -d '{"user": "Alice"}' -H "Content-Type: application/json"
-
-// Route to delete a review and rating for a specific product by model
-router.delete('/:user/reviews/:model', async (req, res) => {
-  const user = req.params.user;
-  const model = req.params.model;
-
-  try {
-    const product = await Product.findOneAndUpdate(
-      { model: model },
-      { $pull: { reviews: { user: user }, ratings: { user: user } } },
-      { new: true }
-    );
-
-    if (!product) {
-      // No product found
-      res.status(404).json({ message: 'Product not found.' });
-    } else {
-      // Review and rating deleted
-      res.json({ message: 'Review and rating deleted.' });
-    }
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ message: 'Internal server error.' });
-  }
-});
-
-//Post for create.jsx
-
-router.post('/', async (req, res) => {
-  console.log(`hello from the /api/product post route!`, req.body);
-
-  try {
-    const { user, img, type, brand, model, ratings, reviews } = req.body;
-
-    const newProduct = new Product(
-      {
-        user,
-        type,
-        brand,
-        model,
-        // img,
-        // ratings,
-        // reviews,
-      }
-      // req.body
-    );
-
-    const savedProduct = await newProduct.save();
-    res.status(201).json({ newProduct: savedProduct });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
-  }
-});
+//Setup Seed Database
 
 //Post
-// curl -X POST localhost:8080/api/product/seed
+// curl -X POST localhost:8080/api/seed/setups
+router.post('/setups', async (req, res) => {
+  console.log(req.body);
+  try {
+    const createdSetup = await setup.create(
+      {
+        img: 'https://t3.gstatic.com/images?q=tbn:ANd9GcSTspk0HexUgLVvH7AoWUOfZ61RecRVeAaoubWnCQHmAfVY9rKB',
+        userId: '1',
+        user: 'Alice',
+        title: 'Blue Battlestation',
+        description:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
+        products: [
+          {
+            type: 'Desk',
+            brand: 'Omnidesk',
+            model: 'Ascent Wildwood+',
+          },
+          {
+            type: 'Monitor',
+            brand: 'Xiaomi',
+            model: 'Curved Gaming Monitor 34',
+          },
+          {
+            type: 'Mouse',
+            brand: 'Razer',
+            model: 'DeathAdder V2',
+          },
+          {
+            type: 'Keyboard',
+            brand: 'Razer',
+            model: 'BlackWidow V4 Pro',
+          },
+        ],
+        swipes: [
+          {
+            userId: '23423',
+            liked: true,
+          },
+        ],
+      },
+      {
+        img: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT13ujza2Re0zLk0Vk5VviScLa1zYzu0VGxdW1igIYd63UDxtJA',
+        userId: '131232',
+        user: 'Bob',
+        title: 'Mellow Woods',
+        description:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
+        products: [
+          {
+            type: 'mouse',
+            brand: 'Razer',
+            model: 'Deathadder V2',
+          },
 
-router.post('/seed', async (req, res) => {
+          {
+            type: 'mousepad',
+            brand: 'Aukey',
+            model: 'KM-P2 Large Gaming Mouse Pad Oversized',
+          },
+          {
+            type: 'chair',
+            brand: 'Logitech X Herman Miller',
+            model: 'Embody gaming chair',
+          },
+          {
+            type: 'light',
+            brand: 'Type 75 Desk Lamp Paul Smith',
+            model: 'Edition 6',
+          },
+        ],
+        swipes: [
+          {
+            userId: '1',
+            liked: true,
+          },
+        ],
+      },
+      {
+        img: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSKdjQk306iqnHH4Ews6MqBkTkbgWIPBT0JTrC3-jgO5wWhR0ck',
+        userId: '13131',
+        user: 'Charlie',
+        title: 'Coding Club',
+        description:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
+        products: [
+          {
+            type: 'monitor',
+            brand: 'Xiaomi',
+            model: 'Curved Gaming Monitor 34',
+          },
+          {
+            type: 'mousepad',
+            brand: 'Aukey',
+            model: 'KM-P2 Large Gaming Mouse Pad Oversized',
+          },
+          {
+            type: 'chair',
+            brand: 'Logitech X Herman Miller',
+            model: 'Embody gaming chair',
+          },
+          {
+            type: 'light',
+            brand: 'Type 75 Desk Lamp Paul Smith',
+            model: 'Edition 6',
+          },
+        ],
+        swipes: [
+          {
+            userId: '131232',
+            liked: true,
+          },
+          {
+            userId: '4234',
+            liked: true,
+          },
+        ],
+      },
+      {
+        img: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ7Y3DJGIZejTxIdwspZPJhd40NKcYKHKXbGuoH7MxteDaJZJQl',
+        userId: '4234',
+        user: 'Delilah',
+        title: 'Autumn Dev',
+        description:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
+        products: [
+          {
+            type: 'monitor',
+            brand: 'Gigabyte',
+            model: 'M34WQ',
+          },
+          {
+            type: 'mousepad',
+            brand: 'Aukey',
+            model: 'KM-P2 Large Gaming Mouse Pad Oversized',
+          },
+          {
+            type: 'chair',
+            brand: 'Logitech X Herman Miller',
+            model: 'Embody gaming chair',
+          },
+          {
+            type: 'light',
+            brand: 'Type 75 Desk Lamp Paul Smith',
+            model: 'Edition 6',
+          },
+          {
+            type: 'speaker',
+            brand: 'Audioengine',
+            model: 'Audioengine A2+ Wireless White',
+          },
+        ],
+        swipes: [
+          {
+            userId: '131232',
+            liked: false,
+          },
+          {
+            userId: '1',
+            liked: true,
+          },
+        ],
+      }
+    );
+    res.status(200).send(createdSetup);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+//Prdouct Seed Database
+
+//Post
+// curl -X POST localhost:8080/api/seed/products
+
+router.post('/products', async (req, res) => {
   try {
     const createdProduct = await Product.create([
       {
@@ -444,7 +419,7 @@ router.post('/seed', async (req, res) => {
       },
       {
         user: 'Lindsey',
-        img: 'https://www.example.com/images/xiaomi-curved-gaming-monitor.jpg',
+        img: 'https://assets.hardwarezone.com/img/2019/10/xiaomi-mi-surface.jpg',
         type: 'Monitor',
         brand: 'Xiaomi',
         model: 'Curved Gaming Monitor 34',
@@ -469,9 +444,9 @@ router.post('/seed', async (req, res) => {
         ratings: [
           {
             user: 'Lindsey',
-            rating: 4,
+            rating: 3,
             review:
-              "This monitor is great for gaming! The ultrawide display and high refresh rate really make games look and feel amazing. My only complaint is that the colors aren't quite as accurate as I would like, but it's still a great monitor overall.",
+              "This monmes look ae colors aren't quite as accurate as I would like, but it's still a great monitor overall.",
           },
         ],
       },
@@ -481,51 +456,4 @@ router.post('/seed', async (req, res) => {
     console.log(e);
   }
 });
-
-//Put
-//curl -X PUT -H "Content-Type: application/json" -d
-//'{"ratings":[{"user":"John","rating":4.5}],"reviews":[{"user":"Jane","review":"This is a great product"}]}' http://localhost:8080/api/product/Keyboard
-
-router.put('/:type', async (req, res) => {
-  try {
-    const { type } = req.params;
-    const { ratings, reviews } = req.body;
-
-    const updatedProduct = await Product.findOneAndUpdate(
-      { type },
-      { ratings, reviews },
-      { new: true }
-    );
-
-    if (!updatedProduct) {
-      return res.status(404).json({ message: 'Product type not found' });
-    }
-
-    res.json(updatedProduct);
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ error: 'Something went wrong' });
-  }
-});
-
-//Delete
-//curl -X DELETE http://localhost:8080/api/product/Desk
-
-router.delete('/:type', async (req, res) => {
-  try {
-    const { type } = req.params;
-
-    const deletedProduct = await Product.findOneAndDelete({ type });
-
-    if (!deletedProduct) {
-      return res.status(404).json({ message: 'Product type not found' });
-    }
-
-    res.json(deletedProduct);
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ error: 'Something went wrong' });
-  }
-});
-
 export default router;

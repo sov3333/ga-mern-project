@@ -13,7 +13,19 @@ import { placeholder_image } from '../assets';
 
 // "Product with Add to Cart" from https://chakra-templates.dev/components/cards
 
-function CardProduct({ img, type, brand, model, ratings, reviews, slug }) {
+function CardProduct({
+  img,
+  type,
+  brand,
+  model,
+  title,
+  description,
+  features,
+  specifications,
+  ratings,
+  slug,
+}) {
+  console.log(title);
   return (
     <Flex
       p={50}
@@ -26,10 +38,14 @@ function CardProduct({ img, type, brand, model, ratings, reviews, slug }) {
         to={slug}
         state={{
           img: img,
+          type: type,
           brand: brand,
           model: model,
+          title: title,
+          description: description,
+          features: features,
+          specifications: specifications,
           ratings: ratings,
-          reviews: reviews,
         }}
       >
         <Box
@@ -51,7 +67,7 @@ function CardProduct({ img, type, brand, model, ratings, reviews, slug }) {
           )} */}
 
           <Image
-            src={ img ? img : placeholder_image }
+            src={img ? img : placeholder_image}
             alt={`Picture of ${model}`}
             roundedTop='lg'
             width='100%'
@@ -97,14 +113,15 @@ function CardProduct({ img, type, brand, model, ratings, reviews, slug }) {
               {Array(5)
                 .fill('')
                 .map((_, i) => {
-                  const roundedRating =
-                    Math.round(
-                      (ratings
-                        .map((rating) => rating.rating)
-                        .reduce((a, b) => a + b, 0) /
-                        ratings.length) *
-                        2
-                    ) / 2;
+                  const totalRatings = ratings.length;
+                  const totalRatingValue = ratings.reduce(
+                    (acc, rating) => acc + rating.rating,
+                    0
+                  );
+                  const averageRating =
+                    totalRatings > 0 ? totalRatingValue / totalRatings : 0;
+                  const roundedRating = Math.round(averageRating * 2) / 2;
+
                   if (roundedRating - i >= 1) {
                     return (
                       <BsStarFill
@@ -122,7 +139,7 @@ function CardProduct({ img, type, brand, model, ratings, reviews, slug }) {
             </Flex>
             <Flex justifyContent='space-between' alignContent='center'>
               <Box as='span' ml='2' color='gray.300' fontSize='sm'>
-                {reviews.length} review{reviews.length > 1 && 's'}
+                {ratings.length} review{ratings.length > 1 && 's'}
               </Box>
             </Flex>
           </Box>

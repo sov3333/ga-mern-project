@@ -1,6 +1,6 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
-import {v2 as cloudinary} from 'cloudinary';
+import { v2 as cloudinary } from 'cloudinary';
 
 import setup from '../mongodb/models/setup.js';
 import requireAuth from '../auth/authMiddleware.js';
@@ -19,34 +19,34 @@ router.get('/', async (req, res) => {
     const currentSetup = await setup.find({});
     res.status(200).send(currentSetup);
   } catch (err) {
-    res.status(400).json({error: err.message});
+    res.status(400).json({ error: err.message });
   }
 });
 
-router.post('/', async (req, res) => {
-  console.log(`hello from the /api/setup post route!`);
-  // console.log(req.body);
-  try {
-    const { img } = req.body;
-    const photoUrl = await cloudinary.uploader.upload(img);
-    const newPost = {
-      ...req.body,
-      img: photoUrl.url,
-      // userId: userId,
-    };
+// router.post('/', async (req, res) => {
+//   console.log(`hello from the /api/setup post route!`);
+//   // console.log(req.body);
+//   try {
+//     const { img } = req.body;
+//     const photoUrl = await cloudinary.uploader.upload(img);
+//     const newPost = {
+//       ...req.body,
+//       img: photoUrl.url,
+//       // userId: userId,
+//     };
 
-    console.log(newPost);
+//     console.log(newPost);
 
-    const createdSetup = await setup.create(newPost);
-    res.status(200).send(createdSetup);
-  } catch (err) {
-    res.status(400).json({error: err.message});
-  }
-});
+//     const createdSetup = await setup.create(newPost);
+//     res.status(200).send(createdSetup);
+//   } catch (err) {
+//     res.status(400).json({error: err.message});
+//   }
+// });
 
 // To send the seed files to DB
-// 1) comment out top router.post (line 26 to 45)
-// 2) uncomment below router.post (line 53 to 225)
+// 1) comment out top router.post (line 26 to 45)done
+// 2) uncomment below router.post (line 53 to 225)done
 // 3) to save to seed to the DB => got to create page and click submit
 // 4) comment line 30 to 67 out after done.
 // 5) uncomment out top router.post (line 15 to 23) and save.
@@ -229,7 +229,7 @@ router.get('/:id', async (req, res) => {
     const selectedSetup = await setup.findById(req.params.id);
     res.status(200).send(selectedSetup);
   } catch (err) {
-    res.status(400).json({error: err.message});
+    res.status(400).json({ error: err.message });
   }
 });
 
@@ -239,7 +239,7 @@ router.delete('/:id', async (req, res) => {
     const deletedSetup = await setup.findByIdAndRemove(req.params.id);
     res.status(200).send(deletedSetup);
   } catch (err) {
-    res.status(400).json({error: err.message});
+    res.status(400).json({ error: err.message });
   }
 });
 // router.delete('/:id', requireAuth, async (req, res) => {
@@ -268,11 +268,11 @@ router.put('/:id', async (req, res) => {
     const updatedSetup = await setup.findByIdAndUpdate(
       req.params.id,
       req.body,
-      {new: true} // to return document after `update` was applied
+      { new: true } // to return document after `update` was applied
     );
     res.status(200).send(updatedSetup);
   } catch (err) {
-    res.status(400).json({error: err.message});
+    res.status(400).json({ error: err.message });
   }
 });
 

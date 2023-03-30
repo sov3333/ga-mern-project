@@ -10,25 +10,16 @@ const productSchema = new mongoose.Schema(
     title: { type: String },
     description: { type: String },
     features: [{ name: { type: String } }],
-    specifications: [{ 
-      name: { type: String },
-      stat: { type: String },
-    }],
-    // // TODO: combine ratings&reviews into one single key
-    // ratings: [{
-    //   user: { type: String },
-    //   rating: { type: Number },
-    //   review: { type: String },
-    // }],
+    specifications: [
+      {
+        name: { type: String },
+        stat: { type: String },
+      },
+    ],
     ratings: [
       {
         user: { type: String },
         rating: { type: Number },
-      },
-    ],
-    reviews: [
-      {
-        user: { type: String },
         review: { type: String },
       },
     ],

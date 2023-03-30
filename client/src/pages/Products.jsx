@@ -33,7 +33,17 @@ const Products = () => {
   ];
 
   const groupedProducts = products.reduce((acc, item) => {
-    const { type, brand, model, img, ratings, reviews } = item;
+    const {
+      type,
+      brand,
+      model,
+      img,
+      ratings,
+      title,
+      description,
+      features,
+      specifications,
+    } = item;
     const existingProduct = acc.find(
       (group) =>
         group.type === type && group.brand === brand && group.model === model
@@ -41,15 +51,17 @@ const Products = () => {
     if (existingProduct) {
       existingProduct.users.push(item.user);
       existingProduct.ratings.push(...ratings);
-      existingProduct.reviews.push(...reviews);
     } else {
       acc.push({
         img,
         type,
         brand,
         model,
+        title,
+        description,
+        features,
+        specifications: [...specifications],
         ratings: [...ratings],
-        reviews: [...reviews],
         users: [item.user],
       });
     }
@@ -116,6 +128,7 @@ const Products = () => {
       return true;
     }
   });
+  console.log(filteredProducts);
 
   return (
     <div>
@@ -191,8 +204,11 @@ const Products = () => {
               type={group.type}
               brand={group.brand}
               model={group.model}
+              title={group.title}
+              description={group.description}
+              features={group.features}
+              specifications={group.specifications}
               ratings={group.ratings}
-              reviews={group.reviews}
               slug={`/products/${group.type}`}
               users={group.users}
             />
