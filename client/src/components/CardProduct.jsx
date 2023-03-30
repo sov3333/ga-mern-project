@@ -102,7 +102,7 @@ function CardProduct({
                 </Badge>
               </Box>
               <Flex direction="column">
-                <Flex>
+                <Flex color={'orange.300'}>
                   {Array(5)
                     .fill('')
                     .map((_, i) => {
@@ -124,9 +124,9 @@ function CardProduct({
                         );
                       }
                       if (roundedRating - i === 0.5) {
-                        return <BsStarHalf key={i} style={{ marginLeft: '1' }} color={'orange.300'} />;
+                        return <BsStarHalf key={i} style={{ marginLeft: '1' }} />;
                       }
-                      return <BsStar key={i} style={{ marginLeft: '1' }} color={'orange.300'} />;
+                      return <BsStar key={i} style={{ marginLeft: '1' }} />;
                     })}
                 </Flex>
                 <Flex justify="center" mt="1">
