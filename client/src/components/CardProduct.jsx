@@ -39,6 +39,7 @@ function CardProduct({
         state={{
           img: img,
           type: type,
+          type: type,
           brand: brand,
           model: model,
           title: title,
@@ -72,6 +73,7 @@ function CardProduct({
             roundedTop='lg'
             width='100%'
           />
+
 
 
           <Box p='6'>
