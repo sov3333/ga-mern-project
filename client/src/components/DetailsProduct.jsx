@@ -24,17 +24,21 @@ import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 
 // BUG - after add review, reviews data doesnt update on page
 // Why? - because `ratings` & `reviews` come from parent component via props. when new review is added, your received state in this component will remain same, because there's no way to call the fetch function in parent to get ratings&reviews and pass it down again While being on this page.
-// Solution - useEffect(() => {}, [someTriggerToKnowNewRatingAdded]) 
+// Solution - useEffect(() => {}, [someTriggerToKnowNewRatingAdded])
 // this will fetch data on first render, and also when the someTriggerToKn.. is changed (i.e. a new rating was added)
 // since we get the img/brand/model/etc from the parent, we can use one of props to fetch the `/products/ratings/...` etc to get the data you need direct from mongo, instead of from the state.
 // since u get data from mongodb directly, you can fetch the data again when something changes, so u can re-render that new data.
 
 export default function DetailsProduct({
   img,
+  type,
   brand,
   model,
+  title,
+  description,
+  features,
+  specifications,
   ratings,
-  reviews,
 }) {
   const textColor = useColorModeValue('gray.400');
   const buttonBg = useColorModeValue('gray.700');
@@ -45,56 +49,64 @@ export default function DetailsProduct({
   const [username, setUsername] = useState('');
 
   const [showReviews, setShowReviews] = useState(false);
-  const [review, setReview] = useState('');
+
   const [rating, setRating] = useState('');
   const [userRatingReviews, setUserRatingReviews] = useState([]);
+  console.log(title);
 
-  useEffect(() => {
-    fetch(`http://localhost:8080/api/user/id`, {
-      method: `GET`,
-      credentials: `include`,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUserId(data);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+  // useEffect(() => {
+  //   fetch(`http://localhost:8080/api/user/id`, {
+  //     method: `GET`,
+  //     credentials: `include`,
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setUserId(data);
+  //     })
+  //     .catch((e) => {
+  //       console.error(e);
+  //     });
 
-    fetch(`http://localhost:8080/api/user/${userId}`, {
-      method: `GET`,
-      credentials: `include`,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUsername(data.username);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-      console.log(userId, `is this user's userId`);
-  }, [userId]);
+  //   fetch(`http://localhost:8080/api/user/${userId}`, {
+  //     method: `GET`,
+  //     credentials: `include`,
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setUsername(data.username);
+  //     })
+  //     .catch((e) => {
+  //       console.error(e);
+  //     });
+  //   console.log(userId, `is this user's userId`);
+  // }, [userId]);
 
-  useEffect(() => {
-    console.log('useEffect - Reviews, Ratings - from Parent component (ProductOne.jsx):', reviews, ratings);
-    console.log('useEffect - userRatingReviews - from state in this component', userRatingReviews);
+  // useEffect(() => {
+  //   console.log(
+  //     'useEffect - Reviews, Ratings - from Parent component (ProductOne.jsx):',
+  //     reviews,
+  //     ratings
+  //   );
+  //   console.log(
+  //     'useEffect - userRatingReviews - from state in this component',
+  //     userRatingReviews
+  //   );
 
-    // set the userRatingReviews state with data from component props (ratings and reviews)
-    setUserRatingReviews(
-      reviews.map((review, index) => ({
-        user: review.user,
-        rating: ratings[index].rating, // are we sure that reviews[i] & ratings[i] are both for the same product?
-        review: review.review,
-      }))
-    );
-  }, [reviews, ratings]);
+  //   // set the userRatingReviews state with data from component props (ratings and reviews)
+  //   setUserRatingReviews(
+  //     reviews.map((review, index) => ({
+  //       user: review.user,
+  //       rating: ratings[index].rating, // are we sure that reviews[i] & ratings[i] are both for the same product?
+  //       review: review.review,
+  //     }))
+  //   );
+  // }, [reviews, ratings]);
 
   const addReview = async () => {
     const user = username; // use username of logged-in user
     const newRatingReview = {
       user,
-      rating,
+      inputRating,
       review,
     };
     console.log('User Rating Review:', newRatingReview);
@@ -113,7 +125,7 @@ export default function DetailsProduct({
 
       if (response.ok) {
         console.log('Review added successfully!');
-        setRating('');
+        setRating(newRatingReview.inputRating);
         setReview('');
         setShowReviews(true); // show updated list of reviews
       } else {
@@ -160,6 +172,7 @@ export default function DetailsProduct({
         );
 
         if (response.ok) {
+          setRating;
           console.log('Review updated successfully!');
         } else {
           console.error('Failed to update review:', response.statusText);
@@ -197,7 +210,7 @@ export default function DetailsProduct({
       console.error('Error deleting review:', error);
     }
   };
-
+  console.log(ratings);
   return (
     <Container maxW={'7xl'}>
       <SimpleGrid
@@ -222,17 +235,16 @@ export default function DetailsProduct({
               lineHeight={1.1}
               fontWeight={600}
               fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}
-              className="text-white"
+              className='text-white'
             >
               {brand} - {model}
             </Heading>
             <Text color={textColor} fontWeight={300} fontSize={'2xl'}>
-              {"Keyboard"} 
-              {/* TODO: get and use `product.type` from state */}
+              {type}
             </Text>
             <Text color={textColor} fontWeight={300} fontSize={'2xl'}>
-              <p key={reviews.length}>
-                {reviews.length} review{reviews.length > 1 && 's'}
+              <p>
+                {ratings.length} review{ratings.length !== 1 && 's'}
               </p>
               <Flex>
                 {Array(5)
@@ -262,15 +274,20 @@ export default function DetailsProduct({
                     return <BsStar key={i} style={{ marginLeft: '1' }} />;
                   })}
               </Flex>
-              <Button
-                onClick={() => {
-                  setShowReviews(!showReviews);
-                  console.log('Button clicked, showReviews:', showReviews);
-                }}
-              >
-                {showReviews ? 'Hide reviews' : 'Show reviews'}
-              </Button>
+              <button onClick={() => setShowReviews(!showReviews)}>
+                Show Reviews
+              </button>
               {showReviews && (
+                <div>
+                  {ratings.map((rating, index) => (
+                    <div key={index}>
+                      User: {rating.user}, Rating: {rating.rating}, Review:{' '}
+                      {rating.review}
+                    </div>
+                  ))}
+                </div>
+              )}
+              {/* {showReviews && (
                 <Text color={textColor} fontWeight={300} fontSize={'2xl'}>
                   {reviews
                     .filter(
@@ -284,10 +301,10 @@ export default function DetailsProduct({
                       </p>
                     ))}
                 </Text>
-              )}
+              )} */}
 
               {/* update review form */}
-              <Box my='4'>
+              {/* <Box my='4'>
                 <p>
                   <label htmlFor='rating'>Rating</label>
                   <select
@@ -302,19 +319,19 @@ export default function DetailsProduct({
                     <option value='4'>4- Very good</option>
                     <option value='5'>5- Excelent</option>
                   </select>
-                </p>
-                <p>
+                </p> */}
+              {/* <p>
                   <label htmlFor='review'>Review</label>
                   <textarea
                     id='review'
                     value={review}
                     onChange={(e) => setReview(e.target.value)}
                   ></textarea>
-                </p>
-                <Button onClick={addReview}>Add</Button>
+                </p> */}
+              {/* <Button onClick={addReview}>Add</Button>
                 <Button onClick={updateReview}>Update Review</Button>
-                <Button onClick={deleteReview}>Delete</Button>
-              </Box>
+                <Button onClick={deleteReview}>Delete</Button> */}
+              {/* </Box> */}
             </Text>
           </Box>
 
@@ -325,13 +342,10 @@ export default function DetailsProduct({
           >
             <VStack spacing={{ base: 4, sm: 6 }}>
               <Text color={textColor} fontSize={'2xl'} fontWeight={'300'}>
-                Title Here Lorem ipsum dolor sit amet consetetur sadipscing elitr
+                {title}
               </Text>
-              <Text fontSize={'lg'} className="text-secondary-white">
-                Description here lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad
-                aliquid amet at delectus doloribus dolorum expedita hic, ipsum
-                maxime modi nam officiis porro, quae, quisquam quos
-                reprehenderit velit? Natus, totam.
+              <Text fontSize={'lg'} className='text-secondary-white'>
+                {description}
               </Text>
             </VStack>
             <Box>
@@ -345,11 +359,15 @@ export default function DetailsProduct({
                 Features
               </Text>
 
-              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10} className="text-secondary-white">
+              <SimpleGrid
+                columns={{ base: 1, md: 2 }}
+                spacing={10}
+                className='text-secondary-white'
+              >
                 <List spacing={2}>
-                  <ListItem>Chronograph</ListItem>
-                  <ListItem>Master Chronometer Certified</ListItem>{' '}
-                  <ListItem>Tachymeter</ListItem>
+                  {features.map((feature) => (
+                    <ListItem key={feature.name}>{feature.name}</ListItem>
+                  ))}
                 </List>
                 <List spacing={2}>
                   <ListItem>Anti‑magnetic</ListItem>
@@ -369,13 +387,10 @@ export default function DetailsProduct({
                 Product Details
               </Text>
 
-              <List spacing={2} className="text-secondary-white">
-                {specifications.map((spec, i) => (
-                  <ListItem key={i}>
-                    <Text as={'span'} fontWeight={'bold'}>
-                      {spec.name}
-                    </Text>{' '}
-                    {spec.stat}
+              <List spacing={2} className='text-secondary-white'>
+                {specifications.map((specification) => (
+                  <ListItem key={specification.name}>
+                    {specification.name} : {specification.stat}
                   </ListItem>
                 ))}
               </List>
@@ -400,21 +415,12 @@ export default function DetailsProduct({
           </Button>
 
           <Stack direction='row' alignItems='center' justifyContent={'center'}>
-            <Text className="text-secondary-white">You will be redirected to an external website</Text>
+            <Text className='text-secondary-white'>
+              You will be redirected to an external website
+            </Text>
           </Stack>
         </Stack>
       </SimpleGrid>
     </Container>
   );
 }
-
-
-let specifications = [
-  { name: "Between lugs", stat: "20 mm" },
-  { name: "Bracelet", stat: "leather strap" },
-  { name: "Case", stat: "Steel" },
-  { name: "Case diameter", stat: "42 mm" },
-  { name: "Dial color", stat: "Black" },
-  { name: "Crystal", stat: "Domed, scratch‑resistant sapphire crystal with anti‑reflective treatment inside" },
-  { name: "Water resistance", stat: "5 bar (50 metres / 167 feet)" },
-]
