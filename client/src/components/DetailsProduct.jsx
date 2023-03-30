@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Container,
@@ -11,16 +12,23 @@ import {
   SimpleGrid,
   StackDivider,
   useColorModeValue,
-  VisuallyHidden,
   List,
   ListItem,
 } from '@chakra-ui/react';
-// import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
-import { MdLocalShipping } from 'react-icons/md';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
-// "Simple" from https://chakra-templates.dev/page-sections/productDetails
-import React, { useState, useEffect } from 'react';
-//import { useState }
+
+// Template used is "Simple" from https://chakra-templates.dev/page-sections/productDetails
+
+// TODO / QUESTION:
+// -> should we combine reviews and ratings into one array in the db, since "1 Rating" will have both things, a star rating and a written review.
+
+// BUG - after add review, reviews data doesnt update on page
+// Why? - because `ratings` & `reviews` come from parent component via props. when new review is added, your received state in this component will remain same, because there's no way to call the fetch function in parent to get ratings&reviews and pass it down again While being on this page.
+// Solution - useEffect(() => {}, [someTriggerToKnowNewRatingAdded]) 
+// this will fetch data on first render, and also when the someTriggerToKn.. is changed (i.e. a new rating was added)
+// since we get the img/brand/model/etc from the parent, we can use one of props to fetch the `/products/ratings/...` etc to get the data you need direct from mongo, instead of from the state.
+// since u get data from mongodb directly, you can fetch the data again when something changes, so u can re-render that new data.
+
 export default function DetailsProduct({
   img,
   brand,
@@ -28,32 +36,62 @@ export default function DetailsProduct({
   ratings,
   reviews,
 }) {
-  const textColor = useColorModeValue('gray.500', 'gray.400');
-  const boldColor = useColorModeValue('gray.200', 'gray.600');
-  const buttonBg = useColorModeValue('gray.900', 'gray.50');
-  const buttonColor = useColorModeValue('white', 'gray.900');
-  const yellowText = useColorModeValue('yellow.500', 'yellow.300');
+  const textColor = useColorModeValue('gray.400');
+  const buttonBg = useColorModeValue('gray.700');
+  const buttonColor = useColorModeValue('gray.200');
+  const yellowText = useColorModeValue('yellow.500');
+
+  const [userId, setUserId] = useState('');
+  const [username, setUsername] = useState('');
 
   const [showReviews, setShowReviews] = useState(false);
-
   const [review, setReview] = useState('');
   const [rating, setRating] = useState('');
   const [userRatingReviews, setUserRatingReviews] = useState([]);
 
   useEffect(() => {
-    console.log('Reviews and Ratings:', reviews, ratings);
-    console.log('useEffect', userRatingReviews);
+    fetch(`http://localhost:8080/api/user/id`, {
+      method: `GET`,
+      credentials: `include`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUserId(data);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+
+    fetch(`http://localhost:8080/api/user/${userId}`, {
+      method: `GET`,
+      credentials: `include`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUsername(data.username);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+      console.log(userId, `is this user's userId`);
+  }, [userId]);
+
+  useEffect(() => {
+    console.log('useEffect - Reviews, Ratings - from Parent component (ProductOne.jsx):', reviews, ratings);
+    console.log('useEffect - userRatingReviews - from state in this component', userRatingReviews);
+
+    // set the userRatingReviews state with data from component props (ratings and reviews)
     setUserRatingReviews(
       reviews.map((review, index) => ({
         user: review.user,
-        rating: ratings[index].rating,
+        rating: ratings[index].rating, // are we sure that reviews[i] & ratings[i] are both for the same product?
         review: review.review,
       }))
     );
   }, [reviews, ratings]);
 
   const addReview = async () => {
-    const user = 'Alice'; // replace with actual user
+    const user = username; // use username of logged-in user
     const newRatingReview = {
       user,
       rating,
@@ -87,7 +125,7 @@ export default function DetailsProduct({
   };
 
   const updateReview = async () => {
-    const user = 'Alice'; // replace with actual user
+    const user = username; // use username of logged-in user
     const reviewIndex = reviews.findIndex((review) => review.user === user);
     const ratingIndex = ratings.findIndex((rating) => rating.user === user);
 
@@ -135,7 +173,7 @@ export default function DetailsProduct({
   };
 
   const deleteReview = async () => {
-    const user = 'Alice'; // replace with actual user
+    const user = username; // use username of logged-in user
     const newRatingReview = {
       user,
       rating,
@@ -184,11 +222,13 @@ export default function DetailsProduct({
               lineHeight={1.1}
               fontWeight={600}
               fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}
+              className="text-white"
             >
-              {model}
+              {brand} - {model}
             </Heading>
             <Text color={textColor} fontWeight={300} fontSize={'2xl'}>
-              {brand}
+              {"Keyboard"} 
+              {/* TODO: get and use `product.type` from state */}
             </Text>
             <Text color={textColor} fontWeight={300} fontSize={'2xl'}>
               <p key={reviews.length}>
@@ -240,7 +280,7 @@ export default function DetailsProduct({
                     )
                     .map((review) => (
                       <p key={review._id}>
-                        <b>{review.user}:</b> {review.review}
+                        <b>@{review.user}:</b> <i>"{review.review}"</i>
                       </p>
                     ))}
                 </Text>
@@ -281,15 +321,14 @@ export default function DetailsProduct({
           <Stack
             spacing={{ base: 4, sm: 6 }}
             direction={'column'}
-            divider={<StackDivider borderColor={boldColor} />}
+            divider={<StackDivider />}
           >
             <VStack spacing={{ base: 4, sm: 6 }}>
               <Text color={textColor} fontSize={'2xl'} fontWeight={'300'}>
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                diam nonumy eirmod tempor invidunt ut labore
+                Title Here Lorem ipsum dolor sit amet consetetur sadipscing elitr
               </Text>
-              <Text fontSize={'lg'}>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad
+              <Text fontSize={'lg'} className="text-secondary-white">
+                Description here lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad
                 aliquid amet at delectus doloribus dolorum expedita hic, ipsum
                 maxime modi nam officiis porro, quae, quisquam quos
                 reprehenderit velit? Natus, totam.
@@ -306,7 +345,7 @@ export default function DetailsProduct({
                 Features
               </Text>
 
-              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10} className="text-secondary-white">
                 <List spacing={2}>
                   <ListItem>Chronograph</ListItem>
                   <ListItem>Master Chronometer Certified</ListItem>{' '}
@@ -330,50 +369,15 @@ export default function DetailsProduct({
                 Product Details
               </Text>
 
-              <List spacing={2}>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Between lugs:
-                  </Text>{' '}
-                  20 mm
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Bracelet:
-                  </Text>{' '}
-                  leather strap
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Case:
-                  </Text>{' '}
-                  Steel
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Case diameter:
-                  </Text>{' '}
-                  42 mm
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Dial color:
-                  </Text>{' '}
-                  Black
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Crystal:
-                  </Text>{' '}
-                  Domed, scratch‑resistant sapphire crystal with anti‑reflective
-                  treatment inside
-                </ListItem>
-                <ListItem>
-                  <Text as={'span'} fontWeight={'bold'}>
-                    Water resistance:
-                  </Text>{' '}
-                  5 bar (50 metres / 167 feet){' '}
-                </ListItem>
+              <List spacing={2} className="text-secondary-white">
+                {specifications.map((spec, i) => (
+                  <ListItem key={i}>
+                    <Text as={'span'} fontWeight={'bold'}>
+                      {spec.name}
+                    </Text>{' '}
+                    {spec.stat}
+                  </ListItem>
+                ))}
               </List>
             </Box>
           </Stack>
@@ -396,11 +400,21 @@ export default function DetailsProduct({
           </Button>
 
           <Stack direction='row' alignItems='center' justifyContent={'center'}>
-            <MdLocalShipping />
-            <Text>You will be redirected to an external website</Text>
+            <Text className="text-secondary-white">You will be redirected to an external website</Text>
           </Stack>
         </Stack>
       </SimpleGrid>
     </Container>
   );
 }
+
+
+let specifications = [
+  { name: "Between lugs", stat: "20 mm" },
+  { name: "Bracelet", stat: "leather strap" },
+  { name: "Case", stat: "Steel" },
+  { name: "Case diameter", stat: "42 mm" },
+  { name: "Dial color", stat: "Black" },
+  { name: "Crystal", stat: "Domed, scratch‑resistant sapphire crystal with anti‑reflective treatment inside" },
+  { name: "Water resistance", stat: "5 bar (50 metres / 167 feet)" },
+]

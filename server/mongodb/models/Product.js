@@ -7,10 +7,23 @@ const productSchema = new mongoose.Schema(
     type: { type: String },
     brand: { type: String },
     model: { type: String },
+    title: { type: String },
+    description: { type: String },
+    features: [{ name: { type: String } }],
+    specifications: [{ 
+      name: { type: String },
+      stat: { type: String },
+    }],
+    // // TODO: combine ratings&reviews into one single key
+    // ratings: [{
+    //   user: { type: String },
+    //   rating: { type: Number },
+    //   review: { type: String },
+    // }],
     ratings: [
       {
         user: { type: String },
-        rating: { type: Number }, // added in the rating and review (weiliang)
+        rating: { type: Number },
       },
     ],
     reviews: [
