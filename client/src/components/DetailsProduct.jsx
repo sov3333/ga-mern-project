@@ -211,21 +211,30 @@ export default function DetailsProduct({
 
   const deleteReview = async () => {
     const user = username; // use username of logged-in user
-    const newRatingReview = {
+    const ratingToDelete = {
       user,
-      rating,
     };
-    console.log('User Rating Review:', newRatingReview);
+    console.log('Rating to delete:', ratingToDelete);
     try {
       const response = await fetch(
-        `http://localhost:8080/api/product/${user}/reviews/${model}`,
+        `http://localhost:8080/api/product/${model}/ratings/`,
         {
           method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(ratingToDelete),
         }
       );
 
       if (response.ok) {
-        setReview(newRatingReview.inputRating);
+        // If the review was deleted successfully, fetch the updated ratings
+        const ratingsResponse = await fetch(
+          `http://localhost:8080/api/product/ratings/${model}`
+        );
+        const ratingsData = await ratingsResponse.json();
+        setOldRatings(ratingsData);
+
         console.log('Review deleted successfully!');
       } else {
         console.error('Failed to delete review:', response.statusText);
@@ -456,8 +465,8 @@ export default function DetailsProduct({
                       Submit
                     </Button>
                     {/* TODO Let ADMIN role be able to see Update & Delete buttons */}
-                    {/* <Button onClick={updateReview}>Update Review</Button>
-                    <Button onClick={deleteReview}>Delete</Button> */}
+                    {/* <Button onClick={updateReview}>Update Review</Button> */}
+                    <Button onClick={deleteReview}>Delete</Button>
                   </VStack>
                 </form>
               </Box>
