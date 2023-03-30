@@ -34,7 +34,6 @@ const ProductOne = () => {
         <DetailsProduct
           img={img}
           type={type}
-          type={type}
           brand={brand}
           model={model}
           title={title}
