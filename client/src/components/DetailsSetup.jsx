@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import {
   Box,
   Container,
@@ -23,14 +23,53 @@ import { AuthContext } from '../context/AuthContext';
 
 // "Simple" from https://chakra-templates.dev/page-sections/productDetails
 
-export default function DetailsSetup({ img, user, title, description, products }) {
+export default function DetailsSetup({
+  img,
+  user,
+  title,
+  description,
+  products,
+}) {
   const navigate = useNavigate();
   const { role, setRole } = useContext(AuthContext);
+  const [userId, setUserId] = useState(null);
+  const [creator, setCreator] = useState(null);
   console.log(role);
 
   console.log(`products`, products);
 
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/user/id`, {
+      method: `GET`,
+      credentials: `include`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUserId(data);
+        console.log(userId);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }, [userId]);
+
   const currentID = location.pathname.slice(7);
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/setup${currentID}`, {
+      method: `GET`,
+    })
+      .then((res) => res.json())
+      .then((setup) => {
+        if (setup.userId === userId) {
+          setCreator(true);
+        } else {
+          setCreator(false);
+        }
+      })
+      .catch((err) => console.error({ error: err }));
+  }, [userId]);
+
   //console.log('id', currentID);
   const handleDelete = () => {
     fetch('http://localhost:8080/api/setup' + currentID, {
@@ -84,9 +123,7 @@ export default function DetailsSetup({ img, user, title, description, products }
             spacing={{ base: 4, sm: 6 }}
             direction={'column'}
             divider={
-              <StackDivider
-                borderColor={useColorModeValue('gray.600')}
-              />
+              <StackDivider borderColor={useColorModeValue('gray.600')} />
             }
           >
             <VStack spacing={{ base: 4, sm: 6 }}>
@@ -97,7 +134,9 @@ export default function DetailsSetup({ img, user, title, description, products }
               >
                 {description}
               </Text>
-              <Text fontSize={'lg'} color={useColorModeValue('gray.400')}>{description}</Text>
+              <Text fontSize={'lg'} color={useColorModeValue('gray.400')}>
+                {description}
+              </Text>
             </VStack>
             <Box>
               <Text
@@ -113,7 +152,9 @@ export default function DetailsSetup({ img, user, title, description, products }
               <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
                 <List spacing={2}>
                   {products.map((product, index) => (
-                    <ListItem key={index}  className="text-secondary-white">{product.type}</ListItem>
+                    <ListItem key={index} className='text-secondary-white'>
+                      {product.type}
+                    </ListItem>
                   ))}
                   {/* <ListItem>Chronograph</ListItem>
                   <ListItem>Master Chronometer Certified</ListItem>{' '}
@@ -141,8 +182,14 @@ export default function DetailsSetup({ img, user, title, description, products }
                 {products.map((product, index) => (
                   <ListItem key={index}>
                     <Flex>
-                      <Text as={'span'} className="text-secondary-white font-bold">
-                        {product.type}: <span className="font-normal">{product.brand} ({product.model})</span>
+                      <Text
+                        as={'span'}
+                        className='text-secondary-white font-bold'
+                      >
+                        {product.type}:{' '}
+                        <span className='font-normal'>
+                          {product.brand} ({product.model})
+                        </span>
                       </Text>
                     </Flex>
                   </ListItem>
@@ -167,7 +214,7 @@ export default function DetailsSetup({ img, user, title, description, products }
           >
             Swipe
           </Button>
-          {role === 'admin' ? (
+          {role === 'admin' || creator === true ? (
             <>
               <Button
                 onClick={handleDelete}
