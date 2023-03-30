@@ -135,8 +135,8 @@ const Products = () => {
           onChange={(e) => setSelectedProduct(e.target.value)}
         >
           {/* Dynamically generated options */}
-          {availableTypes.map((type) => (
-            <option key={type} value={type}>
+          {availableTypes.map((type, i) => (
+            <option key={i} value={type}>
               {type}
             </option>
           ))}
@@ -147,8 +147,8 @@ const Products = () => {
           onChange={(e) => setSelectedBrand(e.target.value)}
         >
           {/* Dynamically generated options */}
-          {avaliableBrands.map((brand) => (
-            <option key={brand} value={brand}>
+          {avaliableBrands.map((brand, i) => (
+            <option key={i} value={brand}>
               {brand}
             </option>
           ))}
@@ -159,8 +159,8 @@ const Products = () => {
           onChange={(e) => setSelectedModel(e.target.value)}
         >
           {/* Dynamically generated options */}
-          {avaliableModels.map((model) => (
-            <option key={model} value={model}>
+          {avaliableModels.map((model, i) => (
+            <option key={i} value={model}>
               {model}
             </option>
           ))}
