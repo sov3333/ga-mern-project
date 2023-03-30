@@ -29,6 +29,25 @@ import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 // since we get the img/brand/model/etc from the parent, we can use one of props to fetch the `/products/ratings/...` etc to get the data you need direct from mongo, instead of from the state.
 // since u get data from mongodb directly, you can fetch the data again when something changes, so u can re-render that new data.
 
+let features = [
+  "Chronograph",
+  "Master Chronometer Certified",
+  "Tachymeter",
+  "Anti-magnetic",
+  "Chronometer",
+  "Small seconds",
+];
+
+let specifications = [
+  { name: "Between lugs", stat: "20 mm" },
+  { name: "Bracelet", stat: "leather strap" },
+  { name: "Case", stat: "Steel" },
+  { name: "Case diameter", stat: "42 mm" },
+  { name: "Dial color", stat: "Black" },
+  { name: "Crystal", stat: "Domed, scratch‑resistant sapphire crystal with anti‑reflective treatment inside" },
+  { name: "Water resistance", stat: "5 bar (50 metres / 167 feet)" },
+];
+
 export default function DetailsProduct({
   img,
   type,
@@ -370,9 +389,10 @@ export default function DetailsProduct({
                   ))}
                 </List>
                 <List spacing={2}>
-                  <ListItem>Anti‑magnetic</ListItem>
+                  {features.map((feature, i) => i % 2 !== 0 ? <ListItem>{feature}</ListItem> : <></>)}
+                  {/* <ListItem>Anti‑magnetic</ListItem>
                   <ListItem>Chronometer</ListItem>
-                  <ListItem>Small seconds</ListItem>
+                  <ListItem>Small seconds</ListItem> */}
                 </List>
               </SimpleGrid>
             </Box>

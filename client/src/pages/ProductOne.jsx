@@ -17,14 +17,11 @@ const ProductOne = () => {
     ratings,
   } = location.state;
   console.log(title);
+
   return (
     <div>
-      <h1 className='mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center'>
-        Product
-      </h1>
-      <h2 className='mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6'>
-        This is a product
-      </h2>
+      <h1 className="mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center">{brand} - {model}</h1>
+      <h2 className="mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6">{type}</h2>
       <div>
         <DetailsProduct
           img={img}
