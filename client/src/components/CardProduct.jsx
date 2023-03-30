@@ -39,7 +39,6 @@ function CardProduct({
         state={{
           img: img,
           type: type,
-          type: type,
           brand: brand,
           model: model,
           title: title,
@@ -74,11 +73,7 @@ function CardProduct({
             width='100%'
           />
 
-
-
           <Box p='6'>
-
-
             <Flex justify='space-between' alignContent='center'>
               <Box d='flex' alignItems='baseline'>
                 <Badge
@@ -103,7 +98,7 @@ function CardProduct({
                   #{type}
                 </Badge>
               </Box>
-              <Flex direction="column">
+              <Flex direction='column'>
                 <Flex color={'orange.300'}>
                   {Array(5)
                     .fill('')
@@ -121,17 +116,21 @@ function CardProduct({
                           <BsStarFill
                             key={i}
                             style={{ marginLeft: '1' }}
-                            color={i < roundedRating ? 'orange.300' : 'gray.300'}
+                            color={
+                              i < roundedRating ? 'orange.300' : 'gray.300'
+                            }
                           />
                         );
                       }
                       if (roundedRating - i === 0.5) {
-                        return <BsStarHalf key={i} style={{ marginLeft: '1' }} />;
+                        return (
+                          <BsStarHalf key={i} style={{ marginLeft: '1' }} />
+                        );
                       }
                       return <BsStar key={i} style={{ marginLeft: '1' }} />;
                     })}
                 </Flex>
-                <Flex justify="center" mt="1">
+                <Flex justify='center' mt='1'>
                   <Box as='span' color='gray.300' fontSize='sm'>
                     {ratings.length} review{ratings.length > 1 && 's'}
                   </Box>
@@ -139,10 +138,12 @@ function CardProduct({
               </Flex>
             </Flex>
 
-
-
-
-            <Flex mt='1' justifyContent='space-between' alignContent='center' alignItems="flex-end">
+            <Flex
+              mt='1'
+              justifyContent='space-between'
+              alignContent='center'
+              alignItems='flex-end'
+            >
               <Box
                 fontSize='2xl'
                 fontWeight='medium'
@@ -151,7 +152,7 @@ function CardProduct({
                 isTruncated
                 color={'gray.300'}
               >
-                <span className="font-extrabold">{brand}</span> {model}
+                <span className='font-extrabold'>{brand}</span> {model}
               </Box>
               <Box
                 fontSize='sm'
@@ -161,10 +162,9 @@ function CardProduct({
                 isTruncated
                 color={'gray.300'}
               >
-                in <span className="font-extrabold">{6} setups</span> 
+                in <span className='font-extrabold'>{6} setups</span>
                 {/* replace {6} with total number of setups that this product appears in */}
               </Box>
-
             </Flex>
           </Box>
         </Box>
