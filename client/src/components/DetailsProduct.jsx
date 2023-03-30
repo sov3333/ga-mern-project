@@ -8,14 +8,22 @@ import {
   Flex,
   VStack,
   Button,
-  Heading,
   SimpleGrid,
   StackDivider,
   useColorModeValue,
   List,
   ListItem,
+  FormControl,
+  FormLabel,
+  Select,
+  Textarea,
 } from '@chakra-ui/react';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
+import { motion } from 'framer-motion';
+
+import styles from '../styles';
+import { staggerContainer, fadeIn } from '../utils/motion';
+import { AddIcon } from '@chakra-ui/icons';
 
 // Template used is "Simple" from https://chakra-templates.dev/page-sections/productDetails
 
@@ -50,6 +58,7 @@ let specifications = [
 
 export default function DetailsProduct({
   img,
+  type,
   type,
   brand,
   model,
@@ -121,7 +130,8 @@ export default function DetailsProduct({
   //   );
   // }, [reviews, ratings]);
 
-  const addReview = async () => {
+  const addReview = async (e) => {
+    e.preventDefault();
     const user = username; // use username of logged-in user
     const newRatingReview = {
       user,
@@ -231,13 +241,70 @@ export default function DetailsProduct({
   };
   console.log(ratings);
   return (
+    <>
+    {/* Show 5-star Rating & no. of Reviews */}
+    <Flex direction="column" align="center" fontWeight={300}>
+      {reviews.length === 0 ? (
+        <>
+        <Flex color={'yellow.500'} fontSize={'4xl'}>
+          {Array(5)
+            .fill('')
+            .map((_, i) => {
+              return <BsStar key={i} style={{ marginLeft: '5' }} />;
+            }
+          )}
+        </Flex>
+        <Text color={textColor} mt="0.5rem" fontSize={'lg'}>
+          <i>No ratings & reviews yet!</i>
+        </Text>
+        </>
+      ) : (
+        <>
+        <Flex color={'yellow.500'} fontSize={'4xl'}>
+          {Array(5)
+            .fill('')
+            .map((_, i) => {
+              const roundedRating =
+                Math.round(
+                  (ratings
+                    .map((rating) => rating.rating)
+                    .reduce((a, b) => a + b, 0) /
+                    ratings.length) *
+                    2
+                ) / 2;
+              if (roundedRating - i >= 1) {
+                return (
+                  <BsStarFill
+                    key={i}
+                    style={{ marginLeft: '5' }}
+                    color={i < roundedRating ? 'teal.500' : 'gray.300'}
+                  />
+                );
+              }
+              if (roundedRating - i === 0.5) {
+                return <BsStarHalf key={i} style={{ marginLeft: '5' }} />;
+              }
+              return <BsStar key={i} style={{ marginLeft: '5' }} />;
+            }
+          )}
+        </Flex>
+        <Text color={textColor} mt="0.5rem" fontSize={'lg'}>
+          <i>Rated & reviewed by {reviews.length} trusted peer{reviews.length > 1 && 's'}</i>
+        </Text>
+        </>
+      )}
+    </Flex>
+
+    {/* Container for rest of component */}
     <Container maxW={'7xl'}>
       <SimpleGrid
         columns={{ base: 1, lg: 2 }}
         spacing={{ base: 8, md: 10 }}
         py={{ base: 18, md: 24 }}
       >
-        <Flex>
+
+        {/* Div on the left half of grid */}
+        <Flex direction='column'>
           <Image
             rounded={'md'}
             alt={'product image'}
@@ -247,124 +314,20 @@ export default function DetailsProduct({
             w={'100%'}
             h={{ base: '100%', sm: '400px', lg: '500px' }}
           />
-        </Flex>
-        <Stack spacing={{ base: 6, md: 10 }}>
-          <Box as={'header'}>
-            <Heading
-              lineHeight={1.1}
-              fontWeight={600}
-              fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}
-              className='text-white'
-            >
-              {brand} - {model}
-            </Heading>
-            <Text color={textColor} fontWeight={300} fontSize={'2xl'}>
-              {type}
-            </Text>
-            <Text color={textColor} fontWeight={300} fontSize={'2xl'}>
-              <p>
-                {ratings.length} review{ratings.length !== 1 && 's'}
-              </p>
-              <Flex>
-                {Array(5)
-                  .fill('')
-                  .map((_, i) => {
-                    const roundedRating =
-                      Math.round(
-                        (ratings
-                          .map((rating) => rating.rating)
-                          .reduce((a, b) => a + b, 0) /
-                          ratings.length) *
-                          2
-                      ) / 2;
-                    if (roundedRating - i >= 1) {
-                      return (
-                        <BsStarFill
-                          key={i}
-                          style={{ marginLeft: '1' }}
-                          color={i < roundedRating ? 'teal.500' : 'gray.300'}
-                        />
-                      );
-                    }
 
-                    if (roundedRating - i === 0.5) {
-                      return <BsStarHalf key={i} style={{ marginLeft: '1' }} />;
-                    }
-                    return <BsStar key={i} style={{ marginLeft: '1' }} />;
-                  })}
-              </Flex>
-              <button onClick={() => setShowReviews(!showReviews)}>
-                Show Reviews
-              </button>
-              {showReviews && (
-                <div>
-                  {ratings.map((rating, index) => (
-                    <div key={index}>
-                      User: {rating.user}, Rating: {rating.rating}, Review:{' '}
-                      {rating.review}
-                    </div>
-                  ))}
-                </div>
-              )}
-              {/* {showReviews && (
-                <Text color={textColor} fontWeight={300} fontSize={'2xl'}>
-                  {reviews
-                    .filter(
-                      (review) =>
-                        review.user === review.user &&
-                        review.model === review.model
-                    )
-                    .map((review) => (
-                      <p key={review._id}>
-                        <b>@{review.user}:</b> <i>"{review.review}"</i>
-                      </p>
-                    ))}
-                </Text>
-              )} */}
-
-              {/* update review form */}
-              {/* <Box my='4'>
-                <p>
-                  <label htmlFor='rating'>Rating</label>
-                  <select
-                    id='rating'
-                    value={rating}
-                    onChange={(e) => setRating(e.target.value)}
-                  >
-                    <option value=''>Select</option>
-                    <option value='1'>1- Poor</option>
-                    <option value='2'>2- Fair</option>
-                    <option value='3'>3- Good</option>
-                    <option value='4'>4- Very good</option>
-                    <option value='5'>5- Excelent</option>
-                  </select>
-                </p> */}
-              {/* <p>
-                  <label htmlFor='review'>Review</label>
-                  <textarea
-                    id='review'
-                    value={review}
-                    onChange={(e) => setReview(e.target.value)}
-                  ></textarea>
-                </p> */}
-              {/* <Button onClick={addReview}>Add</Button>
-                <Button onClick={updateReview}>Update Review</Button>
-                <Button onClick={deleteReview}>Delete</Button> */}
-              {/* </Box> */}
-            </Text>
-          </Box>
-
+          {/* Section with Title(Slogan), Description, Features, Specifications */}
           <Stack
             spacing={{ base: 4, sm: 6 }}
             direction={'column'}
             divider={<StackDivider />}
+            mt="2rem"
           >
             <VStack spacing={{ base: 4, sm: 6 }}>
-              <Text color={textColor} fontSize={'2xl'} fontWeight={'300'}>
-                {title}
+              <Text color={textColor} fontSize={'2xl'} fontWeight={'600'}>
+                Best {type} In The World
               </Text>
-              <Text fontSize={'lg'} className='text-secondary-white'>
-                {description}
+              <Text fontSize={'lg'} className="text-secondary-white">
+                This {brand} {type} is the best in the world, with its powerful processing capabilities and sleek design that caters to both professional and casual users alike.
               </Text>
             </VStack>
             <Box>
@@ -377,24 +340,9 @@ export default function DetailsProduct({
               >
                 Features
               </Text>
-
-              <SimpleGrid
-                columns={{ base: 1, md: 2 }}
-                spacing={10}
-                className='text-secondary-white'
-              >
-                <List spacing={2}>
-                  {features.map((feature) => (
-                    <ListItem key={feature.name}>{feature.name}</ListItem>
-                  ))}
-                </List>
-                <List spacing={2}>
-                  {features.map((feature, i) => i % 2 !== 0 ? <ListItem>{feature}</ListItem> : <></>)}
-                  {/* <ListItem>Anti‑magnetic</ListItem>
-                  <ListItem>Chronometer</ListItem>
-                  <ListItem>Small seconds</ListItem> */}
-                </List>
-              </SimpleGrid>
+              <List spacing={2} className="text-secondary-white">
+                {features.map((feature, i) => <ListItem key={i}>{feature}</ListItem>)}
+              </List>
             </Box>
             <Box>
               <Text
@@ -404,19 +352,22 @@ export default function DetailsProduct({
                 textTransform={'uppercase'}
                 mb={'4'}
               >
-                Product Details
+                Product Specifications
               </Text>
-
-              <List spacing={2} className='text-secondary-white'>
-                {specifications.map((specification) => (
-                  <ListItem key={specification.name}>
-                    {specification.name} : {specification.stat}
+              <List spacing={2} className="text-secondary-white">
+                {specifications.map((spec, i) => (
+                  <ListItem key={i}>
+                    <Text as={'span'} fontWeight={'bold'}>
+                      {spec.name}
+                    </Text>{' '}
+                    {spec.stat}
                   </ListItem>
                 ))}
               </List>
             </Box>
           </Stack>
 
+          {/* Section with Purchase Button */}
           <Button
             rounded={'none'}
             w={'full'}
@@ -433,14 +384,158 @@ export default function DetailsProduct({
           >
             Purchase
           </Button>
-
-          <Stack direction='row' alignItems='center' justifyContent={'center'}>
-            <Text className='text-secondary-white'>
-              You will be redirected to an external website
-            </Text>
+          <Stack direction='row' alignItems='center' justifyContent={'center'} mt="1rem">
+            <Text className="text-secondary-white">You will be redirected to an external website</Text>
           </Stack>
+
+        </Flex>
+
+        {/* Stack on the right half of grid */}
+        <Stack spacing={{ base: 6, md: 10 }}>
+          <Box>
+
+            {/* Add review form */}
+            <Box my='4'>
+            <Text
+              as={'h3'}
+              lineHeight={1.1}
+              bgGradient='linear(to-r, pink.400,purple.400)'
+              bgClip='text'
+              className="font-bold md:text-[28px] text-[25px] text-center"
+            >
+              Rate and review this product!
+            </Text>
+
+            {/* Form to submit new Rating & Review */}
+            <form>
+              <VStack spacing={4} align="stretch" color={'gray.300'}>
+                <FormControl isRequired>
+                  <FormLabel htmlFor="rating">Rating</FormLabel>
+                  <Select
+                    id="rating"
+                    placeholder="Select a rating"
+                    border='1px' 
+                    borderColor='gray.600'
+                    value={rating}
+                    onChange={(e) => setRating(e.target.value)}
+                  >
+                    {[1,2,3,4,5].map((value) => (
+                      <option key={value} value={value}>
+                        {value} stars
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel htmlFor="review">Review</FormLabel>
+                  <Textarea
+                    id="review"
+                    placeholder="Write your review here"
+                    border='1px' 
+                    borderColor='gray.600'
+                    value={review}
+                    onChange={(e) => setReview(e.target.value)}
+                  />
+                </FormControl>
+                <Button 
+                  type="submit" 
+                  onClick={addReview}
+                  fontFamily={'heading'}
+                  mt={2}
+                  w={'half'}
+                  bgGradient='linear(to-r, blue.400,pink.400)'
+                  color={'white'}
+                  _hover={{
+                    bgGradient: 'linear(to-r, red.400,pink.400)',
+                    boxShadow: 'xl',
+                  }}
+                  leftIcon={<AddIcon />}
+                >
+                  Submit
+                </Button>
+                {/* TODO Let ADMIN role be able to see Update & Delete buttons */}
+                {/* <Button onClick={updateReview}>Update Review</Button> */}
+                {/* <Button onClick={deleteReview}>Delete</Button> */}
+              </VStack>
+            </form>
+
+              {/* <p>
+                <label htmlFor='rating' className="text-secondary-white">Rating</label>
+                <select
+                  id='rating'
+                  value={rating}
+                  onChange={(e) => setRating(e.target.value)}
+                >
+                  <option value=''>Select</option>
+                  <option value='1'>1- Poor</option>
+                  <option value='2'>2- Fair</option>
+                  <option value='3'>3- Good</option>
+                  <option value='4'>4- Very good</option>
+                  <option value='5'>5- Excelent</option>
+                </select>
+              </p>
+              <p>
+                <label htmlFor='review' className="text-secondary-white">Review</label>
+                <textarea
+                  id='review'
+                  value={review}
+                  onChange={(e) => setReview(e.target.value)}
+                ></textarea>
+              </p>
+              <Button onClick={addReview}>Add</Button> */}
+
+            </Box>
+
+            {/* REVIEW CARDS */}
+            <section className={`relative z-10`}>
+              <motion.div
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: 'false', amount: 0.25 }}
+                className={`${styles.innerWidth} mx-auto flex flex-col gap-6`}
+              >
+                <div className="flex flex-col justify-between">
+                  {/* map over all reviews and render a card for each */}
+                  {reviews
+                    .filter(
+                      (review) =>
+                        review.user === review.user &&
+                        review.model === review.model
+                    )
+                    .map((review, i) => (
+                      <motion.div
+                        key={i}
+                        variants={fadeIn('left', 'tween', 0.2, 1)}
+                        className="flex-[0.5] flex justify-end flex-col gradient-05 sm:p-[2rem] p-[1rem] rounded-[32px] border-[1px] border-[#6a6a6a] relative mb-[1rem]"
+                        // className="flex-[0.5] flex justify-end flex-col gradient-05 sm:p-8 p-4 lg:mt-0 sm:mt-3 lg:ml-3 ml-0 mt-3 rounded-[32px] border-[1px] border-[#6a6a6a] relative"
+                      >
+                        {/* <div className="feedback-gradient" /> */}
+                        <div>
+                          <Text
+                            as={'h4'}
+                            lineHeight={1.1}
+                            bgGradient='linear(to-r, purple.400,blue.400)'
+                            bgClip='text'
+                            className="font-bold sm:text-[24px] text-[20px] sm:leading-[40px] leading-[36px]"
+                          >
+                            @{review.user}
+                          </Text>
+                          <p className="mt-[6px] font-normal sm:text-[14px] text-[12px] sm:leading-[22px] leading-[16px] text-secondary-white">#gamer #programmer</p>
+                        </div>
+                        <p className="mt-[18px] font-normal sm:text-[20px] text-[16px] sm:leading-[45px] leading-[39px] text-white italic">
+                          "{review.review}"
+                        </p>
+                      </motion.div>
+                    ))
+                  }  
+                </div>
+              </motion.div>
+            </section>
+          </Box>
         </Stack>
       </SimpleGrid>
     </Container>
+    </>
   );
 }
