@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AddIcon, CheckIcon } from '@chakra-ui/icons';
+import {useState, useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {AddIcon, CheckIcon} from '@chakra-ui/icons';
 import {
   Box,
   Flex,
@@ -107,20 +107,17 @@ export default function Create() {
       .catch((e) => {
         console.error(e);
       });
-
-
-
   }, [userId]);
 
   const handleInputChange = (e, index) => {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
     const list = [...newProducts];
     list[index][name] = value;
     setNewProducts(list);
   };
 
   const handleAddProduct = () => {
-    setNewProducts([...newProducts, { type: '', brand: '', model: '' }]);
+    setNewProducts([...newProducts, {type: '', brand: '', model: ''}]);
   };
 
   const handleSubmit = (event) => {
@@ -134,16 +131,15 @@ export default function Create() {
       });
     });
     // console.log(`productList`, productList);
-    
+
     console.log('setup', newSetup);
-    if ( newSetup.title === '' || newSetup.img === '' ) {
+    if (newSetup.title === '' || newSetup.img === '') {
       console.log(`Submission failed. Fill in the required fields.`);
       alert('Please input required fields');
     } else if (userId === '') {
       console.log(`Submission failed. Login first.`);
       alert('You need to login first!');
-    }
-    else {
+    } else {
       // submit to databases
       console.log(`all required fields filled, starting submission...`);
 
@@ -169,22 +165,24 @@ export default function Create() {
           // if create setup in db success:
           // 1) show a success Toast,
           // 2) reset the form,
-          // setNewSetup([]), 
+          // setNewSetup([]),
           // 3) navigate to the newly posted setup
           // navigate('/setups');
           // navigate(0);
         })
-        .catch((err) => console.error({ Error: err }));
-      
+        .catch((err) => console.error({Error: err}));
+
       console.log(`i am here about to fetch products api`);
-      
 
       // add all products in productList to products collection
       productList.map((product, index) => {
         // if all 3 fields are not empty...
-        if (product.type !== "" && product.brand !== "" && product.model || "") {
+        if (
+          (product.type !== '' && product.brand !== '' && product.model) ||
+          ''
+        ) {
           // ...then send this product to backend to create a new item in products collection
-          console.log(`Creating Product #${index+1} in products db`)
+          console.log(`Creating Product #${index + 1} in products db`);
           fetch('http://localhost:8080/api/product', {
             method: 'POST',
             body: JSON.stringify({
@@ -198,12 +196,18 @@ export default function Create() {
             },
           })
             .then((res) => res.json())
-            .then((data) => console.log(`New Product #${index+1} created:`, data.newProduct))
-            .catch((err) => console.error('Error creating new product:', err))
+            .then((data) =>
+              console.log(`New Product #${index + 1} created:`, data.newProduct)
+            )
+            .catch((err) => console.error('Error creating new product:', err));
         } else {
-          console.log(`Product #${index+1} had empty fields and was not created in products db`)
+          console.log(
+            `Product #${
+              index + 1
+            } had empty fields and was not created in products db`
+          );
         }
-      })
+      });
     }
   };
 
@@ -213,7 +217,8 @@ export default function Create() {
         Create a Post
       </h1>
       <h2 className='mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6'>
-        Showcase your style <span className="text-pink-400">&</span> inspire productivity
+        Showcase your style <span className='text-pink-400'>&</span> inspire
+        productivity
       </h2>
       <Center>
         <Stack direction={'row'} spacing={4} align={'center'}>
@@ -223,7 +228,7 @@ export default function Create() {
                 key={avatar.name}
                 name={avatar.name}
                 src={avatar.url}
-                size={useBreakpointValue({ base: 'md', md: 'lg' })}
+                size={useBreakpointValue({base: 'md', md: 'lg'})}
                 position={'relative'}
                 zIndex={2}
                 _before={{
@@ -241,20 +246,24 @@ export default function Create() {
               />
             ))}
           </AvatarGroup>
-          <Text fontFamily={'heading'} fontSize={{ base: '4xl', md: '6xl' }} className="text-white">
+          <Text
+            fontFamily={'heading'}
+            fontSize={{base: '4xl', md: '6xl'}}
+            className='text-white'
+          >
             +
           </Text>
           <Flex
             align={'center'}
             justify={'center'}
             fontFamily={'heading'}
-            fontSize={{ base: 'sm', md: 'lg' }}
+            fontSize={{base: 'sm', md: 'lg'}}
             bg={'gray.600'}
             color={'gray.200'}
-            className="font-bold"
+            className='font-bold'
             rounded={'full'}
-            minWidth={useBreakpointValue({ base: '44px', md: '60px' })}
-            minHeight={useBreakpointValue({ base: '44px', md: '60px' })}
+            minWidth={useBreakpointValue({base: '44px', md: '60px'})}
+            minHeight={useBreakpointValue({base: '44px', md: '60px'})}
             position={'relative'}
             _before={{
               content: '""',
@@ -278,8 +287,8 @@ export default function Create() {
         <Stack
           bg={'gray.700'}
           rounded={'xl'}
-          p={{ base: 4, sm: 6, md: 8 }}
-          spacing={{ base: 8 }}
+          p={{base: 4, sm: 6, md: 8}}
+          spacing={{base: 8}}
           // maxW={{ lg: '100%' }}
         >
           <Stack spacing={4}>
@@ -293,8 +302,11 @@ export default function Create() {
                 Share Your Setup
               </Text>
             </Heading>
-            <Text color={'gray.300'} fontSize={{ base: 'sm', sm: 'md' }}>
-              Unleash your creativity and inspire others by sharing your unique workspace with the world. Upload a photo of your setup, add a catchy title and brief description, and let the ratings and comments pour in!
+            <Text color={'gray.300'} fontSize={{base: 'sm', sm: 'md'}}>
+              Unleash your creativity and inspire others by sharing your unique
+              workspace with the world. Upload a photo of your setup, add a
+              catchy title and brief description, and let the ratings and
+              comments pour in!
             </Text>
           </Stack>
           <Box as={'form'} mt={10}>
@@ -303,10 +315,10 @@ export default function Create() {
                 <FormLabel color={'gray.300'}>Title</FormLabel>
                 <Input
                   onChange={(e) => {
-                    setNewSetup({ ...newSetup, title: e.target.value });
+                    setNewSetup({...newSetup, title: e.target.value});
                   }}
                   placeholder='e.g. Productivity Haven'
-                  border='1px' 
+                  border='1px'
                   borderColor='gray.600'
                   color={'gray.300'}
                   _placeholder={{
@@ -318,10 +330,10 @@ export default function Create() {
                 <FormLabel color={'gray.300'}>Description</FormLabel>
                 <Input
                   onChange={(e) => {
-                    setNewSetup({ ...newSetup, description: e.target.value });
+                    setNewSetup({...newSetup, description: e.target.value});
                   }}
                   placeholder='Describe your setup'
-                  border='1px' 
+                  border='1px'
                   borderColor='gray.600'
                   color={'gray.300'}
                   _placeholder={{
@@ -333,8 +345,8 @@ export default function Create() {
                   <FileBase64
                     type='file'
                     multiple={false}
-                    onDone={({ base64 }) =>
-                      setNewSetup({ ...newSetup, img: base64 })
+                    onDone={({base64}) =>
+                      setNewSetup({...newSetup, img: base64})
                     }
                   />
                 </FormControl>
@@ -350,7 +362,7 @@ export default function Create() {
               */}
               {newProducts.map((product, index) => (
                 <FormControl key={index}>
-                  <FormLabel color={'gray.300'}>Product #{index+1}</FormLabel>
+                  <FormLabel color={'gray.300'}>Product #{index + 1}</FormLabel>
                   {/* Dropdown for selecting product's type */}
                   <Select
                     name='type'
@@ -359,7 +371,7 @@ export default function Create() {
                     onChange={(e) => handleInputChange(e, index)}
                     required
                     placeholder='Select a product type'
-                    border='1px' 
+                    border='1px'
                     borderColor='gray.600'
                     color={'gray.300'}
                     _placeholder={{
@@ -367,9 +379,13 @@ export default function Create() {
                     }}
                     mb={2}
                   >
-                    {[...new Set(products.map(product => product.type))].map((type, i) => (
-                      <option value={type} key={i}>{type}</option>
-                    ))}
+                    {[...new Set(products.map((product) => product.type))].map(
+                      (type, i) => (
+                        <option value={type} key={i}>
+                          {type}
+                        </option>
+                      )
+                    )}
                   </Select>
                   {/* Optional code: If user select "Others", show a new field for user text input */}
                   {/* <Flex>
@@ -417,8 +433,8 @@ export default function Create() {
                     value={product.brand}
                     onChange={(e) => handleInputChange(e, index)}
                     required
-                    placeholder='e.g. Omindesk'
-                    border='1px' 
+                    placeholder='Brand e.g. Omindesk'
+                    border='1px'
                     borderColor='gray.600'
                     color={'gray.300'}
                     _placeholder={{
@@ -433,8 +449,8 @@ export default function Create() {
                     value={product.model}
                     onChange={(e) => handleInputChange(e, index)}
                     required
-                    placeholder='e.g. Ascent Wildwood+'
-                    border='1px' 
+                    placeholder='Model e.g. Ascent Wildwood+'
+                    border='1px'
                     borderColor='gray.600'
                     color={'gray.300'}
                     _placeholder={{
@@ -444,24 +460,23 @@ export default function Create() {
                   />
                   {/* below to control only 1 button is displayed for multiple inputs */}
                   {newProducts.length - 1 === index &&
-                    newProducts.length < 4 && (
-                      <Flex justifyContent="flex-end">
-                      <Button
-                        onClick={handleAddProduct}
-                        fontFamily={'heading'}
-                        mt={2}
-                        w={'half'}
-                        bgGradient='linear(to-r, blue.400,pink.400)'
-                        color={'white'}
-                        _hover={{
-                          bgGradient: 'linear(to-r, red.400,pink.400)',
-                          boxShadow: 'xl',
-                        }}
-                        leftIcon={<AddIcon />}
-                      >
-                        Add More Products
-                      </Button>
-
+                    newProducts.length < 10 && (
+                      <Flex justifyContent='flex-end'>
+                        <Button
+                          onClick={handleAddProduct}
+                          fontFamily={'heading'}
+                          mt={2}
+                          w={'half'}
+                          bgGradient='linear(to-r, blue.400,pink.400)'
+                          color={'white'}
+                          _hover={{
+                            bgGradient: 'linear(to-r, red.400,pink.400)',
+                            boxShadow: 'xl',
+                          }}
+                          leftIcon={<AddIcon />}
+                        >
+                          Add More Products
+                        </Button>
                       </Flex>
                     )}
                 </FormControl>
@@ -493,7 +508,7 @@ export default function Create() {
         position={'absolute'}
         top={-10}
         left={-10}
-        style={{ filter: 'blur(70px)' }}
+        style={{filter: 'blur(70px)'}}
       />
     </Box>
   );
@@ -502,8 +517,8 @@ export default function Create() {
 export const Blur = (props) => {
   return (
     <Icon
-      width={useBreakpointValue({ base: '15vw', sm:'12vw' })}
-      zIndex={useBreakpointValue({ base: 0, md: 0, lg: 0 })}
+      width={useBreakpointValue({base: '15vw', sm: '12vw'})}
+      zIndex={useBreakpointValue({base: 0, md: 0, lg: 0})}
       height='560px'
       viewBox='0 0 200 1560'
       fill='none'
