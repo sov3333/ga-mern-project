@@ -9,6 +9,8 @@ import {
 } from '@chakra-ui/react';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 
+import { placeholder_image } from '../assets';
+
 // "Product with Add to Cart" from https://chakra-templates.dev/components/cards
 
 function CardProduct({ img, type, brand, model, ratings, reviews, slug }) {
@@ -49,7 +51,7 @@ function CardProduct({ img, type, brand, model, ratings, reviews, slug }) {
           )} */}
 
           <Image
-            src={img}
+            src={ img ? img : placeholder_image }
             alt={`Picture of ${model}`}
             roundedTop='lg'
             width='100%'

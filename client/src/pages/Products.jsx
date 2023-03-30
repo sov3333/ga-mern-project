@@ -17,6 +17,7 @@ const Products = () => {
       .then(
         (parsedData) => {
           setProducts(parsedData);
+          console.log(`setProducts with parsedData:`, parsedData);
         },
         (err) => console.log(err)
       );
