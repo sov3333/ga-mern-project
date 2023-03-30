@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AddIcon, CheckIcon } from '@chakra-ui/icons';
 import {
   Box,
@@ -15,10 +17,9 @@ import {
   FormControl,
   FormLabel,
   Center,
+  Select,
 } from '@chakra-ui/react';
-import { useState, useEffect } from 'react';
 import FileBase64 from 'react-file-base64';
-import { useNavigate } from 'react-router-dom';
 
 // "Join our Team" from https://chakra-templates.dev/forms/authentication
 
@@ -65,6 +66,23 @@ export default function Create() {
     },
   ]);
 
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:8080/api/product')
+      .then(
+        (data) => data.json(),
+        (err) => console.log(err)
+      )
+      .then(
+        (parsedData) => {
+          setProducts(parsedData);
+          console.log(`setProducts with parsedData:`, parsedData);
+        },
+        (err) => console.log(err)
+      );
+  }, []);
+
   useEffect(() => {
     fetch(`http://localhost:8080/api/user/id`, {
       method: `GET`,
@@ -73,24 +91,24 @@ export default function Create() {
       .then((res) => res.json())
       .then((data) => {
         setUserId(data);
+        console.log(userId, `here`);
+        fetch(`http://localhost:8080/api/user/${data}`, {
+          method: `GET`,
+          credentials: `include`,
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setUsername(data.username);
+          })
+          .catch((e) => {
+            console.error(e);
+          });
       })
       .catch((e) => {
         console.error(e);
       });
 
-    fetch(`http://localhost:8080/api/user/${userId}`, {
-      method: `GET`,
-      credentials: `include`,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUsername(data.username);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
 
-      console.log(userId, `here`);
 
   }, [userId]);
 
@@ -324,7 +342,6 @@ export default function Create() {
               {/* 
 
                 STRETCH TODO: Improve the "add product" section form
-                - Type field should be dropdown, predefined and include an "Others" option.
                 - Brand field if possible, make dropdown, and show brands depending on type. If option don't exist, user can add new.
                 - Model field if possible, make dropdown, and show models depenidng on brand. If option don't exist, user can add new.
 
@@ -334,14 +351,14 @@ export default function Create() {
               {newProducts.map((product, index) => (
                 <FormControl key={index}>
                   <FormLabel color={'gray.300'}>Product #{index+1}</FormLabel>
-                  <Input
+                  {/* Dropdown for selecting product's type */}
+                  <Select
                     name='type'
-                    type='text'
                     id='type'
                     value={product.type}
                     onChange={(e) => handleInputChange(e, index)}
                     required
-                    placeholder='e.g. Desk'
+                    placeholder='Select a product type'
                     border='1px' 
                     borderColor='gray.600'
                     color={'gray.300'}
@@ -349,7 +366,50 @@ export default function Create() {
                       color: 'gray.500',
                     }}
                     mb={2}
-                  />
+                  >
+                    {[...new Set(products.map(product => product.type))].map((type, i) => (
+                      <option value={type} key={i}>{type}</option>
+                    ))}
+                  </Select>
+                  {/* Optional code: If user select "Others", show a new field for user text input */}
+                  {/* <Flex>
+                    <Select
+                      name='type'
+                      id='type'
+                      value={product.type}
+                      onChange={(e) => handleInputChange(e, index)}
+                      required
+                      placeholder='Select a product type'
+                      border='1px' 
+                      borderColor='gray.600'
+                      color={'gray.300'}
+                      _placeholder={{
+                        color: 'gray.500',
+                      }}
+                      mr={2}
+                    >
+                      {products.map((product, i) => (
+                        <option value={product.type} key={i}>{product.type}</option>
+                      ))}
+                      <option value='Other'>Other</option>
+                    </Select>
+                    {product.type === 'Other' && (
+                      <Input
+                        name='typeOther'
+                        type='text'
+                        id='typeOther'
+                        value={product.typeOther}
+                        onChange={(e) => handleInputChange(e, index)}
+                        placeholder='Enter a new product type'
+                        border='1px' 
+                        borderColor='gray.600'
+                        color={'gray.300'}
+                        _placeholder={{
+                          color: 'gray.500',
+                        }}
+                      />
+                    )}
+                  </Flex> */}
                   <Input
                     name='brand'
                     type='text'
