@@ -131,7 +131,7 @@ function CardProduct({
                 </Flex>
                 <Flex justify="center" mt="1">
                   <Box as='span' color='gray.300' fontSize='sm'>
-                    {reviews.length} review{reviews.length > 1 && 's'}
+                    {ratings.length} review{ratings.length > 1 && 's'}
                   </Box>
                 </Flex>
               </Flex>

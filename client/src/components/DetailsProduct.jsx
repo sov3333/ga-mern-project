@@ -56,9 +56,10 @@ let specifications = [
   { name: "Water resistance", stat: "5 bar (50 metres / 167 feet)" },
 ];
 
+let reviews = []
+
 export default function DetailsProduct({
   img,
-  type,
   type,
   brand,
   model,
@@ -77,58 +78,58 @@ export default function DetailsProduct({
   const [username, setUsername] = useState('');
 
   const [showReviews, setShowReviews] = useState(false);
-
+  const [review, setReview] = useState('');
   const [rating, setRating] = useState('');
   const [userRatingReviews, setUserRatingReviews] = useState([]);
   console.log(title);
 
-  // useEffect(() => {
-  //   fetch(`http://localhost:8080/api/user/id`, {
-  //     method: `GET`,
-  //     credentials: `include`,
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setUserId(data);
-  //     })
-  //     .catch((e) => {
-  //       console.error(e);
-  //     });
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/user/id`, {
+      method: `GET`,
+      credentials: `include`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUserId(data);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
 
-  //   fetch(`http://localhost:8080/api/user/${userId}`, {
-  //     method: `GET`,
-  //     credentials: `include`,
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setUsername(data.username);
-  //     })
-  //     .catch((e) => {
-  //       console.error(e);
-  //     });
-  //   console.log(userId, `is this user's userId`);
-  // }, [userId]);
+    fetch(`http://localhost:8080/api/user/${userId}`, {
+      method: `GET`,
+      credentials: `include`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUsername(data.username);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+    console.log(userId, `is this user's userId`);
+  }, [userId]);
 
-  // useEffect(() => {
-  //   console.log(
-  //     'useEffect - Reviews, Ratings - from Parent component (ProductOne.jsx):',
-  //     reviews,
-  //     ratings
-  //   );
-  //   console.log(
-  //     'useEffect - userRatingReviews - from state in this component',
-  //     userRatingReviews
-  //   );
+  useEffect(() => {
+    console.log(
+      'useEffect - Reviews, Ratings - from Parent component (ProductOne.jsx):',
+      reviews,
+      ratings
+    );
+    console.log(
+      'useEffect - userRatingReviews - from state in this component',
+      userRatingReviews
+    );
 
-  //   // set the userRatingReviews state with data from component props (ratings and reviews)
-  //   setUserRatingReviews(
-  //     reviews.map((review, index) => ({
-  //       user: review.user,
-  //       rating: ratings[index].rating, // are we sure that reviews[i] & ratings[i] are both for the same product?
-  //       review: review.review,
-  //     }))
-  //   );
-  // }, [reviews, ratings]);
+    // set the userRatingReviews state with data from component props (ratings and reviews)
+    setUserRatingReviews(
+      reviews.map((review, index) => ({
+        user: review.user,
+        rating: ratings[index].rating, // are we sure that reviews[i] & ratings[i] are both for the same product?
+        review: review.review,
+      }))
+    );
+  }, [reviews, ratings]);
 
   const addReview = async (e) => {
     e.preventDefault();
@@ -201,7 +202,7 @@ export default function DetailsProduct({
         );
 
         if (response.ok) {
-          setRating;
+          // setRating;
           console.log('Review updated successfully!');
         } else {
           console.error('Failed to update review:', response.statusText);
@@ -459,32 +460,7 @@ export default function DetailsProduct({
               </VStack>
             </form>
 
-              {/* <p>
-                <label htmlFor='rating' className="text-secondary-white">Rating</label>
-                <select
-                  id='rating'
-                  value={rating}
-                  onChange={(e) => setRating(e.target.value)}
-                >
-                  <option value=''>Select</option>
-                  <option value='1'>1- Poor</option>
-                  <option value='2'>2- Fair</option>
-                  <option value='3'>3- Good</option>
-                  <option value='4'>4- Very good</option>
-                  <option value='5'>5- Excelent</option>
-                </select>
-              </p>
-              <p>
-                <label htmlFor='review' className="text-secondary-white">Review</label>
-                <textarea
-                  id='review'
-                  value={review}
-                  onChange={(e) => setReview(e.target.value)}
-                ></textarea>
-              </p>
-              <Button onClick={addReview}>Add</Button> */}
-
-            </Box>
+          </Box>
 
             {/* REVIEW CARDS */}
             <section className={`relative z-10`}>
