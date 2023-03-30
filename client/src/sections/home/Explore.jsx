@@ -21,7 +21,7 @@ const Explore = () => {
         (err) => console.log(err)
       );
   }, []);
-
+  console.log('data', setups);
   return (
     <section className={`${styles.paddings}`} id='explore'>
       <motion.div
@@ -50,7 +50,7 @@ const Explore = () => {
               handleClick={setActive}
             />
           ))} */}
-          {setups.map((setup, index) => (
+          {setups.slice(0, 5).map((setup, index) => (
             <ExploreCard
               key={setup._id}
               {...setup}
