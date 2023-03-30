@@ -64,6 +64,26 @@ router.get('/:user/ratings/:model', async (req, res) => {
   }
 });
 
+// Route to get all reviews (rating + review) by a specific user and model
+//localhost:8080/api/product/Alice/ratings/DeathAdder%20V2
+router.get('/ratings/:model', async (req, res) => {
+  const model = req.params.model;
+
+  // Find all products with the given model and their ratings
+  const products = await Product.find({
+    model: model,
+  });
+
+  if (!products || products.length === 0) {
+    // No products found
+    res.status(404).json({ message: 'Products not found.' });
+  } else {
+    // Ratings found
+    const ratings = products.map((product) => product.ratings).flat();
+    res.json(ratings);
+  }
+});
+
 // Route to update rating and review by a specific user for a specific model
 // localhost:8080/api/product/ratings/:model
 // curl -X PUT -H "Content-Type: application/json" -d '{"user": "Alice", "rating": 4}' http://localhost:8080/api/product/Alice/ratings/DeathAdder%20V2
@@ -126,11 +146,66 @@ router.put('/:user/ratings/:model', async (req, res) => {
   }
 });
 
-// Route to add a rating and review to a product. json message error if User already reviewed and rated this product.
+// Route to add a rating and review to a product
 // POST /api/product/:model/ratings
-// curl -X POST -H "Content-Type: application/json" -d '{"user": "Alice", "rating": 4, "review": "Great mouse, very comfortable to use."}' localhost:8080/api/product/Alice/ratings/DeathAdder%20V2
 
-3;
+//curl -X POST -H "Content-Type: application/json" -d '{"user": "Alice", "rating": 4, "review": "Great product!"}' http://localhost:8080/api/product/DeathAdder%20V2/ratings
+router.post('/:model/ratings', async (req, res) => {
+  const model = req.params.model;
+  const { user, rating, review } = req.body;
+
+  try {
+    // Find the product with the given model
+    const product = await Product.findOne({ model: model });
+
+    if (!product) {
+      // No product found
+      res.status(404).json({ message: 'Product not found.' });
+    } else {
+      // Add the new rating and review to the product's ratings array
+      product.ratings.push({ user: user, rating: rating, review: review });
+      await product.save();
+
+      // Return the updated product object with the new rating and review
+      res.json(product);
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Delete
+// DELETE /api/product/:model/ratings/:user
+router.delete('/:model/ratings/:user', async (req, res) => {
+  const model = req.params.model;
+  const user = req.params.user;
+
+  try {
+    // Find the product with the given model
+    const product = await Product.findOne({ model: model });
+
+    if (!product) {
+      // No product found
+      res.status(404).json({ message: 'Product not found.' });
+    } else {
+      // Find the index of the rating and review for the given user
+      const userRatingIndex = product.ratings.findIndex((r) => r.user === user);
+
+      if (userRatingIndex >= 0) {
+        // Remove the rating and review from the product's ratings array
+        product.ratings.splice(userRatingIndex, 1);
+        await product.save();
+        res.json({ message: 'Rating and review deleted.' });
+      } else {
+        // User has not rated or reviewed the product
+        res.json({ message: 'User has not rated or reviewed the product.' });
+      }
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 //Post for create.jsx
 
 router.post('/', async (req, res) => {
@@ -435,32 +510,6 @@ router.post('/seed', async (req, res) => {
     res.status(200).send(createdProduct);
   } catch (e) {
     console.log(e);
-  }
-});
-
-//Put
-//curl -X PUT -H "Content-Type: application/json" -d
-//'{"ratings":[{"user":"John","rating":4.5}],"reviews":[{"user":"Jane","review":"This is a great product"}]}' http://localhost:8080/api/product/Keyboard
-
-router.put('/:type', async (req, res) => {
-  try {
-    const { type } = req.params;
-    const { ratings, reviews } = req.body;
-
-    const updatedProduct = await Product.findOneAndUpdate(
-      { type },
-      { ratings, reviews },
-      { new: true }
-    );
-
-    if (!updatedProduct) {
-      return res.status(404).json({ message: 'Product type not found' });
-    }
-
-    res.json(updatedProduct);
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ error: 'Something went wrong' });
   }
 });
 

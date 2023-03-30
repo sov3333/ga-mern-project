@@ -28,38 +28,14 @@ import { AddIcon } from '@chakra-ui/icons';
 // Template used is "Simple" from https://chakra-templates.dev/page-sections/productDetails
 
 // TODO / QUESTION:
-// -> should we combine reviews and ratings into one array in the db, since "1 Rating" will have both things, a star rating and a written review.
+// -> should we combine reviews and ratings into one array in the db, since "1 Rating" will have both things, a star rating and a written review. WL- Done
 
-// BUG - after add review, reviews data doesnt update on page
+// BUG - after add review, reviews data doesnt update on page. WL- manage to add review and update on page
 // Why? - because `ratings` & `reviews` come from parent component via props. when new review is added, your received state in this component will remain same, because there's no way to call the fetch function in parent to get ratings&reviews and pass it down again While being on this page.
 // Solution - useEffect(() => {}, [someTriggerToKnowNewRatingAdded])
 // this will fetch data on first render, and also when the someTriggerToKn.. is changed (i.e. a new rating was added)
 // since we get the img/brand/model/etc from the parent, we can use one of props to fetch the `/products/ratings/...` etc to get the data you need direct from mongo, instead of from the state.
 // since u get data from mongodb directly, you can fetch the data again when something changes, so u can re-render that new data.
-
-let features = [
-  'Chronograph',
-  'Master Chronometer Certified',
-  'Tachymeter',
-  'Anti-magnetic',
-  'Chronometer',
-  'Small seconds',
-];
-
-let specifications = [
-  { name: 'Between lugs', stat: '20 mm' },
-  { name: 'Bracelet', stat: 'leather strap' },
-  { name: 'Case', stat: 'Steel' },
-  { name: 'Case diameter', stat: '42 mm' },
-  { name: 'Dial color', stat: 'Black' },
-  {
-    name: 'Crystal',
-    stat: 'Domed, scratch‑resistant sapphire crystal with anti‑reflective treatment inside',
-  },
-  { name: 'Water resistance', stat: '5 bar (50 metres / 167 feet)' },
-];
-
-let reviews = [];
 
 export default function DetailsProduct({
   img,
@@ -81,74 +57,84 @@ export default function DetailsProduct({
   const [username, setUsername] = useState('');
 
   const [showReviews, setShowReviews] = useState(false);
-  const [review, setReview] = useState('');
+
   const [rating, setRating] = useState('');
   const [review, setReview] = useState('');
   const [userRatingReviews, setUserRatingReviews] = useState([]);
-  const handleShowReviews = () => {
-    setShowReviews(!showReviews);
-  };
+  const [oldRatings, setOldRatings] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/user/id`, {
-      method: `GET`,
-      credentials: `include`,
-    })
-      .then((res) => res.json())
+    // Fetch the ratings from the backend API
+    fetch(`http://localhost:8080/api/product/ratings/${model}`)
+      .then((response) => response.json())
       .then((data) => {
-        setUserId(data);
+        setOldRatings(data);
       })
-      .catch((e) => {
-        console.error(e);
-      });
+      .catch((error) => console.error(error));
+  }, [model]);
 
-    fetch(`http://localhost:8080/api/user/${userId}`, {
-      method: `GET`,
-      credentials: `include`,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUsername(data.username);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-    console.log(userId, `is this user's userId`);
-  }, [userId]);
+  console.log(oldRatings);
+  // useEffect(() => {
+  //   fetch(`http://localhost:8080/api/user/id`, {
+  //     method: `GET`,
+  //     credentials: `include`,
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setUserId(data);
+  //     })
+  //     .catch((e) => {
+  //       console.error(e);
+  //     });
 
-  useEffect(() => {
-    console.log(
-      'useEffect - Reviews, Ratings - from Parent component (ProductOne.jsx):',
-      reviews,
-      ratings
-    );
-    console.log(
-      'useEffect - userRatingReviews - from state in this component',
-      userRatingReviews
-    );
+  //   fetch(`http://localhost:8080/api/user/${userId}`, {
+  //     method: `GET`,
+  //     credentials: `include`,
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setUsername(data.username);
+  //     })
+  //     .catch((e) => {
+  //       console.error(e);
+  //     });
+  //   console.log(userId, `is this user's userId`);
+  // }, [userId]);
 
-    // set the userRatingReviews state with data from component props (ratings and reviews)
-    setUserRatingReviews(
-      reviews.map((review, index) => ({
-        user: review.user,
-        rating: ratings[index].rating, // are we sure that reviews[i] & ratings[i] are both for the same product?
-        review: review.review,
-      }))
-    );
-  }, [reviews, ratings]);
+  // useEffect(() => {
+  //   console.log(
+  //     'useEffect - Reviews, Ratings - from Parent component (ProductOne.jsx):',
+  //     reviews,
+  //     ratings
+  //   );
+  //   console.log(
+  //     'useEffect - userRatingReviews - from state in this component',
+  //     userRatingReviews
+  //   );
+
+  //   // set the userRatingReviews state with data from component props (ratings and reviews)
+  //   setUserRatingReviews(
+  //     reviews.map((review, index) => ({
+  //       user: review.user,
+  //       rating: ratings[index].rating, // are we sure that reviews[i] & ratings[i] are both for the same product?
+  //       review: review.review,
+  //     }))
+  //   );
+  // }, [reviews, ratings]);
 
   const addReview = async (e) => {
     e.preventDefault();
     const user = username; // use username of logged-in user
     const newRatingReview = {
       user,
-      inputRating,
+      rating,
+      review,
     };
     console.log('User Rating Review:', newRatingReview);
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/product/${user}/reviews/${model}`,
+        `http://localhost:8080/api/product/${model}/ratings`,
         {
           method: 'POST',
           headers: {
@@ -159,7 +145,17 @@ export default function DetailsProduct({
       );
 
       if (response.ok) {
-        setReview(newRatingReview.inputRating);
+        // If the review was added successfully, fetch the updated ratings
+        const ratingsResponse = await fetch(
+          `http://localhost:8080/api/product/ratings/${model}`
+        );
+        const ratingsData = await ratingsResponse.json();
+        setOldRatings(ratingsData);
+
+        // Reset the rating and review input fields
+        setRating(oldRatings);
+        setReview('');
+
         console.log('Review added successfully!');
       } else {
         console.error('Failed to add review:', response.statusText);
@@ -238,12 +234,12 @@ export default function DetailsProduct({
       console.error('Error deleting review:', error);
     }
   };
-  console.log(ratings);
+
   return (
     <>
       {/* Show 5-star Rating & no. of Reviews */}
       <Flex direction='column' align='center' fontWeight={300}>
-        {reviews.length === 0 ? (
+        {oldRatings.length === 0 ? (
           <>
             <Flex color={'yellow.500'} fontSize={'4xl'}>
               {Array(5)
@@ -264,10 +260,10 @@ export default function DetailsProduct({
                 .map((_, i) => {
                   const roundedRating =
                     Math.round(
-                      (ratings
+                      (oldRatings
                         .map((rating) => rating.rating)
                         .reduce((a, b) => a + b, 0) /
-                        ratings.length) *
+                        oldRatings.length) *
                         2
                     ) / 2;
                   if (roundedRating - i >= 1) {
@@ -287,8 +283,8 @@ export default function DetailsProduct({
             </Flex>
             <Text color={textColor} mt='0.5rem' fontSize={'lg'}>
               <i>
-                Rated & reviewed by {reviews.length} trusted peer
-                {reviews.length > 1 && 's'}
+                Rated & reviewed by {oldRatings.length} trusted peer
+                {oldRatings.length > 1 && 's'}
               </i>
             </Text>
           </>
@@ -323,12 +319,10 @@ export default function DetailsProduct({
             >
               <VStack spacing={{ base: 4, sm: 6 }}>
                 <Text color={textColor} fontSize={'2xl'} fontWeight={'600'}>
-                  Best {type} In The World
+                  {title}
                 </Text>
                 <Text fontSize={'lg'} className='text-secondary-white'>
-                  This {brand} {type} is the best in the world, with its
-                  powerful processing capabilities and sleek design that caters
-                  to both professional and casual users alike.
+                  {description}
                 </Text>
               </VStack>
               <Box>
@@ -342,8 +336,8 @@ export default function DetailsProduct({
                   Features
                 </Text>
                 <List spacing={2} className='text-secondary-white'>
-                  {features.map((feature, i) => (
-                    <ListItem key={i}>{feature}</ListItem>
+                  {features.map((feature) => (
+                    <ListItem key={feature.name}>{feature.name}</ListItem>
                   ))}
                 </List>
               </Box>
@@ -363,7 +357,7 @@ export default function DetailsProduct({
                       <Text as={'span'} fontWeight={'bold'}>
                         {spec.name}
                       </Text>{' '}
-                      {spec.stat}
+                      : {spec.stat}
                     </ListItem>
                   ))}
                 </List>
@@ -462,8 +456,8 @@ export default function DetailsProduct({
                       Submit
                     </Button>
                     {/* TODO Let ADMIN role be able to see Update & Delete buttons */}
-                    {/* <Button onClick={updateReview}>Update Review</Button> */}
-                    {/* <Button onClick={deleteReview}>Delete</Button> */}
+                    {/* <Button onClick={updateReview}>Update Review</Button>
+                    <Button onClick={deleteReview}>Delete</Button> */}
                   </VStack>
                 </form>
               </Box>
@@ -479,7 +473,8 @@ export default function DetailsProduct({
                 >
                   <div className='flex flex-col justify-between'>
                     {/* map over all reviews and render a card for each */}
-                    {reviews
+
+                    {ratings
                       .filter(
                         (review) =>
                           review.user === review.user &&
@@ -501,14 +496,15 @@ export default function DetailsProduct({
                               bgClip='text'
                               className='font-bold sm:text-[24px] text-[20px] sm:leading-[40px] leading-[36px]'
                             >
-                              @{review.user}
+                              {review.review}
+                              <p>@{review.user}</p>
                             </Text>
                             <p className='mt-[6px] font-normal sm:text-[14px] text-[12px] sm:leading-[22px] leading-[16px] text-secondary-white'>
                               #gamer #programmer
                             </p>
                           </div>
                           <p className='mt-[18px] font-normal sm:text-[20px] text-[16px] sm:leading-[45px] leading-[39px] text-white italic'>
-                            "{review.review}"
+                            {/* "{review.review}" */}
                           </p>
                         </motion.div>
                       ))}
