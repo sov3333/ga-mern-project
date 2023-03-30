@@ -22,11 +22,7 @@ import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
 import { UserContext } from '../context/UserContext';
 import { AuthContext } from '../context/AuthContext';
 
-const Links = [
-  'Setups',
-  'Swipe',
-  'Products',
-];
+const Links = ['Setups', 'Swipe', 'Products'];
 
 const NavLink = ({ children }) => (
   <Link
@@ -37,7 +33,8 @@ const NavLink = ({ children }) => (
       textDecoration: 'none',
       bg: useColorModeValue('gray.600'),
     }}
-    href={`/${children.toLowerCase()}`}>
+    href={`/${children.toLowerCase()}`}
+  >
     {children}
   </Link>
 );
@@ -70,8 +67,11 @@ export default function Nav() {
 
   return (
     <>
-      <Box px={4} className="my-6 xl:mx-[8rem] lg:mx-[5rem] md:mx-[3rem] sm:mx-[1rem] mx-0">
-        <div className="absolute w-[8%] inset-0 gradient-01" />
+      <Box
+        px={4}
+        className='my-6 xl:mx-[8rem] lg:mx-[5rem] md:mx-[3rem] sm:mx-[1rem] mx-0'
+      >
+        <div className='absolute w-[8%] inset-0 gradient-01' />
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
@@ -81,20 +81,22 @@ export default function Nav() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            <Link 
-              href="/"
+            <Link
+              href='/'
               _hover={{
                 textDecoration: 'none',
                 cursor: 'pointer',
               }}
             >
-              <Box className="text-white font-extrabold md:text-[28px] sm:text-[24px] text-[18px]">SWIPE SETUPS</Box>
+              <Box className='text-white font-extrabold md:text-[28px] sm:text-[24px] text-[18px]'>
+                SWIPE SETUPS
+              </Box>
             </Link>
             <HStack
               as={'nav'}
               spacing={4}
               display={{ base: 'none', md: 'flex' }}
-              className="text-white font-extrabold text-[18px]"
+              className='text-white font-extrabold text-[18px]'
             >
               {Links.map((link) => (
                 <NavLink key={link}>{link}</NavLink>
@@ -105,78 +107,83 @@ export default function Nav() {
             {/* logic for showing logged in vs logged out menu items */}
             {logInOut ? (
               <>
-              <Link 
-                href="/create"
-                _hover={{
-                  textDecoration: 'none',
-                }}
-              >
-                <Button
-                  variant={'solid'}
-                  colorScheme={'whatsapp'}
-                  size={'sm'}
-                  mr={4}
-                  leftIcon={<AddIcon />}>
-                  Post
-                </Button>
-              </Link>
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  rounded={'full'}
-                  variant={'link'}
-                  cursor={'pointer'}
-                  minW={0}>
-                  <Avatar
+                <Link
+                  href='/create'
+                  _hover={{
+                    textDecoration: 'none',
+                  }}
+                >
+                  <Button
+                    variant={'solid'}
+                    colorScheme={'whatsapp'}
                     size={'sm'}
-                    src={
-                      'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                    }
-                  />
-                </MenuButton>
-                <MenuList>
-                  <Link 
-                    href="/profile"
-                    _hover={{
-                      textDecoration: 'none',
-                    }}
+                    mr={4}
+                    leftIcon={<AddIcon />}
                   >
-                    <MenuItem>Profile</MenuItem>
-                  </Link>
-                  <Link 
-                    href="/profile/edit"
-                    _hover={{
-                      textDecoration: 'none',
-                    }}
+                    Post
+                  </Button>
+                </Link>
+                <Menu>
+                  <MenuButton
+                    as={Button}
+                    rounded={'full'}
+                    variant={'link'}
+                    cursor={'pointer'}
+                    minW={0}
                   >
-                    <MenuItem>Settings</MenuItem>
-                  </Link>
-                  <MenuDivider />
-                  <MenuItem onClick={() => handleSignOut()}>Sign out</MenuItem>
-                </MenuList>
-              </Menu>
+                    <Avatar
+                      size={'sm'}
+                      src={
+                        'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
+                      }
+                    />
+                  </MenuButton>
+                  <MenuList>
+                    <Link
+                      href='/profile'
+                      _hover={{
+                        textDecoration: 'none',
+                      }}
+                    >
+                      <MenuItem>Profile</MenuItem>
+                    </Link>
+                    <Link
+                      href='/profile/edit'
+                      _hover={{
+                        textDecoration: 'none',
+                      }}
+                    >
+                      <MenuItem>Settings</MenuItem>
+                    </Link>
+                    <MenuDivider />
+                    <MenuItem onClick={() => handleSignOut()}>
+                      Sign out
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
               </>
             ) : (
               <>
-              <Link href='/signin'>
-                <p className='text-white mr-5 font-bold no-underline sm:block hidden'>
-                  Sign In
-                </p>
-              </Link>
-              <Link 
-                href='/signup'
-                _hover={{ textDecoration: 'none' }}
-              >
-                <Button size='sm' colorScheme='pink'>
-                  Sign Up
-                </Button>
-              </Link>
+                <Link href='/signin'>
+                  <p className='text-white mr-5 font-bold no-underline sm:block hidden'>
+                    Sign In
+                  </p>
+                </Link>
+                <Link href='/signup' _hover={{ textDecoration: 'none' }}>
+                  <Button size='sm' colorScheme='pink'>
+                    Sign Up
+                  </Button>
+                </Link>
               </>
             )}
           </Flex>
         </Flex>
         {isOpen ? (
-          <Box pb={4} display={{ md: 'none' }} className="text-white font-extrabold text-[18px]">
+          <Box
+            pb={4}
+            display={{ md: 'none' }}
+            className='text-white font-extrabold text-[18px]'
+          >
             <Stack as={'nav'} spacing={4}>
               {Links.map((link) => (
                 <NavLink key={link}>{link}</NavLink>

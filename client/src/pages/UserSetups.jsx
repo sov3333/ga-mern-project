@@ -8,11 +8,27 @@ import { setupsData } from '../constants';
 // To re-create, use the Select component from Chakra https://chakra-ui.com/docs/components/select + Checkbox component https://chakra-ui.com/docs/components/checkbox , and/or other Form components
 // Alternatively, might be easier to find a ready-made template (even if its using other frameworks) for SORT+FILTER ui rather than trying to build it from scratch.
 
-const Setups = () => {
+const UserSetups = () => {
   const [setups, setSetups] = useState([]);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/setup')
+    fetch(`http://localhost:8080/api/user/id`, {
+      method: `GET`,
+      credentials: `include`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUserId(data);
+        console.log(userId);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }, [userId]);
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/user/setups/${userId}`)
       .then(
         (data) => data.json(),
         (err) => console.log(err)
@@ -21,7 +37,9 @@ const Setups = () => {
         (parsedData) => setSetups(parsedData),
         (err) => console.log(err)
       );
-  }, []);
+
+    window.scrollTo(0, 0);
+  }, [userId]);
 
   return (
     <div>
@@ -107,4 +125,4 @@ const Setups = () => {
   );
 };
 
-export default Setups;
+export default UserSetups;
