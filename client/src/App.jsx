@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import UserSetups from './pages/UserSetups';
 import {
   Home,
   HomeOld,
@@ -17,6 +18,7 @@ import {
   CreatePost,
   UpdatePost,
   Swipe,
+  // UserSetups,
 } from './pages';
 import { Nav } from './components';
 import { Footer } from './components/home';
@@ -65,6 +67,7 @@ const App = () => {
               <Route path='/reset' element={<PasswordReset />} />
               <Route path='/profile' element={<Profile />} />
               <Route path='/profile/edit' element={<ProfileEdit />} />
+              <Route path='/profile/setups' element={<UserSetups />} />
               <Route path='/create' element={<Create />} />
               <Route path='/swipe' element={<Swipe />} />
 
