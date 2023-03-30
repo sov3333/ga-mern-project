@@ -57,7 +57,7 @@ const Explore = () => {
               index={index}
               active={active}
               handleClick={setActive}
-              slug={`/${setup._id}`}
+              slug={`/setups/${setup._id}`}
             />
           ))}
         </div>

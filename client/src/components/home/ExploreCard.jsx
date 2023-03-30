@@ -1,11 +1,20 @@
 import {motion} from 'framer-motion';
-import {Link} from '@chakra-ui/react';
+import {Link} from 'react-router-dom';
 
 import styles from '../../styles';
 import {fadeIn} from '../../utils/motion';
 import {eye} from '../../assets/home';
 
-const ExploreCard = ({slug, img, user, title, index, active, handleClick}) => {
+const ExploreCard = ({
+  slug,
+  img,
+  user,
+  title,
+  products,
+  index,
+  active,
+  handleClick,
+}) => {
   return (
     <motion.div
       variants={fadeIn('right', 'spring', index * 0.5, 0.75)}
@@ -25,7 +34,15 @@ const ExploreCard = ({slug, img, user, title, index, active, handleClick}) => {
         </h3>
       ) : (
         <div className='absolute bottom-0 p-8 justify-start w-full flex-col bg-[rgba(0,0,0,0.5)] rounded-b-[24px]'>
-          <Link href={`/setups${slug}`}>
+          <Link
+            to={slug}
+            state={{
+              img: img,
+              user: user,
+              title: title,
+              products: products,
+            }}
+          >
             <div
               className={`${styles.flexCenter} w-[60px] h-[60px] rounded-[24px] glassmorphism mb-[16px] hover:bg-pink-700`}
             >
