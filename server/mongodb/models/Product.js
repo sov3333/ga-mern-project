@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const productSchema = new mongoose.Schema(
   {
-    user: { type: String },
+    user: { type: String }, // can be removed
     img: { type: String },
     type: { type: String },
     brand: { type: String },
