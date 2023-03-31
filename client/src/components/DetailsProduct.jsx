@@ -74,32 +74,33 @@ export default function DetailsProduct({
   }, [model]);
 
   console.log(oldRatings);
-  // useEffect(() => {
-  //   fetch(`http://localhost:8080/api/user/id`, {
-  //     method: `GET`,
-  //     credentials: `include`,
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setUserId(data);
-  //     })
-  //     .catch((e) => {
-  //       console.error(e);
-  //     });
 
-  //   fetch(`http://localhost:8080/api/user/${userId}`, {
-  //     method: `GET`,
-  //     credentials: `include`,
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setUsername(data.username);
-  //     })
-  //     .catch((e) => {
-  //       console.error(e);
-  //     });
-  //   console.log(userId, `is this user's userId`);
-  // }, [userId]);
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/user/id`, {
+      method: `GET`,
+      credentials: `include`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUserId(data);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+
+    fetch(`http://localhost:8080/api/user/${userId}`, {
+      method: `GET`,
+      credentials: `include`,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUsername(data.username);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+    console.log(userId, `is this user's userId. and username is:`, username);
+  }, [userId]);
 
   // useEffect(() => {
   //   console.log(
@@ -124,9 +125,10 @@ export default function DetailsProduct({
 
   const addReview = async (e) => {
     e.preventDefault();
-    const user = username; // use username of logged-in user
+    // const user = username; // use username of logged-in user
+    console.log(`username in review submission`, username)
     const newRatingReview = {
-      user,
+      username,
       rating,
       review,
     };
@@ -466,7 +468,7 @@ export default function DetailsProduct({
                     </Button>
                     {/* TODO Let ADMIN role be able to see Update & Delete buttons */}
                     {/* <Button onClick={updateReview}>Update Review</Button> */}
-                    <Button onClick={deleteReview}>Delete</Button>
+                    {/* <Button onClick={deleteReview}>Delete</Button> */}
                   </VStack>
                 </form>
               </Box>
