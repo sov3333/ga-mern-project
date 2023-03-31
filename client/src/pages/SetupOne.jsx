@@ -1,4 +1,5 @@
 import {useLocation} from 'react-router-dom';
+import {Text} from '@chakra-ui/react';
 
 import {DetailsSetup} from '../components';
 
@@ -8,9 +9,15 @@ const SetupOne = () => {
 
   return (
     <div>
-      <h1 className='mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center'>
+      <Text
+        as={'h1'}
+        lineHeight={1.1}
+        bgGradient='linear(to-r, red.400,pink.400)'
+        bgClip='text'
+        className='mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center'
+      >
         Desk Setup
-      </h1>
+      </Text>
       <h2 className='mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6'>
         This is a desk setup
       </h2>
