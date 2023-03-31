@@ -18,6 +18,7 @@ import {
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { UserContext } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 // "Simple Signup Card" from https://chakra-templates.dev/forms/authentication
 
@@ -35,10 +36,11 @@ export default function CardSignUp() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
 
   const { logInOut, setLogInOut } = useContext(UserContext);
 
-  //Links To Backend
+  const navigate = useNavigate();
 
   //Register User
   const signUpUser = async (e) => {
@@ -57,13 +59,15 @@ export default function CardSignUp() {
         lastName,
         email,
         password,
+        username,
       }),
     });
 
     const data = await response.json();
     console.log(data);
-    if (data.user) {
-      location.assign('/');
+
+    if (data.message === 'User Successfully Created') {
+      navigate('/');
     }
   };
 
@@ -117,6 +121,16 @@ export default function CardSignUp() {
                   </FormControl>
                 </Box>
               </HStack>
+              <FormControl id='email' isRequired>
+                <FormLabel>Username</FormLabel>
+                <Input
+                  value={username}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                  }}
+                  type='text'
+                />
+              </FormControl>
               <FormControl id='email' isRequired>
                 <FormLabel>Email address</FormLabel>
                 <Input

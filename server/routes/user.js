@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import requireAuth from '../auth/authMiddleware.js';
 import cookieParser from 'cookie-parser';
-import User from '../mongodb/models/User.js';
+import User from '../mongodb/models/user.js';
 import Setup from '../mongodb/models/setup.js';
 
 const router = express.Router();
@@ -35,7 +35,7 @@ router.post('/logout', (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password, username } = req.body;
 
   bcrypt
     .hash(req.body.password, 10)
@@ -44,6 +44,7 @@ router.post('/register', async (req, res) => {
         firstName: firstName,
         lastName: lastName,
         email: email,
+        username: username,
         password: hashedPassword,
       });
 

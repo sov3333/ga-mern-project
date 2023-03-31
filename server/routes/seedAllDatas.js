@@ -1,5 +1,5 @@
 import express from 'express';
-import Product from '../mongodb/models/product.js';
+import Product from '../mongodb/models/Product.js';
 import setup from '../mongodb/models/setup.js';
 
 const router = express.Router();
