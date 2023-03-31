@@ -108,29 +108,28 @@ export default function ProfileEdit() {
         Edit your profile
       </h2>
       <Flex
-        minH={'100vh'}
+        minH={'80vh'}
         align={'center'}
         justify={'center'}
-        bg={useColorModeValue('gray.50', 'gray.800')}
       >
         <Stack
           spacing={4}
           w={'full'}
           maxW={'md'}
-          bg={useColorModeValue('white', 'gray.700')}
+          bg={useColorModeValue('gray.700')}
           rounded={'xl'}
           boxShadow={'lg'}
           p={6}
           my={12}
         >
-          <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
+          <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }} color='gray.200'>
             User Profile Edit
           </Heading>
           <FormControl id='userName'>
-            <FormLabel>User Icon</FormLabel>
+            <FormLabel color='gray.200'>User Icon</FormLabel>
             <Stack direction={['column', 'row']} spacing={6}>
               <Center>
-                <Avatar size='xl' src='https://bit.ly/sage-adebayo'>
+                <Avatar size='xl' src='https://i.imgur.com/pvyr5m1.jpg'>
                   <AvatarBadge
                     as={IconButton}
                     size='sm'
@@ -148,44 +147,64 @@ export default function ProfileEdit() {
             </Stack>
           </FormControl>
           <FormControl id='userName' isRequired>
-            <FormLabel>First Name</FormLabel>
+            <FormLabel color={'gray.200'}>First Name</FormLabel>
             <Input
               value={firstName}
-              _placeholder={{ color: 'gray.500' }}
               type='text'
+              border='1px'
+              borderColor='gray.600'
+              color={'gray.200'}
+              _placeholder={{
+                color: 'gray.500',
+              }}
               onChange={(e) => {
                 setFirstName(e.target.value);
               }}
             />
           </FormControl>
           <FormControl id='userName' isRequired>
-            <FormLabel>Last Name</FormLabel>
+            <FormLabel color={'gray.200'}>Last Name</FormLabel>
             <Input
               value={lastName}
-              _placeholder={{ color: 'gray.500' }}
               type='text'
+              border='1px'
+              borderColor='gray.600'
+              color={'gray.200'}
+              _placeholder={{
+                color: 'gray.500',
+              }}
               onChange={(e) => {
                 setLastName(e.target.value);
               }}
             />
           </FormControl>
           <FormControl id='userName' isRequired>
-            <FormLabel>Username</FormLabel>
+            <FormLabel color={'gray.200'}>Username</FormLabel>
             <Input
               value={username}
-              _placeholder={{ color: 'gray.500' }}
               type='text'
+              border='1px'
+              borderColor='gray.600'
+              color={'gray.200'}
+              _placeholder={{
+                color: 'gray.500',
+              }}
               onChange={(e) => {
                 setUsername(e.target.value);
               }}
             />
           </FormControl>
           <FormControl id='email' isRequired>
-            <FormLabel>Email address</FormLabel>
+            <FormLabel color={'gray.200'}>Email address</FormLabel>
             <Input
               value={email}
-              _placeholder={{ color: 'gray.500' }}
               type='email'
+              border='1px'
+              borderColor='gray.600'
+              color={'gray.200'}
+              _placeholder={{
+                color: 'gray.500',
+              }}
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
