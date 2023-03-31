@@ -65,7 +65,7 @@ export default function CardSignIn() {
 
   return (
     <Flex
-      minH={'100vh'}
+      minH={'80vh'}
       align={'center'}
       justify={'center'}
       // bg={useColorModeValue('gray.50', 'gray.800')}
