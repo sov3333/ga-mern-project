@@ -505,15 +505,14 @@ export default function DetailsProduct({
                               bgClip='text'
                               className='font-bold sm:text-[24px] text-[20px] sm:leading-[40px] leading-[36px]'
                             >
-                              {review.review}
-                              <p>@{review.user}</p>
+                              @{review.user}
                             </Text>
                             <p className='mt-[6px] font-normal sm:text-[14px] text-[12px] sm:leading-[22px] leading-[16px] text-secondary-white'>
                               #gamer #programmer
                             </p>
                           </div>
                           <p className='mt-[18px] font-normal sm:text-[20px] text-[16px] sm:leading-[45px] leading-[39px] text-white italic'>
-                            {/* "{review.review}" */}
+                            "{review.review}"
                           </p>
                         </motion.div>
                       ))}
