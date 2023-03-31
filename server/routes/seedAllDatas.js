@@ -657,6 +657,30 @@ router.post('/products', async (req, res) => {
           },
         ],
       },
+      {
+        img: 'https://res.cloudinary.com/duxgfcrbs/image/upload/v1680262685/jyacuczvxzfxmxqozde8.avif',
+        type: 'Other',
+        brand: 'Omnidesk',
+        model: 'Arka Desk Riser',
+        title: 'Elevate your productivity and harmonise your workspace',
+        description:
+          'Specially made to redesign your workspace, the Omnidesk Arka is a classic, simple desk riser that improves your workspace ergonomics.',
+        features: [
+          { name: 'Made of solid wood' },
+          { name: 'Position your monitor ergonomically' },
+          { name: 'Organise your desk with ease' },
+          { name: 'Holds up to 30kg' },
+        ],
+        specifications: [
+          { name: 'Length', stat: '1200 mm' },
+          { name: 'Depth', stat: '230 mm' },
+          { name: 'Height', stat: '105 mm' },
+          { name: 'Compartment (Long)', stat: '690 mm' },
+          { name: 'Compartment (Short)', stat: '330 mm' },
+          { name: 'Colors', stat: 'Natural Hevea, Walnut, Acacia, Bamboo Light' },
+        ],
+        ratings: [],
+      },
     ]);
     res.status(200).send(createdProduct);
   } catch (e) {
