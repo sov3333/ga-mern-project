@@ -1,6 +1,6 @@
-import { Flex, Select, Text } from '@chakra-ui/react';
-import { useState, useEffect } from 'react';
-import { CardSetup } from '../components';
+import {Flex, Select, Text} from '@chakra-ui/react';
+import {useState, useEffect} from 'react';
+import {CardSetup} from '../components';
 
 const Setups = () => {
   const [setups, setSetups] = useState([]);
@@ -22,17 +22,17 @@ const Setups = () => {
 
     // get all products to generate options in filters
     fetch('http://localhost:8080/api/product')
-    .then(
-      (data) => data.json(),
-      (err) => console.log(err)
-    )
-    .then(
-      (parsedData) => {
-        setProducts(parsedData);
-        console.log(`setProducts with parsedData:`, parsedData);
-      },
-      (err) => console.log(err)
-    );
+      .then(
+        (data) => data.json(),
+        (err) => console.log(err)
+      )
+      .then(
+        (parsedData) => {
+          setProducts(parsedData);
+          console.log(`setProducts with parsedData:`, parsedData);
+        },
+        (err) => console.log(err)
+      );
   }, []);
 
   /////////////////////////////////////////
@@ -43,7 +43,9 @@ const Setups = () => {
 
   // Get available product types and brands from the fetched data
   const availableTypes = [...new Set(products.map((product) => product.type))];
-  const avaliableBrands = [...new Set(products.map((product) => product.brand))];
+  const avaliableBrands = [
+    ...new Set(products.map((product) => product.brand)),
+  ];
 
   // Group arrays based on their `type` and `brand` properties
   // TODO: Fix groupdProducts to groupSetups
@@ -60,8 +62,7 @@ const Setups = () => {
       specifications,
     } = item;
     const existingProduct = acc.find(
-      (group) =>
-        group.type === type && group.brand === brand
+      (group) => group.type === type && group.brand === brand
     );
     if (existingProduct) {
       existingProduct.users.push(item.user);
@@ -86,9 +87,7 @@ const Setups = () => {
   // Remove duplicates from groupedProducts array
   const uniqueProducts = groupedProducts.reduce((acc, product) => {
     const existingProductIndex = acc.findIndex(
-      (p) =>
-        p.type === product.type &&
-        p.brand === product.brand
+      (p) => p.type === product.type && p.brand === product.brand
     );
     if (existingProductIndex === -1) {
       acc.push(product);
@@ -107,14 +106,10 @@ const Setups = () => {
       );
     } else if (selectedProduct) {
       return (
-        product.type === selectedProduct ||
-        product.brand === selectedProduct
+        product.type === selectedProduct || product.brand === selectedProduct
       );
     } else if (selectedBrand) {
-      return (
-        product.type === selectedBrand ||
-        product.brand === selectedBrand
-      );
+      return product.type === selectedBrand || product.brand === selectedBrand;
     } else {
       return true;
     }
@@ -123,9 +118,15 @@ const Setups = () => {
 
   return (
     <div>
-      <h1 className='mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center'>
+      <Text
+        as={'h1'}
+        lineHeight={1.1}
+        bgGradient='linear(to-r, red.400,pink.400)'
+        bgClip='text'
+        className='mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center'
+      >
         View All Desk Setups
-      </h1>
+      </Text>
       <h2 className='mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6'>
         Check out all the desk setups in the world
       </h2>
@@ -133,11 +134,11 @@ const Setups = () => {
         {/* Filter */}
         <Select
           placeholder='Filter by Products'
-          border='1px' 
+          border='1px'
           borderColor='gray.600'
           value={selectedProduct}
           onChange={(e) => setSelectedProduct(e.target.value)}
-          mx="0.5rem"
+          mx='0.5rem'
         >
           {/* Dynamically generated options */}
           {availableTypes.map((type, i) => (
@@ -148,11 +149,11 @@ const Setups = () => {
         </Select>
         <Select
           placeholder='Filter by Brand'
-          border='1px' 
+          border='1px'
           borderColor='gray.600'
           value={selectedBrand}
           onChange={(e) => setSelectedBrand(e.target.value)}
-          mx="0.5rem"
+          mx='0.5rem'
         >
           {/* Dynamically generated options */}
           {avaliableBrands.map((brand, i) => (
@@ -162,7 +163,12 @@ const Setups = () => {
           ))}
         </Select>
         {/* Sort */}
-        <Select placeholder='Sort by' border='1px' borderColor='gray.600' mx="0.5rem">
+        <Select
+          placeholder='Sort by'
+          border='1px'
+          borderColor='gray.600'
+          mx='0.5rem'
+        >
           <option value='option1'>✨ Newest</option>
           <option value='option2'>⭐ Highest rating</option>
           <option value='option3'>❤️ Most likes</option>
@@ -173,7 +179,7 @@ const Setups = () => {
         style={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-around',
+          justifyContent: 'center',
           flexWrap: 'wrap',
         }}
       >

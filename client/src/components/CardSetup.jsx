@@ -36,6 +36,7 @@ export default function CardSetup({
           role={'group'}
           p={6}
           mx={-6}
+          my={2}
           //maxW={'330px'}
           w={'330px'}
           h={'450px'}
@@ -102,29 +103,29 @@ export default function CardSetup({
                     fontSize={'sm'}
                     color={
                       // change color of #hashtag per product
-                      product.type === 'desk'
+                      product.type === 'Desk'
                         ? 'teal'
-                        : product.type === 'monitor'
+                        : product.type === 'Monitor'
                         ? 'green'
-                        : product.type === 'chair'
+                        : product.type === 'Chair'
                         ? 'orange'
-                        : product.type === 'keyboard'
+                        : product.type === 'Keyboard'
                         ? 'peru'
-                        : product.type === 'mouse'
+                        : product.type === 'Mouse'
                         ? 'red'
-                        : product.type === 'mousepad'
+                        : product.type === 'Mousepad'
                         ? 'aqua'
-                        : product.type === 'speaker'
+                        : product.type === 'Speaker'
                         ? 'blue'
-                        : product.type === 'headphone'
+                        : product.type === 'Headphone'
                         ? 'lightgreen'
                         : product.type === 'pc'
                         ? 'purple'
-                        : product.type === 'laptop'
+                        : product.type === 'Laptop'
                         ? 'pink'
-                        : product.type === 'light'
+                        : product.type === 'Light'
                         ? 'plum'
-                        : product.type === 'riser'
+                        : product.type === 'TypeWriter'
                         ? 'tomato'
                         : 'darkgrey' // fallback color
                     }
