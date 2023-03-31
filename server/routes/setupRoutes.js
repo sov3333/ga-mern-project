@@ -23,26 +23,26 @@ router.get('/', async (req, res) => {
   }
 });
 
-// router.post('/', async (req, res) => {
-//   console.log(`hello from the /api/setup post route!`);
-//   // console.log(req.body);
-//   try {
-//     const { img } = req.body;
-//     const photoUrl = await cloudinary.uploader.upload(img);
-//     const newPost = {
-//       ...req.body,
-//       img: photoUrl.url,
-//       // userId: userId,
-//     };
+router.post('/', async (req, res) => {
+  console.log(`hello from the /api/setup post route!`);
+  // console.log(req.body);
+  try {
+    const { img } = req.body;
+    const photoUrl = await cloudinary.uploader.upload(img);
+    const newPost = {
+      ...req.body,
+      img: photoUrl.url,
+      // userId: userId,
+    };
 
-//     console.log(newPost);
+    console.log(newPost);
 
-//     const createdSetup = await setup.create(newPost);
-//     res.status(200).send(createdSetup);
-//   } catch (err) {
-//     res.status(400).json({error: err.message});
-//   }
-// });
+    const createdSetup = await setup.create(newPost);
+    res.status(200).send(createdSetup);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
 
 // To send the seed files to DB
 // 1) comment out top router.post (line 26 to 45)done
