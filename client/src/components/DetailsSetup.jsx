@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import {useContext, useState, useEffect} from 'react';
 import {
   Box,
   Container,
@@ -18,21 +18,24 @@ import {
 } from '@chakra-ui/react';
 // import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 // import { MdLocalShipping } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import {useNavigate} from 'react-router-dom';
+import {AuthContext} from '../context/AuthContext';
 
 // "Simple" from https://chakra-templates.dev/page-sections/productDetails
 
 export default function DetailsSetup({
+  _id,
   img,
+  userId,
   user,
   title,
   description,
   products,
+  swipes,
 }) {
   const navigate = useNavigate();
-  const { role, setRole } = useContext(AuthContext);
-  const [userId, setUserId] = useState(null);
+  const {role, setRole} = useContext(AuthContext);
+  const [thisUserId, setThisUserId] = useState(null);
   const [creator, setCreator] = useState(null);
   console.log(role);
 
@@ -45,13 +48,13 @@ export default function DetailsSetup({
     })
       .then((res) => res.json())
       .then((data) => {
-        setUserId(data);
-        console.log(userId);
+        setThisUserId(data);
+        console.log(thisUserId);
       })
       .catch((e) => {
         console.error(e);
       });
-  }, [userId]);
+  }, [thisUserId]);
 
   const currentID = location.pathname.slice(7);
 
@@ -61,14 +64,14 @@ export default function DetailsSetup({
     })
       .then((res) => res.json())
       .then((setup) => {
-        if (setup.userId === userId) {
+        if (setup.thisUserId === thisUserId) {
           setCreator(true);
         } else {
           setCreator(false);
         }
       })
-      .catch((err) => console.error({ error: err }));
-  }, [userId]);
+      .catch((err) => console.error({error: err}));
+  }, [thisUserId]);
 
   //console.log('id', currentID);
   const handleDelete = () => {
@@ -79,15 +82,15 @@ export default function DetailsSetup({
       .then((deletedSetup) => {
         navigate('/setups');
       })
-      .catch((err) => console.error({ error: err }));
+      .catch((err) => console.error({error: err}));
   };
 
   return (
     <Container maxW={'7xl'}>
       <SimpleGrid
-        columns={{ base: 1, lg: 2 }}
-        spacing={{ base: 8, md: 10 }}
-        py={{ base: 18, md: 24 }}
+        columns={{base: 1, lg: 2}}
+        spacing={{base: 8, md: 10}}
+        py={{base: 18, md: 24}}
       >
         <Flex>
           <Image
@@ -97,21 +100,21 @@ export default function DetailsSetup({
             fit={'cover'}
             align={'center'}
             w={'100%'}
-            h={{ base: '100%', sm: '400px', lg: '500px' }}
+            h={{base: '100%', sm: '400px', lg: '500px'}}
           />
         </Flex>
-        <Stack spacing={{ base: 6, md: 10 }}>
+        <Stack spacing={{base: 6, md: 10}}>
           <Box as={'header'}>
             <Heading
               lineHeight={1.1}
               fontWeight={600}
-              fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}
+              fontSize={{base: '2xl', sm: '4xl', lg: '5xl'}}
               color={useColorModeValue('gray.300')}
             >
               {title}
             </Heading>
             <Text
-              color={useColorModeValue('gray.400')}
+              color={useColorModeValue('pink.100')}
               fontWeight={300}
               fontSize={'2xl'}
             >
@@ -120,27 +123,27 @@ export default function DetailsSetup({
           </Box>
 
           <Stack
-            spacing={{ base: 4, sm: 6 }}
+            spacing={{base: 4, sm: 6}}
             direction={'column'}
             divider={
               <StackDivider borderColor={useColorModeValue('gray.600')} />
             }
           >
-            <VStack spacing={{ base: 4, sm: 6 }}>
+            <VStack spacing={{base: 4, sm: 6}}>
               <Text
                 color={useColorModeValue('gray.300')}
-                fontSize={'2xl'}
+                fontSize={'xl'}
                 fontWeight={'300'}
               >
                 {description}
               </Text>
-              <Text fontSize={'lg'} color={useColorModeValue('gray.400')}>
+              {/* <Text fontSize={'lg'} color={useColorModeValue('gray.400')}>
                 {description}
-              </Text>
+              </Text> */}
             </VStack>
             <Box>
               <Text
-                fontSize={{ base: '16px', lg: '18px' }}
+                fontSize={{base: '16px', lg: '18px'}}
                 color={useColorModeValue('yellow.500', 'yellow.300')}
                 fontWeight={'500'}
                 textTransform={'uppercase'}
@@ -149,7 +152,7 @@ export default function DetailsSetup({
                 Features
               </Text>
 
-              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+              <SimpleGrid columns={{base: 1, md: 2}} spacing={10}>
                 <List spacing={2}>
                   {products.map((product, index) => (
                     <ListItem key={index} className='text-secondary-white'>
@@ -169,7 +172,7 @@ export default function DetailsSetup({
             </Box>
             <Box>
               <Text
-                fontSize={{ base: '16px', lg: '18px' }}
+                fontSize={{base: '16px', lg: '18px'}}
                 color={useColorModeValue('yellow.500', 'yellow.300')}
                 fontWeight={'500'}
                 textTransform={'uppercase'}
@@ -198,7 +201,7 @@ export default function DetailsSetup({
             </Box>
           </Stack>
 
-          <Button
+          {/* <Button
             rounded={'none'}
             w={'full'}
             mt={8}
@@ -213,7 +216,7 @@ export default function DetailsSetup({
             }}
           >
             Swipe
-          </Button>
+          </Button> */}
           {role === 'admin' || creator === true ? (
             <>
               <Button

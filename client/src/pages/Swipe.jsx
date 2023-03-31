@@ -237,9 +237,15 @@ const Swipe = () => {
       <Container p='10px'>
         {balanceSetups.length > 0 ? (
           <ImageSwipe
+            // props={currentSetup}
+            _id={currentSetup._id}
             src={currentSetup.img}
-            title={currentSetup.title}
+            userId={currentSetup.userId}
             user={currentSetup.user}
+            title={currentSetup.title}
+            description={currentSetup.description}
+            products={currentSetup.products}
+            swipes={currentSetup.swipes}
             handleLiked={handleLiked}
           />
         ) : (

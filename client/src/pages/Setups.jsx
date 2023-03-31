@@ -1,17 +1,15 @@
 import { Flex, Select, Text } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { CardSetup } from '../components';
-import { setupsData } from '../constants';
-
-// SORT & FILTER
-// "Filters with dropdown" from https://pro.chakra-ui.com/components/e-commerce/product-filters; but only accessible for paid plans
-// To re-create, use the Select component from Chakra https://chakra-ui.com/docs/components/select + Checkbox component https://chakra-ui.com/docs/components/checkbox , and/or other Form components
-// Alternatively, might be easier to find a ready-made template (even if its using other frameworks) for SORT+FILTER ui rather than trying to build it from scratch.
 
 const Setups = () => {
   const [setups, setSetups] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState('');
+  const [selectedBrand, setSelectedBrand] = useState('');
 
   useEffect(() => {
+    // get all setups to display cards
     fetch('http://localhost:8080/api/setup')
       .then(
         (data) => data.json(),
@@ -21,48 +19,123 @@ const Setups = () => {
         (parsedData) => setSetups(parsedData),
         (err) => console.log(err)
       );
+
+    // get all products to generate options in filters
+    fetch('http://localhost:8080/api/product')
+      .then(
+        (data) => data.json(),
+        (err) => console.log(err)
+      )
+      .then(
+        (parsedData) => {
+          setProducts(parsedData);
+          // console.log(`setProducts with parsedData:`, parsedData);
+        },
+        (err) => console.log(err)
+      );
   }, []);
 
+  // Get available product types and brands from the fetched data
+  // Get all products from all setups
+  const allProducts = setups.flatMap((setup) => setup.products);
+
+  // Get available types with their corresponding brands
+  const availableTypes = allProducts.reduce((acc, product) => {
+    if (!acc[product.type]) {
+      acc[product.type] = [];
+    }
+    if (!acc[product.type].includes(product.brand)) {
+      acc[product.type].push(product.brand);
+    }
+    return acc;
+  }, {});
+
+  // Create an array of objects that represent each product type and its available brands
+  const typeBrandPairs = Object.entries(availableTypes).map(
+    ([type, brands]) => ({
+      type,
+      brands,
+    })
+  );
+
+  console.log(typeBrandPairs);
+
+  console.log(availableTypes);
+  console.log(selectedProduct);
+
+  // filter the setups based on the selected product type and brand
+  const filteredSetups = selectedProduct
+    ? setups.filter((setup) =>
+        setup.products.some(
+          (product) =>
+            product.type === selectedProduct &&
+            (!selectedBrand || product.brand === selectedBrand)
+        )
+      )
+    : setups;
+
+  // filter brands based on selected product type
+  const filteredBrands = typeBrandPairs.find(
+    (item) => item.type === selectedProduct
+  )?.brands;
+  console.log(filteredBrands);
   return (
     <div>
-      <h1 className='mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center'>
+      <Text
+        as={'h1'}
+        lineHeight={1.1}
+        bgGradient='linear(to-r, red.400,pink.400)'
+        bgClip='text'
+        className='mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center'
+      >
         View All Desk Setups
-      </h1>
+      </Text>
       <h2 className='mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6'>
         Check out all the desk setups in the world
       </h2>
-      <Flex direction='row' justify='space-between' align='center' px='5%'>
+      <Flex direction='row' align='center' px='5%' color={'gray.300'}>
         {/* Filter */}
-        <Text>Filter by</Text>
-        <Select placeholder='Products'>
-          <option value='option1'>Desk</option>
-          <option value='option2'>Monitor</option>
-          <option value='option3'>Chair</option>
-          <option value='option4'>Keyboard</option>
-          <option value='option5'>Mouse</option>
-          <option value='option6'>Mousepad</option>
-          <option value='option7'>Speaker</option>
-          <option value='option8'>Headphone</option>
-          <option value='option9'>PC</option>
-          <option value='option10'>Laptop</option>
-          <option value='option11'>Light</option>
-          <option value='option12'>Riser</option>
-          <option value='option13'>Accessories</option>
+        <Select
+          placeholder='Filter by Products'
+          border='1px'
+          borderColor='gray.600'
+          value={selectedProduct}
+          onChange={(e) => setSelectedProduct(e.target.value)}
+          mx='0.5rem'
+        >
+          {/* Dynamically generated options */}
+          {Object.keys(availableTypes).map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
         </Select>
-        <Select placeholder='Tags'>
-          <option value='option1'>Option 1</option>
-          <option value='option2'>Option 2</option>
-          <option value='option3'>Option 3</option>
+        <Select
+          placeholder='Filter by Brand'
+          border='1px'
+          borderColor='gray.600'
+          value={selectedBrand}
+          onChange={(e) => setSelectedBrand(e.target.value)}
+          mx='0.5rem'
+        >
+          {/* Dynamically generated options */}
+          {filteredBrands && filteredBrands.length > 0 ? (
+            filteredBrands.map((brand, i) => (
+              <option key={i} value={brand}>
+                {brand}
+              </option>
+            ))
+          ) : (
+            <option value=''>No brands available</option>
+          )}
         </Select>
-        <Select placeholder='Brands'>
-          <option value='option1'>Option 1</option>
-          <option value='option2'>Option 2</option>
-          <option value='option3'>Option 3</option>
-        </Select>
-
         {/* Sort */}
-        <Text>Sort by</Text>
-        <Select placeholder='Sort by'>
+        <Select
+          placeholder='Sort by'
+          border='1px'
+          borderColor='gray.600'
+          mx='0.5rem'
+        >
           <option value='option1'>✨ Newest</option>
           <option value='option2'>⭐ Highest rating</option>
           <option value='option3'>❤️ Most likes</option>
@@ -73,31 +146,22 @@ const Setups = () => {
         style={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-around',
+          justifyContent: 'center',
           flexWrap: 'wrap',
         }}
       >
-        {/* {setupsData.map(post => (
-                <div key={post.setupId}>
-                    <CardSetup 
-                        img={post.img} 
-                        user={post.user} 
-                        title={post.heading} 
-                        description={post.description}
-                        products={post.products}
-                        slug={`/setups/${post.setupId}`}
-                    />
-                </div>
-            ))} */}
         {/* <CardSetup /> */}
-        {setups.map((post) => (
+        {filteredSetups.map((post) => (
           <div key={post._id}>
             <CardSetup
+              _id={post._id}
               img={post.img}
+              userId={post.userId}
               user={post.user}
               title={post.title}
               description={post.description}
               products={post.products}
+              swipes={post.swipes}
               slug={`/setups/${post._id}`}
             />
           </div>
