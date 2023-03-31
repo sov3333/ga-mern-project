@@ -29,8 +29,13 @@ A rating and review website for computer desk setups (gaming/trading/programming
 
 ## Link to your wireframes – sketches of major views / interfaces in your application
 
-![SwipeSetups Homepage Hero and Setups](https://user-images.githubusercontent.com/8282076/226174478-d799bf70-8c83-4586-bcbb-a23e9aac4363.png)
-![SwipeSetups Homepage Products](https://user-images.githubusercontent.com/8282076/226174481-b2148a56-46d3-4d35-a488-41824abc01c1.png)
+![SwipeSetups - Home](https://user-images.githubusercontent.com/8282076/229121577-4f218eb6-d19b-421b-bd6b-992faba80f76.png)
+![SwipeSetups - Home 2](https://user-images.githubusercontent.com/8282076/229121531-fd81eea4-2ec1-47f8-8357-8716cb1bfbfa.png)
+![SwipeSetups - Setups Page](https://user-images.githubusercontent.com/8282076/229121133-4f0b2fe9-310f-4cb7-b9d6-8c5052691177.png)
+![SwipeSetups - Setup Page](https://user-images.githubusercontent.com/8282076/229121271-15109219-0aff-431f-be58-f618d87db594.png)
+![SwipeSetups - Products Page](https://user-images.githubusercontent.com/8282076/229119563-a24dc7b5-f07f-431e-9eda-67368d1a241a.png)
+![SwipeSetups - Product Page](https://user-images.githubusercontent.com/8282076/229119882-656e8923-858a-402d-b0e7-4cb86214a058.png)
+![SwipeSetups - Create Page](https://user-images.githubusercontent.com/8282076/229123860-4afe150a-0b03-4022-9c3e-446a5814f812.png)
 
 
 ## Descriptions of any unsolved problems or major hurdles your team had to overcome

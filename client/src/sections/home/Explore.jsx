@@ -4,7 +4,6 @@ import {motion} from 'framer-motion';
 import styles from '../../styles';
 import {staggerContainer} from '../../utils/motion';
 import {ExploreCard, TitleText, TypingText} from '../../components/home';
-import {exploreSetups} from '../../constants';
 
 const Explore = () => {
   const [setups, setSetups] = useState([]);
@@ -17,11 +16,14 @@ const Explore = () => {
         (err) => console.log(err)
       )
       .then(
-        (parsedData) => setSetups(parsedData),
+        (parsedData) => {
+          setSetups(parsedData);
+          setActive(`/setups/${parsedData[1]._id}`);
+        },
         (err) => console.log(err)
       );
   }, []);
-  //console.log('data', setups);
+
   return (
     <section className={`${styles.paddings}`} id='explore'>
       <motion.div
@@ -41,15 +43,6 @@ const Explore = () => {
           textStyles='text-center'
         />
         <div className='mt-[50px] flex lg:flex-row flex-col min-h-[70vh] gap-5'>
-          {/* {exploreSetups.map((setup, index) => (
-            <ExploreCard
-              key={setup.id}
-              {...setup}
-              index={index}
-              active={active}
-              handleClick={setActive}
-            />
-          ))} */}
           {setups.slice(0, 5).map((setup, index) => (
             <ExploreCard
               key={setup._id}
