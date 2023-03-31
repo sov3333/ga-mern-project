@@ -13,6 +13,174 @@ router.post('/setups', async (req, res) => {
   try {
     const createdSetup = await setup.create(
       {
+        img: 'http://res.cloudinary.com/duxgfcrbs/image/upload/v1680237837/sgwtdk5fmgjesmovbsxi.png',
+        userId: '123123456',
+        user: 'Flowstate',
+        title: 'Mellow Dreams',
+        description:
+          'This is my setup for dual-purpose setup for gaming and programming. I love keeping my desk clean to help with my productivitiy.',
+        products: [
+          {
+            type: 'Desk',
+            brand: 'Omnidesk',
+            model: 'Ascent Wildwood+',
+          },
+          {
+            type: 'Monitor',
+            brand: 'Xiaomi',
+            model: 'Curved Gaming Monitor 34',
+          },
+          {
+            type: 'Mouse',
+            brand: 'Razer',
+            model: 'DeathAdder V2',
+          },
+          {
+            type: 'Keyboard',
+            brand: 'Razer',
+            model: 'BlackWidow V4 Pro',
+          },
+        ],
+        swipes: [
+          {
+            userId: '23423',
+            liked: true,
+          },
+          {
+            userId: '234231',
+            liked: true,
+          },
+          {
+            userId: '234232',
+            liked: false,
+          },
+        ],
+      },
+      {
+        img: 'http://res.cloudinary.com/duxgfcrbs/image/upload/v1680237824/dwsxflmj3a1regylc1dl.png',
+        userId: '234234234',
+        user: 'Gamer2359',
+        title: 'Alien Green',
+        description:
+          'At the corner of my gaming cave, I love my neon-lit gadgets as I play through the nights and weekends.',
+        products: [
+          {
+            type: 'Desk',
+            brand: 'IKEA',
+            model: 'UTESPELARE Gaming Desk Black',
+          },
+          {
+            type: 'Monitor',
+            brand: 'BenQ',
+            model: 'XL2411',
+          },
+          {
+            type: 'Mouse',
+            brand: 'Logitch',
+            model: 'Gaming 304',
+          },
+          {
+            type: 'Keyboard',
+            brand: 'Razer',
+            model: 'G915 Lightspeed',
+          },
+        ],
+        swipes: [
+          {
+            userId: '23423',
+            liked: true,
+          },
+        ],
+      },
+      {
+        img: 'http://res.cloudinary.com/duxgfcrbs/image/upload/v1680237608/kjimfwu4q2ktjpezo2do.png',
+        userId: '345345345',
+        user: 'TraderJoe',
+        title: 'Need Moar Screens',
+        description:
+          'I use 3 widescreens and also 2 projectors on my window blinds. No just kidding, this was made with midjourney. Looks quite productive tho huh!',
+        products: [
+          {
+            type: 'Desk',
+            brand: 'Omnidesk',
+            model: 'Ascent Wildwood+',
+          },
+          {
+            type: 'Monitor',
+            brand: 'Xiaomi',
+            model: 'Curved Gaming Monitor 34',
+          },
+          {
+            type: 'Monitor',
+            brand: 'Gigabyte',
+            model: 'MW34Q',
+          },
+          {
+            type: 'Monitor',
+            brand: 'Gigabyte',
+            model: 'MW34Q',
+          },
+        ],
+        swipes: [
+          {
+            userId: '23423',
+            liked: true,
+          },
+        ],
+      },
+      {
+        img: 'http://res.cloudinary.com/duxgfcrbs/image/upload/v1680237916/zdgdny7xa0vepcyvdfyu.png',
+        userId: '1',
+        user: 'Dinosaurus',
+        title: 'Blast from the Past',
+        description:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
+        products: [
+          {
+            type: 'Desk',
+            brand: 'Omnidesk',
+            model: 'Ascent Wildwood+',
+          },
+          {
+            type: 'Typewriter',
+            brand: 'Hermes',
+            model: '3000',
+          },
+        ],
+        swipes: [],
+      },
+      {
+        img: 'http://res.cloudinary.com/duxgfcrbs/image/upload/v1680241692/s3xiat7rhiundyunlgwm.jpg',
+        userId: '1',
+        user: 'relodebell',
+        title: 'Neon Rain',
+        description:
+          'My programming and gaming setup. Recently became a fan of the vertical monitor which is useful for working on code. Hope you like it!',
+        products: [
+          {
+            type: 'Keyboard',
+            brand: 'SteelSeries',
+            model: 'Apex Pro Mechanical Gaming Keyboard',
+          },
+          {
+            type: 'Mouse',
+            brand: 'Asus',
+            model: 'ROG Gladius III',
+          },
+          {
+            type: 'Monitor',
+            brand: 'BenQ',
+            model: 'XL28W',
+          },
+          {
+            type: 'Monitor',
+            brand: 'Acer',
+            model: 'Gaming Monitor 32"',
+          },
+        ],
+        swipes: [],
+      },
+      {
         img: 'https://t3.gstatic.com/images?q=tbn:ANd9GcSTspk0HexUgLVvH7AoWUOfZ61RecRVeAaoubWnCQHmAfVY9rKB',
         userId: '1',
         user: 'Alice',
@@ -57,23 +225,23 @@ router.post('/setups', async (req, res) => {
           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
         products: [
           {
-            type: 'mouse',
+            type: 'Mouse',
             brand: 'Razer',
             model: 'Deathadder V2',
           },
 
           {
-            type: 'mousepad',
+            type: 'Mousepad',
             brand: 'Aukey',
             model: 'KM-P2 Large Gaming Mouse Pad Oversized',
           },
           {
-            type: 'chair',
+            type: 'Chair',
             brand: 'Logitech X Herman Miller',
             model: 'Embody gaming chair',
           },
           {
-            type: 'light',
+            type: 'Light',
             brand: 'Type 75 Desk Lamp Paul Smith',
             model: 'Edition 6',
           },
@@ -94,22 +262,22 @@ router.post('/setups', async (req, res) => {
           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
         products: [
           {
-            type: 'monitor',
+            type: 'Monitor',
             brand: 'Xiaomi',
             model: 'Curved Gaming Monitor 34',
           },
           {
-            type: 'mousepad',
+            type: 'Mousepad',
             brand: 'Aukey',
             model: 'KM-P2 Large Gaming Mouse Pad Oversized',
           },
           {
-            type: 'chair',
+            type: 'Chair',
             brand: 'Logitech X Herman Miller',
             model: 'Embody gaming chair',
           },
           {
-            type: 'light',
+            type: 'Light',
             brand: 'Type 75 Desk Lamp Paul Smith',
             model: 'Edition 6',
           },
@@ -134,41 +302,32 @@ router.post('/setups', async (req, res) => {
           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
         products: [
           {
-            type: 'monitor',
+            type: 'Monitor',
             brand: 'Gigabyte',
             model: 'M34WQ',
           },
           {
-            type: 'mousepad',
+            type: 'Mousepad',
             brand: 'Aukey',
             model: 'KM-P2 Large Gaming Mouse Pad Oversized',
           },
           {
-            type: 'chair',
+            type: 'Chair',
             brand: 'Logitech X Herman Miller',
             model: 'Embody gaming chair',
           },
           {
-            type: 'light',
+            type: 'Light',
             brand: 'Type 75 Desk Lamp Paul Smith',
             model: 'Edition 6',
           },
           {
-            type: 'speaker',
+            type: 'Speaker',
             brand: 'Audioengine',
             model: 'Audioengine A2+ Wireless White',
           },
         ],
-        swipes: [
-          {
-            userId: '131232',
-            liked: false,
-          },
-          {
-            userId: '1',
-            liked: true,
-          },
-        ],
+        swipes: [],
       }
     );
     res.status(200).send(createdSetup);
@@ -186,8 +345,7 @@ router.post('/products', async (req, res) => {
   try {
     const createdProduct = await Product.create([
       {
-        user: 'Alice',
-        img: 'https://assets.hardwarezone.com/img/2021/11/omnidesk.jpg',
+        img: 'https://res.cloudinary.com/duxgfcrbs/image/upload/v1680239143/foekt8hunq89mteusmdw.jpg',
         type: 'Desk',
         brand: 'Omnidesk',
         model: 'Ascent Wildwood+',
@@ -222,8 +380,7 @@ router.post('/products', async (req, res) => {
         ],
       },
       {
-        user: 'Alice',
-        img: 'https://assets.hardwarezone.com/img/2019/10/xiaomi-mi-surface.jpg',
+        img: 'https://res.cloudinary.com/duxgfcrbs/image/upload/v1680239172/rhuuu0vaqumk3ytoc6db.jpg',
         type: 'Monitor',
         brand: 'Xiaomi',
         model: 'Curved Gaming Monitor 34',
@@ -254,16 +411,27 @@ router.post('/products', async (req, res) => {
         ],
         ratings: [
           {
-            user: 'Alice',
+            user: 'Delilah',
             rating: 5,
             review:
               'The Xiaomi Curved Gaming Monitor 34 is amazing. The picture quality is stunning and the curved design really immerses you in the game.',
           },
+          {
+            user: 'Gamer2359',
+            rating: 4,
+            review:
+              'Colors are a bit off sometimes, but otherwise extremely good value, definitely will recommend!',
+          },
+          {
+            user: 'TraderXBT',
+            rating: 5,
+            review:
+              'I use two of these stacked above each other for my setup. Great value for money and quality is great for this price point.',
+          },
         ],
       },
       {
-        user: 'Alice',
-        img: 'https://press.razer.com/wp-content/uploads/2020/01/DAV2_1-1024x576.png',
+        img: 'https://res.cloudinary.com/duxgfcrbs/image/upload/v1680239199/i6joaws6oxeaccbbhasy.webp',
         type: 'Mouse',
         brand: 'Razer',
         model: 'DeathAdder V2',
@@ -288,18 +456,10 @@ router.post('/products', async (req, res) => {
           { name: 'Cable Length', stat: '2.1 meters' },
           { name: 'Weight', stat: '82g' },
         ],
-        ratings: [
-          {
-            user: 'Alice',
-            rating: 5,
-            review:
-              "This is the best gaming mouse I've ever used. The precision is amazing and the customizable lighting is a nice touch.",
-          },
-        ],
+        ratings: [],
       },
       {
-        user: 'Alice',
-        img: 'https://assets2.razerzone.com/images/pnx.assets/d493370b21999f3f6d72904ecff2b682/razer-blackwidow-v4-pro-wrist-rest-1920x700.jpg',
+        img: 'https://res.cloudinary.com/duxgfcrbs/image/upload/v1680239222/gzza8d883xjezrbkwaf6.jpg',
         type: 'Keyboard',
         brand: 'Razer',
         model: 'BlackWidow V4 Pro',
@@ -325,14 +485,13 @@ router.post('/products', async (req, res) => {
         ],
       },
       {
-        user: 'Bob',
-        img: 'https://assets.hardwarezone.com/img/2019/10/xiaomi-mi-surface.jpg',
+        img: 'https://res.cloudinary.com/duxgfcrbs/image/upload/v1680239354/h7dfyz5y6d3tvxbtk3c3.jpg',
         type: 'Monitor',
-        brand: 'Xiaomi',
-        model: 'Curved Gaming Monitor 34',
-        title: 'Gaming Monitor',
+        brand: 'Gigabyte',
+        model: 'G34WQC Gaming Monitor',
+        title: 'The Last Mile for your Gaming System',
         description:
-          'A high-performance curved gaming monitor with a 144Hz refresh rate and AMD FreeSync technology.',
+          'The streamline appearance represents the simplicity of the GIGABYTE gaming series design philosophy, sturdy stand and matte finish built for functional and aesthetic features adding more to the characteristics.',
         features: [
           { name: '34-inch curved display' },
           { name: '144Hz refresh rate' },
@@ -347,26 +506,31 @@ router.post('/products', async (req, res) => {
         ratings: [
           {
             user: 'Bob',
-            rating: 3,
+            rating: 4,
             review: 'Nice monitor',
+          },
+          {
+            user: 'Gamer2359',
+            rating: 3,
+            review: 'Great quality and affordable',
           },
         ],
       },
       {
-        user: 'Bob',
-        img: 'https://press.razer.com/wp-content/uploads/2020/01/DAV2_1-1024x576.png',
+        img: 'http://res.cloudinary.com/duxgfcrbs/image/upload/v1680239860/gx2fdio8xfq9dkragkki.jpg',
         type: 'Mouse',
-        brand: 'Razer',
-        model: 'DeathAdder V2',
-        title: 'Best Gaming Mouse',
+        brand: 'Logitech',
+        model: 'Gaming 304',
+        title: 'Lightspeed Wireless Gaming Mouse',
         description:
-          'The Razer DeathAdder V2 is a high-precision gaming mouse with a focus on speed and accuracy.',
+          'Logitech G304 is a LIGHTSPEED wireless gaming mouse designed for serious performance with the latest technology, HERO sensor is the next-gen optical gaming sensor from Logitech G. In wireless gaming, there can be no compromises.',
         features: [
           { name: '20,000 DPI optical sensor' },
           { name: '8 programmable buttons' },
           { name: 'Chroma RGB lighting' },
         ],
         specifications: [
+          { name: 'Colors', stat: 'White or Black' },
           { name: 'Sensor', stat: 'Razer Focus+ Optical Sensor' },
           { name: 'DPI', stat: '20,000 DPI' },
           { name: 'Speed', stat: '650 IPS' },
@@ -375,75 +539,118 @@ router.post('/products', async (req, res) => {
         ],
         ratings: [
           {
-            user: 'Bob',
+            user: 'MouseConnoisseur',
             rating: 4,
-            review: 'Good Product!',
+            review: 'It is reliable and dependable especially when gaming. Even though this mouse is an entry-level lightspeed mouse, Logitech G304 Lightspeed feels well-built and comparable to the premium wireless mice that Logitech has in the market right now. The only thing you are missing out on when buying this mouse is the bling, the G304 has no RGB lighting to save battery life.',
+          },
+          {
+            user: 'JaniceTheManice',
+            rating: 3,
+            review: 'Not very responsive sometimes!! :(',
           },
         ],
       },
       {
-        user: 'Lindsey',
-        img: 'https://assets2.razerzone.com/images/pnx.assets/d493370b21999f3f6d72904ecff2b682/razer-blackwidow-v4-pro-wrist-rest-1920x700.jpg',
-        type: 'Keyboard',
-        brand: 'Razer',
-        model: 'BlackWidow V4 Pro',
-        title: 'Best Gaming Keyboard',
+        img: 'http://res.cloudinary.com/duxgfcrbs/image/upload/v1680240344/szieomrt0wadsaxmjng4.jpg',
+        type: 'Light',
+        brand: 'Angelpoise',
+        model: 'Type 75 desk lamp, Paul Smith Edition 6',
+        title: 'Classic, Minimalist Expression and Functional Design',
         description:
-          'The Razer BlackWidow V4 Pro is a mechanical gaming keyboard with Razer Chroma RGB lighting and wireless connectivity.',
+          'The Type 75 Paul Smith Edition is defined by a bright multi-colour palette in matte finishes. The colours were created by the renowned British designer Paul Smith inspired by the abstract Dutch art movement De Stijl.',
         features: [
-          { name: 'Mechanical switches' },
-          { name: 'Wireless connectivity' },
-          { name: 'Customizable Chroma RGB lighting' },
+          { name: 'Rotating, rounded shade' },
+          { name: 'Adjustable arm with spring tension system' },
+          { name: 'Aluminium arm' },
+          { name: 'Cast iron base' },
         ],
         specifications: [
           {
-            name: 'Keys',
-            stat: 'Fully programmable keys with on-the-fly macro recording',
+            name: 'Material',
+            stat: 'Matt painted aluminium, cast iron base',
           },
-          { name: 'Lighting', stat: 'Customizable Chroma RGB lighting' },
-          {
-            name: 'Battery life',
-            stat: 'Up to 200 hours with backlighting off',
-          },
-          { name: 'Dimensions', stat: '463mm x 174mm x 36mm' },
-          { name: 'Weight', stat: '1.95kg' },
+          { name: 'Colour', stat: 'Pink, Paul Smith stripes' },
+          { name: 'Length', stat: '71 cm' },
+          { name: 'Width', stat: '14.5 cm' },
+          { name: 'Shade diameter', stat: '14.5 cm' },
+          { name: 'Height', stat: '90 cm' },
+          { name: 'Bulb base', stat: 'E27' },
+          { name: 'Cable colour', stat: 'Black' },
+          { name: 'Cable material', stat: 'Textile' },
         ],
         ratings: [
           {
-            user: 'Lindsey',
+            user: 'NurshaCodes',
             rating: 5,
             review:
-              'I absolutely love this keyboard! The mechanical switches feel great and the wireless connectivity is so convenient. Plus, the Chroma RGB lighting looks amazing. I highly recommend it!',
+              'Exceeded my expectations in every way! The great design fits well on my desk and really helps me while I code through the nights!',
           },
         ],
       },
       {
-        user: 'Lindsey',
-        img: 'https://assets.hardwarezone.com/img/2019/10/xiaomi-mi-surface.jpg',
-        type: 'Monitor',
-        brand: 'Xiaomi',
-        model: 'Curved Gaming Monitor 34',
-        title: 'Gaming Monitor 34',
+        img: 'http://res.cloudinary.com/duxgfcrbs/image/upload/v1680240672/a7zsaplkzjjflex3myvg.jpg',
+        type: 'Chair',
+        brand: 'Logitech X Herman Miller',
+        model: 'Embody Gaming Chair',
+        title: 'Play Advanced',
         description:
-          'The Xiaomi Curved Gaming Monitor 34 is a 34-inch curved ultrawide gaming monitor with a high refresh rate and QHD resolution.',
+          'The Embody Gaming Chair from Herman Miller and Logitech G features science-backed ergonomics and is designed to keep you comfortable and cool.',
         features: [
-          { name: '34-inch curved ultrawide display' },
-          { name: '144Hz refresh rate' },
-          { name: 'AMD FreeSync technology' },
+          { name: 'Fully Adjustable Arms' },
+          { name: 'PostureFit® Spinal Support' },
+          { name: 'Adjustable Seat Depth' },
+          { name: 'Tilt Limiter' },
+          { name: 'Hard Floor/Carpet Wheels' },
+          { name: 'No Assembly Required' },
+          { name: 'Cooling Foam' },
         ],
         specifications: [
-          { name: 'Screen size', stat: '34 inches' },
-          { name: 'Resolution', stat: '3440 x 1440 (QHD)' },
-          { name: 'Aspect ratio', stat: '21:9' },
-          { name: 'Refresh rate', stat: '144Hz' },
-          { name: 'Response time', stat: '1ms' },
-          { name: 'Color gamut', stat: 'sRGB 121%' },
-          { name: 'Contrast ratio', stat: '3000:1' },
-          { name: 'Brightness', stat: '300 cd/m²' },
+          { name: 'Total Height', stat: '1067-1143 mm' },
+          { name: 'Width', stat: '749 mm' },
+          { name: 'Depth', stat: '381-457 mm' },
+          { name: 'Seat Height', stat: '432-559 mm' },
+          { name: 'Distance from Seat to Armrest', stat: '165-290 mm' },
+          { name: 'Maximum Warrantied Weight', stat: '136 kg' },
         ],
         ratings: [
           {
-            user: 'Lindsey',
+            user: 'GearLab',
+            rating: 5,
+            review:
+              "The Herman Miller Embody scores exceptionally well in our tests and is a premium office chair. It's incredibly comfortable and you can easily sit in it for a century!",
+          },
+          {
+            user: 'Dwiargo',
+            rating: 4,
+            review:
+              "There are a few twists for extra comfort for long gaming sessions. But ultimately, the Embody is a very expensive, very comfortable gaming chair.",
+          },
+        ],
+      },
+      {
+        img: 'http://res.cloudinary.com/duxgfcrbs/image/upload/v1680240662/tyf4dkkmmc2ameteoo6a.webp',
+        type: 'Speaker',
+        brand: 'Audioengine',
+        model: 'A2+ Wireless White',
+        title: 'Small Speakers Big Sound',
+        description:
+          'The Audioengine A2+ premium powered speakers with high-fidelity stereo sound connects to your music in seconds from any app or device. The ultimate Bluetooth mini home music system that’s perfect for your desktop or smaller spaces.',
+        features: [
+          { name: 'No hassle setup' },
+          { name: 'Easy to use' },
+          { name: 'Wireless Bluetooth' },
+        ],
+        specifications: [
+          { name: 'Amplifier type', stat: 'Dual class AB monolithic' },
+          { name: 'Inputs', stat: '3.5mm stereo mini-jack, RCA, USB, Bluetooth' },
+          { name: 'Outputs', stat: 'RCA variable line-out' },
+          { name: 'Connector type', stat: 'Micro USB' },
+          { name: 'Shipping weight', stat: '4.6kg/10lbs per pair' },
+          { name: 'Shipping box dimensions', stat: '10.5” (H) x 15” (L) x 7” (W)' },
+        ],
+        ratings: [
+          {
+            user: 'SoundByte',
             rating: 3,
             review:
               "This monmes look ae colors aren't quite as accurate as I would like, but it's still a great monitor overall.",
