@@ -571,7 +571,7 @@ export default function Create() {
               bgGradient='linear(to-r, red.400,pink.400)'
               color={'white'}
               _hover={{
-                bgGradient: 'linear(to-r, red.400,pink.400)',
+                bgGradient: 'linear(to-r, green.600,green.300)',
                 boxShadow: 'xl',
               }}
               leftIcon={<CheckIcon />}
