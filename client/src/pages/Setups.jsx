@@ -63,10 +63,14 @@ const Setups = () => {
   console.log(availableTypes);
   console.log(selectedProduct);
 
-  // filter the setups based on the selected product type
+  // filter the setups based on the selected product type and brand
   const filteredSetups = selectedProduct
     ? setups.filter((setup) =>
-        setup.products.some((product) => product.type === selectedProduct)
+        setup.products.some(
+          (product) =>
+            product.type === selectedProduct &&
+            (!selectedBrand || product.brand === selectedBrand)
+        )
       )
     : setups;
 
@@ -115,11 +119,15 @@ const Setups = () => {
           mx='0.5rem'
         >
           {/* Dynamically generated options */}
-          {filteredBrands.map((brand, i) => (
-            <option key={i} value={brand}>
-              {brand}
-            </option>
-          ))}
+          {filteredBrands && filteredBrands.length > 0 ? (
+            filteredBrands.map((brand, i) => (
+              <option key={i} value={brand}>
+                {brand}
+              </option>
+            ))
+          ) : (
+            <option value=''>No brands available</option>
+          )}
         </Select>
         {/* Sort */}
         <Select
