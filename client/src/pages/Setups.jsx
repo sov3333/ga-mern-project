@@ -1,17 +1,15 @@
 import { Flex, Select, Text } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { CardSetup } from '../components';
-import { setupsData } from '../constants';
-
-// SORT & FILTER
-// "Filters with dropdown" from https://pro.chakra-ui.com/components/e-commerce/product-filters; but only accessible for paid plans
-// To re-create, use the Select component from Chakra https://chakra-ui.com/docs/components/select + Checkbox component https://chakra-ui.com/docs/components/checkbox , and/or other Form components
-// Alternatively, might be easier to find a ready-made template (even if its using other frameworks) for SORT+FILTER ui rather than trying to build it from scratch.
 
 const Setups = () => {
   const [setups, setSetups] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState('');
+  const [selectedBrand, setSelectedBrand] = useState('');
 
   useEffect(() => {
+    // get all setups to display cards
     fetch('http://localhost:8080/api/setup')
       .then(
         (data) => data.json(),
@@ -21,7 +19,107 @@ const Setups = () => {
         (parsedData) => setSetups(parsedData),
         (err) => console.log(err)
       );
+
+    // get all products to generate options in filters
+    fetch('http://localhost:8080/api/product')
+    .then(
+      (data) => data.json(),
+      (err) => console.log(err)
+    )
+    .then(
+      (parsedData) => {
+        setProducts(parsedData);
+        console.log(`setProducts with parsedData:`, parsedData);
+      },
+      (err) => console.log(err)
+    );
   }, []);
+
+  /////////////////////////////////////////
+  ///// LOGIC FOR SETTING FILTER OPTIONS
+  /////////////////////////////////////////
+
+  // TODO: FIX logic to show correct setups by filter
+
+  // Get available product types and brands from the fetched data
+  const availableTypes = [...new Set(products.map((product) => product.type))];
+  const avaliableBrands = [...new Set(products.map((product) => product.brand))];
+
+  // Group arrays based on their `type` and `brand` properties
+  // TODO: Fix groupdProducts to groupSetups
+  const groupedProducts = products.reduce((acc, item) => {
+    const {
+      type,
+      brand,
+      model,
+      img,
+      ratings,
+      title,
+      description,
+      features,
+      specifications,
+    } = item;
+    const existingProduct = acc.find(
+      (group) =>
+        group.type === type && group.brand === brand
+    );
+    if (existingProduct) {
+      existingProduct.users.push(item.user);
+      existingProduct.ratings.push(...ratings);
+    } else {
+      acc.push({
+        img,
+        type,
+        brand,
+        model,
+        title,
+        description,
+        features,
+        specifications: [...specifications],
+        ratings: [...ratings],
+        users: [item.user],
+      });
+    }
+    return acc;
+  }, []);
+
+  // Remove duplicates from groupedProducts array
+  const uniqueProducts = groupedProducts.reduce((acc, product) => {
+    const existingProductIndex = acc.findIndex(
+      (p) =>
+        p.type === product.type &&
+        p.brand === product.brand
+    );
+    if (existingProductIndex === -1) {
+      acc.push(product);
+    }
+    return acc;
+  }, []);
+
+  // Filtered setups based on selected product type and brand
+  // TODO: Fix filterProducts to filteredSetups
+  const filteredProducts = uniqueProducts.filter((product) => {
+    if (selectedProduct && selectedBrand) {
+      return (
+        (product.type === selectedProduct ||
+          product.brand === selectedProduct) &&
+        (product.type === selectedBrand || product.brand === selectedBrand)
+      );
+    } else if (selectedProduct) {
+      return (
+        product.type === selectedProduct ||
+        product.brand === selectedProduct
+      );
+    } else if (selectedBrand) {
+      return (
+        product.type === selectedBrand ||
+        product.brand === selectedBrand
+      );
+    } else {
+      return true;
+    }
+  });
+  console.log(`filteredSetups`, filteredProducts);
 
   return (
     <div>
@@ -31,39 +129,42 @@ const Setups = () => {
       <h2 className='mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6'>
         Check out all the desk setups in the world
       </h2>
-      <Flex direction='row' justify='space-between' align='center' px='5%'>
+      <Flex direction='row' align='center' px='5%' color={'gray.300'}>
         {/* Filter */}
-        <Text>Filter by</Text>
-        <Select placeholder='Products'>
-          <option value='option1'>Desk</option>
-          <option value='option2'>Monitor</option>
-          <option value='option3'>Chair</option>
-          <option value='option4'>Keyboard</option>
-          <option value='option5'>Mouse</option>
-          <option value='option6'>Mousepad</option>
-          <option value='option7'>Speaker</option>
-          <option value='option8'>Headphone</option>
-          <option value='option9'>PC</option>
-          <option value='option10'>Laptop</option>
-          <option value='option11'>Light</option>
-          <option value='option12'>Riser</option>
-          <option value='option13'>Accessories</option>
+        <Select
+          placeholder='Filter by Products'
+          border='1px' 
+          borderColor='gray.600'
+          value={selectedProduct}
+          onChange={(e) => setSelectedProduct(e.target.value)}
+          mx="0.5rem"
+        >
+          {/* Dynamically generated options */}
+          {availableTypes.map((type, i) => (
+            <option key={i} value={type}>
+              {type}
+            </option>
+          ))}
         </Select>
-        <Select placeholder='Tags'>
-          <option value='option1'>Option 1</option>
-          <option value='option2'>Option 2</option>
-          <option value='option3'>Option 3</option>
+        <Select
+          placeholder='Filter by Brand'
+          border='1px' 
+          borderColor='gray.600'
+          value={selectedBrand}
+          onChange={(e) => setSelectedBrand(e.target.value)}
+          mx="0.5rem"
+        >
+          {/* Dynamically generated options */}
+          {avaliableBrands.map((brand, i) => (
+            <option key={i} value={brand}>
+              {brand}
+            </option>
+          ))}
         </Select>
-        <Select placeholder='Brands'>
-          <option value='option1'>Option 1</option>
-          <option value='option2'>Option 2</option>
-          <option value='option3'>Option 3</option>
-        </Select>
-
         {/* Sort */}
-        <Text>Sort by</Text>
-        <Select placeholder='Sort by'>
+        <Select placeholder='Sort by' border='1px' borderColor='gray.600' mx="0.5rem">
           <option value='option1'>✨ Newest</option>
+          <option value='option1'>🏷️ Price</option>
           <option value='option2'>⭐ Highest rating</option>
           <option value='option3'>❤️ Most likes</option>
           <option value='option4'>🔥 Trending</option>
@@ -77,18 +178,6 @@ const Setups = () => {
           flexWrap: 'wrap',
         }}
       >
-        {/* {setupsData.map(post => (
-                <div key={post.setupId}>
-                    <CardSetup 
-                        img={post.img} 
-                        user={post.user} 
-                        title={post.heading} 
-                        description={post.description}
-                        products={post.products}
-                        slug={`/setups/${post.setupId}`}
-                    />
-                </div>
-            ))} */}
         {/* <CardSetup /> */}
         {setups.map((post) => (
           <div key={post._id}>

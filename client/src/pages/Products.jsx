@@ -177,7 +177,7 @@ const Products = () => {
             </option>
           ))}
         </Select>
-        <Select
+        {/* <Select
           placeholder='Filter by Model'
           border='1px' 
           borderColor='gray.600'
@@ -185,13 +185,12 @@ const Products = () => {
           onChange={(e) => setSelectedModel(e.target.value)}
           mx="0.5rem"
         >
-          {/* Dynamically generated options */}
           {avaliableModels.map((model, i) => (
             <option key={i} value={model}>
               {model}
             </option>
           ))}
-        </Select>
+        </Select> */}
         {/* Sort */}
         <Select placeholder='Sort by' border='1px' borderColor='gray.600' mx="0.5rem">
           <option value='option1'>✨ Newest</option>
@@ -227,8 +226,6 @@ const Products = () => {
             />
           </div>
         ))}
-        This code should group the products correctly and render the CardProduct
-        components with the grouped user data.
       </div>
     </div>
   );
