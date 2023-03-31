@@ -3,12 +3,15 @@ import {
   Box,
   Center,
   useColorModeValue,
-  Heading,
   Text,
   Stack,
   Image,
   Wrap,
+  Badge,
+  Flex,
+  Icon,
 } from '@chakra-ui/react';
+import { FaHeart } from "react-icons/fa";
 
 // "Product Simple" from https://chakra-templates.dev/components/cards
 
@@ -19,9 +22,10 @@ export default function CardSetup({
   description,
   products,
   slug,
+  likedCount,
 }) {
   return (
-    <Center py={12} m={-8} className='p-16'>
+    <Center py={12} m={-3} my={-7} className='p-16'>
       <Link
         to={slug}
         state={{
@@ -78,60 +82,77 @@ export default function CardSetup({
               src={img}
             />
           </Box>
-          <Stack pt={10} align={'center'}>
+          
+          <Stack pt={10}>
+            <Flex justify="space-between" align="center">
+              {/* username badge */}
+              <Text
+                color={'gray.400'}
+                fontSize={'sm'}
+                textTransform={'uppercase'}
+                mb={"0.5rem"}
+              >
+                <Badge colorScheme='purple'>@{user}</Badge>
+              </Text>
+              {/* likes badge */}
+              <Flex alignItems="center">
+                <Box>
+                  <Badge colorScheme="pink" variant="solid" px="0.6rem">
+                    <Text fontSize="sm">
+                      {likedCount}
+                    </Text>
+                  </Badge>
+                </Box>
+                <Icon as={FaHeart} ml="0.5rem" color="red.500" boxSize="1.5rem" />
+              </Flex>
+            </Flex>
+            {/* title of setup */}
             <Text
-              color={'gray.400'}
-              fontSize={'sm'}
-              textTransform={'uppercase'}
-            >
-              @{user}
-            </Text>
-            <Heading
               fontSize={'2xl'}
-              fontFamily={'body'}
-              fontWeight={500}
-              color={'gray.300'}
+              lineHeight={1.1}
+              bgGradient='linear(to-r, pink.400, purple.400)'
+              bgClip='text'
+              className='mt-[8px] font-bold md:text-[40px] text-[28px] text-white'
             >
               {title}
-            </Heading>
-            <Stack direction={'row'} align={'center'}>
+            </Text>
+            {/* hashtags */}
+            <Stack direction={'row'} align={'center'} pt={2}>
               <Wrap>
                 {products.map((product, index) => (
-                  <Text
+                  <Badge
                     key={index}
-                    fontWeight={400}
-                    fontSize={'sm'}
-                    color={
+                    rounded={'xl'}
+                    px={2}
+                    fontWeight={600}
+                    variant="outline"
+                    fontSize={'xs'}
+                    textTransform={'lowercase'}
+                    colorScheme={
                       // change color of #hashtag per product
                       product.type === 'Desk'
-                        ? 'teal'
+                        ? 'blue'
                         : product.type === 'Monitor'
                         ? 'green'
                         : product.type === 'Chair'
                         ? 'orange'
                         : product.type === 'Keyboard'
-                        ? 'peru'
+                        ? 'yellow'
                         : product.type === 'Mouse'
                         ? 'red'
                         : product.type === 'Mousepad'
-                        ? 'aqua'
-                        : product.type === 'Speaker'
-                        ? 'blue'
-                        : product.type === 'Headphone'
-                        ? 'lightgreen'
-                        : product.type === 'pc'
-                        ? 'purple'
-                        : product.type === 'Laptop'
                         ? 'pink'
+                        : product.type === 'Speaker'
+                        ? 'teal'
                         : product.type === 'Light'
-                        ? 'plum'
-                        : product.type === 'TypeWriter'
-                        ? 'tomato'
-                        : 'darkgrey' // fallback color
+                        ? 'purple'
+                        : product.type === 'Other'
+                        ? 'gray'
+                        : 'gray' // fallback color
                     }
                   >
-                    #{product.type}
-                  </Text>
+                    {product.type}
+                  </Badge>
                 ))}
               </Wrap>
             </Stack>
