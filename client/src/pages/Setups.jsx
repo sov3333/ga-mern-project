@@ -1,6 +1,6 @@
-import {Flex, Select, Text} from '@chakra-ui/react';
-import {useState, useEffect} from 'react';
-import {CardSetup} from '../components';
+import { Flex, Select, Text } from '@chakra-ui/react';
+import { useState, useEffect } from 'react';
+import { CardSetup } from '../components';
 
 const Setups = () => {
   const [setups, setSetups] = useState([]);
@@ -29,93 +29,52 @@ const Setups = () => {
       .then(
         (parsedData) => {
           setProducts(parsedData);
-          console.log(`setProducts with parsedData:`, parsedData);
+          // console.log(`setProducts with parsedData:`, parsedData);
         },
         (err) => console.log(err)
       );
   }, []);
 
-  /////////////////////////////////////////
-  ///// LOGIC FOR SETTING FILTER OPTIONS
-  /////////////////////////////////////////
-
-  // TODO: FIX logic to show correct setups by filter
-
   // Get available product types and brands from the fetched data
-  const availableTypes = [...new Set(products.map((product) => product.type))];
-  const avaliableBrands = [
-    ...new Set(products.map((product) => product.brand)),
-  ];
+  // Get all products from all setups
+  const allProducts = setups.flatMap((setup) => setup.products);
 
-  // Group arrays based on their `type` and `brand` properties
-  // TODO: Fix groupdProducts to groupSetups
-  const groupedProducts = products.reduce((acc, item) => {
-    const {
+  // Get available types with their corresponding brands
+  const availableTypes = allProducts.reduce((acc, product) => {
+    if (!acc[product.type]) {
+      acc[product.type] = [];
+    }
+    if (!acc[product.type].includes(product.brand)) {
+      acc[product.type].push(product.brand);
+    }
+    return acc;
+  }, {});
+
+  // Create an array of objects that represent each product type and its available brands
+  const typeBrandPairs = Object.entries(availableTypes).map(
+    ([type, brands]) => ({
       type,
-      brand,
-      model,
-      img,
-      ratings,
-      title,
-      description,
-      features,
-      specifications,
-    } = item;
-    const existingProduct = acc.find(
-      (group) => group.type === type && group.brand === brand
-    );
-    if (existingProduct) {
-      existingProduct.users.push(item.user);
-      existingProduct.ratings.push(...ratings);
-    } else {
-      acc.push({
-        img,
-        type,
-        brand,
-        model,
-        title,
-        description,
-        features,
-        specifications: [...specifications],
-        ratings: [...ratings],
-        users: [item.user],
-      });
-    }
-    return acc;
-  }, []);
+      brands,
+    })
+  );
 
-  // Remove duplicates from groupedProducts array
-  const uniqueProducts = groupedProducts.reduce((acc, product) => {
-    const existingProductIndex = acc.findIndex(
-      (p) => p.type === product.type && p.brand === product.brand
-    );
-    if (existingProductIndex === -1) {
-      acc.push(product);
-    }
-    return acc;
-  }, []);
+  console.log(typeBrandPairs);
 
-  // Filtered setups based on selected product type and brand
-  // TODO: Fix filterProducts to filteredSetups
-  const filteredProducts = uniqueProducts.filter((product) => {
-    if (selectedProduct && selectedBrand) {
-      return (
-        (product.type === selectedProduct ||
-          product.brand === selectedProduct) &&
-        (product.type === selectedBrand || product.brand === selectedBrand)
-      );
-    } else if (selectedProduct) {
-      return (
-        product.type === selectedProduct || product.brand === selectedProduct
-      );
-    } else if (selectedBrand) {
-      return product.type === selectedBrand || product.brand === selectedBrand;
-    } else {
-      return true;
-    }
-  });
-  console.log(`filteredSetups`, filteredProducts);
+  console.log(availableTypes);
+  console.log(selectedProduct);
 
+  // filter the setups based on the selected product type
+  const filteredSetups = selectedProduct
+    ? setups.filter((setup) =>
+        setup.products.some((product) => product.type === selectedProduct)
+      )
+    : setups;
+
+  // filter brands based on selected product type
+  const filteredBrands = typeBrandPairs.find(
+    (item) => item.type === selectedProduct
+  )?.brands;
+  console.log(filteredBrands);
   return (
     <div>
       <Text
@@ -141,8 +100,8 @@ const Setups = () => {
           mx='0.5rem'
         >
           {/* Dynamically generated options */}
-          {availableTypes.map((type, i) => (
-            <option key={i} value={type}>
+          {Object.keys(availableTypes).map((type) => (
+            <option key={type} value={type}>
               {type}
             </option>
           ))}
@@ -156,7 +115,7 @@ const Setups = () => {
           mx='0.5rem'
         >
           {/* Dynamically generated options */}
-          {avaliableBrands.map((brand, i) => (
+          {filteredBrands.map((brand, i) => (
             <option key={i} value={brand}>
               {brand}
             </option>
@@ -184,7 +143,7 @@ const Setups = () => {
         }}
       >
         {/* <CardSetup /> */}
-        {setups.map((post) => (
+        {filteredSetups.map((post) => (
           <div key={post._id}>
             <CardSetup
               img={post.img}
