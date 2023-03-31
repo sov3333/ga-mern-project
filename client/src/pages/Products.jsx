@@ -194,10 +194,10 @@ const Products = () => {
         {/* Sort */}
         <Select placeholder='Sort by' border='1px' borderColor='gray.600' mx="0.5rem">
           <option value='option1'>✨ Newest</option>
-          <option value='option1'>🏷️ Price</option>
-          <option value='option2'>⭐ Highest rating</option>
-          <option value='option3'>❤️ Most likes</option>
-          <option value='option4'>🔥 Trending</option>
+          <option value='option2'>🏷️ Price</option>
+          <option value='option3'>⭐ Highest rating</option>
+          <option value='option4'>❤️ Most likes</option>
+          <option value='option5'>🔥 Trending</option>
         </Select>
       </Flex>
 
