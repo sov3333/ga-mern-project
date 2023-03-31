@@ -34,25 +34,26 @@ const ExploreCard = ({
         </h3>
       ) : (
         <div className='absolute bottom-0 p-8 justify-start w-full flex-col bg-[rgba(0,0,0,0.5)] rounded-b-[24px]'>
-          <Link
-            to={slug}
-            state={{
-              img: img,
-              user: user,
-              title: title,
-              products: products,
-            }}
+          <div
+            className={`${styles.flexCenter} w-[60px] h-[60px] rounded-[24px] glassmorphism mb-[16px] hover:bg-pink-700`}
           >
-            <div
-              className={`${styles.flexCenter} w-[60px] h-[60px] rounded-[24px] glassmorphism mb-[16px] hover:bg-pink-700`}
+            <Link
+              to={slug}
+              state={{
+                img: img,
+                user: user,
+                title: title,
+                products: products,
+              }}
             >
               <img
                 src={eye}
                 alt='view icon'
-                className='w-1/2 h-1/2 object-contain'
+                className='w-8 h-8 object-contain'
               />
-            </div>
-          </Link>
+            </Link>
+          </div>
+
           <p className='font-normal text-[16px] leading-[20px] text-white uppercase'>
             By @{user}
           </p>

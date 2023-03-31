@@ -21,7 +21,7 @@ const Explore = () => {
         (err) => console.log(err)
       );
   }, []);
-  console.log('data', setups);
+  //console.log('data', setups);
   return (
     <section className={`${styles.paddings}`} id='explore'>
       <motion.div
