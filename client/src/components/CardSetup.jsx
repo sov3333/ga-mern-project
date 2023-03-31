@@ -22,6 +22,7 @@ export default function CardSetup({
   description,
   products,
   slug,
+  likedCount,
 }) {
   return (
     <Center py={12} m={-3} my={-7} className='p-16'>
@@ -98,7 +99,7 @@ export default function CardSetup({
                 <Box>
                   <Badge colorScheme="pink" variant="solid" px="0.6rem">
                     <Text fontSize="sm">
-                      3
+                      {likedCount}
                     </Text>
                   </Badge>
                 </Box>
@@ -143,12 +144,6 @@ export default function CardSetup({
                         ? 'pink'
                         : product.type === 'Speaker'
                         ? 'teal'
-                        // : product.type === 'Headphone'
-                        // ? 'lightgreen'
-                        // : product.type === 'pc'
-                        // ? 'purple'
-                        // : product.type === 'Laptop'
-                        // ? 'pink'
                         : product.type === 'Light'
                         ? 'purple'
                         : product.type === 'Other'
