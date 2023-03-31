@@ -364,7 +364,7 @@ export default function Create() {
                 <FormControl key={index}>
                   <FormLabel color={'gray.300'}>Product #{index + 1}</FormLabel>
                   {/* Dropdown for selecting product's type */}
-                  <Select
+                  {/* <Select
                     name='type'
                     id='type'
                     value={product.type}
@@ -386,9 +386,9 @@ export default function Create() {
                         </option>
                       )
                     )}
-                  </Select>
+                  </Select> */}
                   {/* Optional code: If user select "Others", show a new field for user text input */}
-                  {/* <Flex>
+                  <Flex>
                     <Select
                       name='type'
                       id='type'
@@ -425,7 +425,7 @@ export default function Create() {
                         }}
                       />
                     )}
-                  </Flex> */}
+                  </Flex>
                   <Input
                     name='brand'
                     type='text'
