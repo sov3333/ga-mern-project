@@ -35,7 +35,7 @@ router.post('/logout', (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password, username } = req.body;
 
   bcrypt
     .hash(req.body.password, 10)
@@ -44,6 +44,7 @@ router.post('/register', async (req, res) => {
         firstName: firstName,
         lastName: lastName,
         email: email,
+        username: username,
         password: hashedPassword,
       });
 
