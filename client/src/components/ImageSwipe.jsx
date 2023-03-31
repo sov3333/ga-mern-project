@@ -4,8 +4,10 @@ import { Box, Button, Flex, Image } from '@chakra-ui/react';
 
 import { eye } from '../assets/home/';
 import styles from '../styles';
+import { Link } from 'react-router-dom';
 
-const ImageSwipe = ({ title, user, src, handleLiked }) => {
+const ImageSwipe = ({ _id, src, userId, user, title, description, products, swipes, handleLiked }) => {
+// const ImageSwipe = (props, { handleLiked }) => {
   // State for tracking whether the image is being dragged and the current x position of the image
   const [dragging, setDragging] = useState(false);
   const [x, setX] = useState(0);
@@ -76,23 +78,41 @@ const ImageSwipe = ({ title, user, src, handleLiked }) => {
             borderRadius='md'
           />
 
-          <div className='absolute bottom-0 p-8 justify-start w-full flex-col bg-[rgba(0,0,0,0.5)] rounded-b-[24px]'>
-            <div
-              className={`${styles.flexCenter} w-[60px] h-[60px] rounded-[24px] glassmorphism mb-[16px] hover:bg-pink-700`}
-            >
-              <img
-                src={eye}
-                alt='view icon'
-                className='w-1/2 h-1/2 object-contain'
-              />
-            </div>
+          <div className='absolute bottom-0 p-8 justify-start w-full flex-col bg-[rgba(0,0,0,0.3)] rounded-b-[24px]'>
+            <Flex justify="space-between">
+              <Flex direction="column">
+                <h2 className='mt-[24px] font-semibold sm:text-[32px] text-[24px] text-white'>
+                  {title}
+                </h2>
+                <p className='font-normal text-[16px] leading-[20px] text-white lowercase'>
+                  by @{user}
+                </p>
+              </Flex>
+              <Link
+              to={`/setups/${_id}`}
+                state={{
+                  _id: _id,
+                  img: src,
+                  userId: userId,
+                  user: user,
+                  title: title,
+                  description: description,
+                  products: products,
+                  swipes: swipes,
+                }}
+              >
+                <div
+                  className={`${styles.flexCenter} w-[60px] h-[60px] rounded-[24px] glassmorphism mb-[16px] hover:bg-pink-700 mt-auto`}
+                >
+                  <img
+                    src={eye}
+                    alt='view icon'
+                    className='w-1/2 h-1/2 object-contain'
+                  />
+                </div>
 
-            <p className='font-normal text-[32px] leading-[20px] text-white uppercase'>
-              {title}
-            </p>
-            <h2 className='mt-[24px] font-semibold sm:text-[32px] text-[24px] text-white'>
-              {user}
-            </h2>
+              </Link>
+            </Flex>
           </div>
         </motion.div>
       </Box>

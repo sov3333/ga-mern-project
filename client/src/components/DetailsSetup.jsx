@@ -24,15 +24,18 @@ import {AuthContext} from '../context/AuthContext';
 // "Simple" from https://chakra-templates.dev/page-sections/productDetails
 
 export default function DetailsSetup({
+  _id,
   img,
+  userId,
   user,
   title,
   description,
   products,
+  swipes,
 }) {
   const navigate = useNavigate();
   const {role, setRole} = useContext(AuthContext);
-  const [userId, setUserId] = useState(null);
+  const [thisUserId, setThisUserId] = useState(null);
   const [creator, setCreator] = useState(null);
   console.log(role);
 
@@ -45,13 +48,13 @@ export default function DetailsSetup({
     })
       .then((res) => res.json())
       .then((data) => {
-        setUserId(data);
-        console.log(userId);
+        setThisUserId(data);
+        console.log(thisUserId);
       })
       .catch((e) => {
         console.error(e);
       });
-  }, [userId]);
+  }, [thisUserId]);
 
   const currentID = location.pathname.slice(7);
 
@@ -61,14 +64,14 @@ export default function DetailsSetup({
     })
       .then((res) => res.json())
       .then((setup) => {
-        if (setup.userId === userId) {
+        if (setup.thisUserId === thisUserId) {
           setCreator(true);
         } else {
           setCreator(false);
         }
       })
       .catch((err) => console.error({error: err}));
-  }, [userId]);
+  }, [thisUserId]);
 
   //console.log('id', currentID);
   const handleDelete = () => {

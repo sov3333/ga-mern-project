@@ -5,7 +5,7 @@ import {DetailsSetup} from '../components';
 
 const SetupOne = () => {
   const location = useLocation();
-  const {img, user, title, description, products} = location.state;
+  const { _id, img, userId, user, title, description, products, swipes } = location.state;
 
   return (
     <div>
@@ -22,11 +22,14 @@ const SetupOne = () => {
         This is a desk setup
       </h2>
       <DetailsSetup
+        _id={_id}
         img={img}
+        userId={userId}
         user={user}
         title={title}
         description={description}
         products={products}
+        swipes={swipes}
       />
     </div>
   );

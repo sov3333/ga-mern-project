@@ -154,11 +154,14 @@ const Setups = () => {
         {filteredSetups.map((post) => (
           <div key={post._id}>
             <CardSetup
+              _id={post._id}
               img={post.img}
+              userId={post.userId}
               user={post.user}
               title={post.title}
               description={post.description}
               products={post.products}
+              swipes={post.swipes}
               slug={`/setups/${post._id}`}
             />
           </div>
