@@ -17,12 +17,12 @@ const Profile = () => {
         <SocialProfileSimple />
       </div>
       <Flex justifyContent='center'>
-        <Link to='/profile/edit'>
+        {/* <Link to='/profile/edit'>
           <Button>EDIT PROFILE</Button>
         </Link>
         <Link to='/profile/setups'>
           <Button>YOUR SETUPS</Button>
-        </Link>
+        </Link> */}
       </Flex>
     </div>
   );
