@@ -50,6 +50,7 @@ export default function DetailsSetup({
       .then((data) => {
         setThisUserId(data);
         console.log(thisUserId);
+            if (setup.userId === thisUserId) {
       })
       .catch((e) => {
         console.error(e);
@@ -64,7 +65,6 @@ export default function DetailsSetup({
     })
       .then((res) => res.json())
       .then((setup) => {
-        if (setup.thisUserId === thisUserId) {
           setCreator(true);
         } else {
           setCreator(false);
