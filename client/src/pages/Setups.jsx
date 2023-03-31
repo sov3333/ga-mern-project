@@ -31,39 +31,42 @@ const Setups = () => {
       <h2 className='mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6'>
         Check out all the desk setups in the world
       </h2>
-      <Flex direction='row' justify='space-between' align='center' px='5%'>
+      <Flex direction='row' align='center' px='5%' color={'gray.300'}>
         {/* Filter */}
-        <Text>Filter by</Text>
-        <Select placeholder='Products'>
-          <option value='option1'>Desk</option>
-          <option value='option2'>Monitor</option>
-          <option value='option3'>Chair</option>
-          <option value='option4'>Keyboard</option>
-          <option value='option5'>Mouse</option>
-          <option value='option6'>Mousepad</option>
-          <option value='option7'>Speaker</option>
-          <option value='option8'>Headphone</option>
-          <option value='option9'>PC</option>
-          <option value='option10'>Laptop</option>
-          <option value='option11'>Light</option>
-          <option value='option12'>Riser</option>
-          <option value='option13'>Accessories</option>
+        <Select
+          placeholder='Filter by Products'
+          border='1px' 
+          borderColor='gray.600'
+          // value={selectedProduct}
+          // onChange={(e) => setSelectedProduct(e.target.value)}
+          mx="0.5rem"
+        >
+          {/* Dynamically generated options */}
+          {/* {availableTypes.map((type, i) => (
+            <option key={i} value={type}>
+              {type}
+            </option>
+          ))} */}
         </Select>
-        <Select placeholder='Tags'>
-          <option value='option1'>Option 1</option>
-          <option value='option2'>Option 2</option>
-          <option value='option3'>Option 3</option>
+        <Select
+          placeholder='Filter by Brand'
+          border='1px' 
+          borderColor='gray.600'
+          // value={selectedBrand}
+          // onChange={(e) => setSelectedBrand(e.target.value)}
+          mx="0.5rem"
+        >
+          {/* Dynamically generated options */}
+          {/* {avaliableBrands.map((brand, i) => (
+            <option key={i} value={brand}>
+              {brand}
+            </option>
+          ))} */}
         </Select>
-        <Select placeholder='Brands'>
-          <option value='option1'>Option 1</option>
-          <option value='option2'>Option 2</option>
-          <option value='option3'>Option 3</option>
-        </Select>
-
         {/* Sort */}
-        <Text>Sort by</Text>
-        <Select placeholder='Sort by'>
+        <Select placeholder='Sort by' border='1px' borderColor='gray.600' mx="0.5rem">
           <option value='option1'>✨ Newest</option>
+          <option value='option1'>🏷️ Price</option>
           <option value='option2'>⭐ Highest rating</option>
           <option value='option3'>❤️ Most likes</option>
           <option value='option4'>🔥 Trending</option>
@@ -77,18 +80,6 @@ const Setups = () => {
           flexWrap: 'wrap',
         }}
       >
-        {/* {setupsData.map(post => (
-                <div key={post.setupId}>
-                    <CardSetup 
-                        img={post.img} 
-                        user={post.user} 
-                        title={post.heading} 
-                        description={post.description}
-                        products={post.products}
-                        slug={`/setups/${post.setupId}`}
-                    />
-                </div>
-            ))} */}
         {/* <CardSetup /> */}
         {setups.map((post) => (
           <div key={post._id}>
