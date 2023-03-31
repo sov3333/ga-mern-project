@@ -129,7 +129,7 @@ const Products = () => {
     }
   });
   console.log(filteredProducts);
-
+  console.log(avaliableBrands);
   return (
     <div>
       <Text
@@ -149,11 +149,11 @@ const Products = () => {
         {/* Filter */}
         <Select
           placeholder='Filter by Products'
-          border='1px' 
+          border='1px'
           borderColor='gray.600'
           value={selectedProduct}
           onChange={(e) => setSelectedProduct(e.target.value)}
-          mx="0.5rem"
+          mx='0.5rem'
         >
           {/* Dynamically generated options */}
           {availableTypes.map((type, i) => (
@@ -164,11 +164,11 @@ const Products = () => {
         </Select>
         <Select
           placeholder='Filter by Brand'
-          border='1px' 
+          border='1px'
           borderColor='gray.600'
           value={selectedBrand}
           onChange={(e) => setSelectedBrand(e.target.value)}
-          mx="0.5rem"
+          mx='0.5rem'
         >
           {/* Dynamically generated options */}
           {avaliableBrands.map((brand, i) => (
@@ -192,7 +192,12 @@ const Products = () => {
           ))}
         </Select> */}
         {/* Sort */}
-        <Select placeholder='Sort by' border='1px' borderColor='gray.600' mx="0.5rem">
+        <Select
+          placeholder='Sort by'
+          border='1px'
+          borderColor='gray.600'
+          mx='0.5rem'
+        >
           <option value='option1'>✨ Newest</option>
           <option value='option2'>🏷️ Price</option>
           <option value='option3'>⭐ Highest rating</option>
