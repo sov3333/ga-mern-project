@@ -152,7 +152,7 @@ router.put('/:user/ratings/:model', async (req, res) => {
 //curl -X POST -H "Content-Type: application/json" -d '{"user": "Alice", "rating": 4, "review": "Great product!"}' http://localhost:8080/api/product/DeathAdder%20V2/ratings
 router.post('/:model/ratings', async (req, res) => {
   const model = req.params.model;
-  const { user, rating, review } = req.body;
+  const { username, rating, review } = req.body;
 
   try {
     // Find the product with the given model
@@ -163,7 +163,7 @@ router.post('/:model/ratings', async (req, res) => {
       res.status(404).json({ message: 'Product not found.' });
     } else {
       // Add the new rating and review to the product's ratings array
-      product.ratings.push({ user: user, rating: rating, review: review });
+      product.ratings.push({ user: username, rating: rating, review: review });
       await product.save();
 
       // Return the updated product object with the new rating and review
