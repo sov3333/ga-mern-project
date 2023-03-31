@@ -448,39 +448,95 @@ export default function Create() {
                       />
                     )}
                   </Flex>
-                  <Input
-                    name='brand'
-                    type='text'
-                    id='brand'
-                    value={product.brand}
-                    onChange={(e) => handleInputChange(e, index)}
-                    required
-                    placeholder='Brand e.g. Omindesk'
-                    border='1px'
-                    borderColor='gray.600'
-                    color={'gray.300'}
-                    _placeholder={{
-                      color: 'gray.500',
-                    }}
-                    mb={2}
-                  />
-                  <Input
-                    name='model'
-                    type='text'
-                    id='model'
-                    value={product.model}
-                    onChange={(e) => handleInputChange(e, index)}
-                    required
-                    placeholder='Model e.g. Ascent Wildwood+'
-                    border='1px'
-                    borderColor='gray.600'
-                    color={'gray.300'}
-                    _placeholder={{
-                      color: 'gray.500',
-                    }}
-                    mb={2}
-                  />
-                  {/* below to control only 1 button is displayed for multiple inputs */}
+                  {/* Dropdown for selecting product's brand */}
+                  <Flex>
+                    <Select
+                      name='brand'
+                      id='brand'
+                      value={product.brand}
+                      onChange={(e) => handleInputChange(e, index)}
+                      required
+                      placeholder='Select a product brand'
+                      border='1px'
+                      borderColor='gray.600'
+                      color={'gray.300'}
+                      _placeholder={{
+                        color: 'gray.500',
+                      }}
+                      mb={2}
+                    >
+                      {[...new Set(products.map((product) => product.brand))].map(
+                        (brand, i) => (
+                          <option value={brand} key={i}>
+                            {brand}
+                          </option>
+                        )
+                      )}
+                      <option value='Other'>Other</option>
+                    </Select>
+                    {product.brand === 'Other' && (
+                      <Input
+                        name='typeOther'
+                        type='text'
+                        id='typeOther'
+                        value={product.typeOther}
+                        // onChange={(e) => handleInputChange(e, index)}
+                        placeholder='Enter a new product brand'
+                        border='1px' 
+                        borderColor='gray.600'
+                        color={'gray.300'}
+                        _placeholder={{
+                          color: 'gray.500',
+                        }}
+                        ml={'0.5rem'}
+                      />
+                    )}
+                  </Flex>
+                  {/* Dropdown for selecting product's model */}
+                  <Flex>
+                    <Select
+                      name='model'
+                      id='model'
+                      value={product.model}
+                      onChange={(e) => handleInputChange(e, index)}
+                      required
+                      placeholder='Select a product model'
+                      border='1px'
+                      borderColor='gray.600'
+                      color={'gray.300'}
+                      _placeholder={{
+                        color: 'gray.500',
+                      }}
+                      mb={2}
+                    >
+                      {[...new Set(products.map((product) => product.model))].map(
+                        (model, i) => (
+                          <option value={model} key={i}>
+                            {model}
+                          </option>
+                        )
+                      )}
+                      <option value='Other'>Other</option>
+                    </Select>
+                    {product.model === 'Other' && (
+                      <Input
+                        name='typeOther'
+                        type='text'
+                        id='typeOther'
+                        value={product.typeOther}
+                        // onChange={(e) => handleInputChange(e, index)}
+                        placeholder='Enter a new product model'
+                        border='1px' 
+                        borderColor='gray.600'
+                        color={'gray.300'}
+                        _placeholder={{
+                          color: 'gray.500',
+                        }}
+                        ml={'0.5rem'}
+                      />
+                    )}
+                  </Flex>
+                  {/* below to control only 1 "Add More Products" button is displayed for multiple inputs */}
                   {newProducts.length - 1 === index &&
                     newProducts.length < 10 && (
                       <Flex justifyContent='flex-end'>
