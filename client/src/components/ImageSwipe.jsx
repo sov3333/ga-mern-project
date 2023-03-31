@@ -52,7 +52,7 @@ const ImageSwipe = ({ _id, src, userId, user, title, description, products, swip
   };
 
   return (
-    <>
+    <Flex minH={'60vh'} direction="column" justify="center">
       <Box
         position='relative'
         height='400px'
@@ -124,7 +124,7 @@ const ImageSwipe = ({ _id, src, userId, user, title, description, products, swip
           Like
         </Button>
       </Flex>
-    </>
+    </Flex>
   );
 };
 
