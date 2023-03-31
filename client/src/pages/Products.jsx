@@ -17,6 +17,7 @@ const Products = () => {
       .then(
         (parsedData) => {
           setProducts(parsedData);
+          console.log(`setProducts with parsedData:`, parsedData);
         },
         (err) => console.log(err)
       );
@@ -32,7 +33,17 @@ const Products = () => {
   ];
 
   const groupedProducts = products.reduce((acc, item) => {
-    const { type, brand, model, img, ratings, reviews } = item;
+    const {
+      type,
+      brand,
+      model,
+      img,
+      ratings,
+      title,
+      description,
+      features,
+      specifications,
+    } = item;
     const existingProduct = acc.find(
       (group) =>
         group.type === type && group.brand === brand && group.model === model
@@ -40,15 +51,17 @@ const Products = () => {
     if (existingProduct) {
       existingProduct.users.push(item.user);
       existingProduct.ratings.push(...ratings);
-      existingProduct.reviews.push(...reviews);
     } else {
       acc.push({
         img,
         type,
         brand,
         model,
+        title,
+        description,
+        features,
+        specifications: [...specifications],
         ratings: [...ratings],
-        reviews: [...reviews],
         users: [item.user],
       });
     }
@@ -115,58 +128,72 @@ const Products = () => {
       return true;
     }
   });
+  console.log(filteredProducts);
 
   return (
     <div>
-      <h1 className='mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center'>
+      <Text
+        as={'h1'}
+        lineHeight={1.1}
+        bgGradient='linear(to-r, red.400,pink.400)'
+        bgClip='text'
+        className='mt-[8px] font-bold md:text-[40px] text-[28px] text-white text-center'
+      >
         View All Products
-      </h1>
+      </Text>
       <h2 className='mt-[8px] font-normal sm:text-[28px] text-[18px] text-center text-secondary-white  mb-6'>
         Check out all the top-rated gadgets by programmers, gamers and traders
         worldwide.
       </h2>
-      <Flex direction='row' justify='space-between' align='center' px='5%'>
+      <Flex direction='row' align='center' px='5%' color={'gray.300'}>
         {/* Filter */}
-        <Text>Filter by</Text>
         <Select
-          placeholder='Products'
+          placeholder='Filter by Products'
+          border='1px' 
+          borderColor='gray.600'
           value={selectedProduct}
           onChange={(e) => setSelectedProduct(e.target.value)}
+          mx="0.5rem"
         >
           {/* Dynamically generated options */}
-          {availableTypes.map((type) => (
-            <option key={type} value={type}>
+          {availableTypes.map((type, i) => (
+            <option key={i} value={type}>
               {type}
             </option>
           ))}
         </Select>
         <Select
-          placeholder='Brand'
+          placeholder='Filter by Brand'
+          border='1px' 
+          borderColor='gray.600'
           value={selectedBrand}
           onChange={(e) => setSelectedBrand(e.target.value)}
+          mx="0.5rem"
         >
           {/* Dynamically generated options */}
-          {avaliableBrands.map((brand) => (
-            <option key={brand} value={brand}>
+          {avaliableBrands.map((brand, i) => (
+            <option key={i} value={brand}>
               {brand}
             </option>
           ))}
         </Select>
         <Select
-          placeholder='Model'
+          placeholder='Filter by Model'
+          border='1px' 
+          borderColor='gray.600'
           value={selectedModel}
           onChange={(e) => setSelectedModel(e.target.value)}
+          mx="0.5rem"
         >
           {/* Dynamically generated options */}
-          {avaliableModels.map((model) => (
-            <option key={model} value={model}>
+          {avaliableModels.map((model, i) => (
+            <option key={i} value={model}>
               {model}
             </option>
           ))}
         </Select>
         {/* Sort */}
-        <Text>Sort by</Text>
-        <Select placeholder='Sort by'>
+        <Select placeholder='Sort by' border='1px' borderColor='gray.600' mx="0.5rem">
           <option value='option1'>✨ Newest</option>
           <option value='option1'>🏷️ Price</option>
           <option value='option2'>⭐ Highest rating</option>
@@ -190,8 +217,11 @@ const Products = () => {
               type={group.type}
               brand={group.brand}
               model={group.model}
+              title={group.title}
+              description={group.description}
+              features={group.features}
+              specifications={group.specifications}
               ratings={group.ratings}
-              reviews={group.reviews}
               slug={`/products/${group.type}`}
               users={group.users}
             />

@@ -9,9 +9,23 @@ import {
 } from '@chakra-ui/react';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 
+import { placeholder_image } from '../assets';
+
 // "Product with Add to Cart" from https://chakra-templates.dev/components/cards
 
-function CardProduct({ img, type, brand, model, ratings, reviews, slug }) {
+function CardProduct({
+  img,
+  type,
+  brand,
+  model,
+  title,
+  description,
+  features,
+  specifications,
+  ratings,
+  slug,
+}) {
+  console.log(title);
   return (
     <Flex
       p={50}
@@ -24,10 +38,14 @@ function CardProduct({ img, type, brand, model, ratings, reviews, slug }) {
         to={slug}
         state={{
           img: img,
+          type: type,
           brand: brand,
           model: model,
+          title: title,
+          description: description,
+          features: features,
+          specifications: specifications,
           ratings: ratings,
-          reviews: reviews,
         }}
       >
         <Box
@@ -49,78 +67,103 @@ function CardProduct({ img, type, brand, model, ratings, reviews, slug }) {
           )} */}
 
           <Image
-            src={img}
+            src={img ? img : placeholder_image}
             alt={`Picture of ${model}`}
             roundedTop='lg'
             width='100%'
           />
 
           <Box p='6'>
-            <Box d='flex' alignItems='baseline'>
-              <Badge
-                rounded='full'
-                px='2'
-                fontSize='0.8em'
-                colorScheme={
-                  // change color of brand badge by product type
-                  type === 'Desk'
-                    ? 'green'
-                    : type === 'Monitor'
-                    ? 'blue'
-                    : type === 'Keyboard'
-                    ? 'orange'
-                    : type === 'Mouse'
-                    ? 'red'
-                    : type === 'Mousepad'
-                    ? 'pink'
-                    : 'purple' // fallback color
-                }
-              >
-                {brand}
-              </Badge>
-            </Box>
-            <Flex mt='1' justifyContent='space-between' alignContent='center'>
+            <Flex justify='space-between' alignContent='center'>
+              <Box d='flex' alignItems='baseline'>
+                <Badge
+                  rounded='full'
+                  px='2'
+                  fontSize='0.8em'
+                  colorScheme={
+                    // change color of brand badge by product type
+                    type === 'Desk'
+                      ? 'green'
+                      : type === 'Monitor'
+                      ? 'blue'
+                      : type === 'Keyboard'
+                      ? 'orange'
+                      : type === 'Mouse'
+                      ? 'red'
+                      : type === 'Mousepad'
+                      ? 'pink'
+                      : 'purple' // fallback color
+                  }
+                >
+                  #{type}
+                </Badge>
+              </Box>
+              <Flex direction='column'>
+                <Flex color={'orange.300'}>
+                  {Array(5)
+                    .fill('')
+                    .map((_, i) => {
+                      const roundedRating =
+                        Math.round(
+                          (ratings
+                            .map((rating) => rating.rating)
+                            .reduce((a, b) => a + b, 0) /
+                            ratings.length) *
+                            2
+                        ) / 2;
+                      if (roundedRating - i >= 1) {
+                        return (
+                          <BsStarFill
+                            key={i}
+                            style={{ marginLeft: '1' }}
+                            color={
+                              i < roundedRating ? 'orange.300' : 'gray.300'
+                            }
+                          />
+                        );
+                      }
+                      if (roundedRating - i === 0.5) {
+                        return (
+                          <BsStarHalf key={i} style={{ marginLeft: '1' }} />
+                        );
+                      }
+                      return <BsStar key={i} style={{ marginLeft: '1' }} />;
+                    })}
+                </Flex>
+                <Flex justify='center' mt='1'>
+                  <Box as='span' color='gray.300' fontSize='sm'>
+                    {ratings.length} review{ratings.length > 1 && 's'}
+                  </Box>
+                </Flex>
+              </Flex>
+            </Flex>
+
+            <Flex
+              mt='1'
+              justifyContent='space-between'
+              alignContent='center'
+              alignItems='flex-end'
+            >
               <Box
                 fontSize='2xl'
-                fontWeight='semibold'
+                fontWeight='medium'
                 as='h4'
                 lineHeight='tight'
                 isTruncated
                 color={'gray.300'}
               >
-                {model}
+                <span className='font-extrabold'>{brand}</span> {model}
               </Box>
-            </Flex>
-            <Flex>
-              {Array(5)
-                .fill('')
-                .map((_, i) => {
-                  const roundedRating =
-                    Math.round(
-                      (ratings
-                        .map((rating) => rating.rating)
-                        .reduce((a, b) => a + b, 0) /
-                        ratings.length) *
-                        2
-                    ) / 2;
-                  if (roundedRating - i >= 1) {
-                    return (
-                      <BsStarFill
-                        key={i}
-                        style={{ marginLeft: '1' }}
-                        color={i < roundedRating ? 'teal.500' : 'gray.300'}
-                      />
-                    );
-                  }
-                  if (roundedRating - i === 0.5) {
-                    return <BsStarHalf key={i} style={{ marginLeft: '1' }} />;
-                  }
-                  return <BsStar key={i} style={{ marginLeft: '1' }} />;
-                })}
-            </Flex>
-            <Flex justifyContent='space-between' alignContent='center'>
-              <Box as='span' ml='2' color='gray.300' fontSize='sm'>
-                {reviews.length} review{reviews.length > 1 && 's'}
+              <Box
+                fontSize='sm'
+                fontWeight='medium'
+                as='h4'
+                lineHeight='tight'
+                isTruncated
+                color={'gray.300'}
+              >
+                in <span className='font-extrabold'>{6} setups</span>
+                {/* replace {6} with total number of setups that this product appears in */}
               </Box>
             </Flex>
           </Box>

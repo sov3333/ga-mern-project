@@ -2,20 +2,24 @@ import mongoose from 'mongoose';
 
 const productSchema = new mongoose.Schema(
   {
-    user: { type: String },
+    user: { type: String }, // can be removed
     img: { type: String },
     type: { type: String },
     brand: { type: String },
     model: { type: String },
+    title: { type: String },
+    description: { type: String },
+    features: [{ name: { type: String } }],
+    specifications: [
+      {
+        name: { type: String },
+        stat: { type: String },
+      },
+    ],
     ratings: [
       {
         user: { type: String },
-        rating: { type: Number }, // added in the rating and review (weiliang)
-      },
-    ],
-    reviews: [
-      {
-        user: { type: String },
+        rating: { type: Number },
         review: { type: String },
       },
     ],

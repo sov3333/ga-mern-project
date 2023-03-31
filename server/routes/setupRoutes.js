@@ -27,12 +27,12 @@ router.post('/', async (req, res) => {
   console.log(`hello from the /api/setup post route!`);
   // console.log(req.body);
   try {
-    const { img, userId } = req.body;
+    const { img } = req.body;
     const photoUrl = await cloudinary.uploader.upload(img);
     const newPost = {
       ...req.body,
       img: photoUrl.url,
-      userId: userId,
+      // userId: userId,
     };
 
     console.log(newPost);
@@ -45,8 +45,8 @@ router.post('/', async (req, res) => {
 });
 
 // To send the seed files to DB
-// 1) comment out top router.post (line 15 to 23)
-// 2) uncomment below router.post (line 31 to 72)
+// 1) comment out top router.post (line 26 to 45)done
+// 2) uncomment below router.post (line 53 to 225)done
 // 3) to save to seed to the DB => got to create page and click submit
 // 4) comment line 30 to 67 out after done.
 // 5) uncomment out top router.post (line 15 to 23) and save.
@@ -56,40 +56,170 @@ router.post('/', async (req, res) => {
 //     const createdSetup = await setup.create(
 //       {
 //         img: 'https://t3.gstatic.com/images?q=tbn:ANd9GcSTspk0HexUgLVvH7AoWUOfZ61RecRVeAaoubWnCQHmAfVY9rKB',
+//         userId: '1',
 //         user: 'Alice',
 //         title: 'Blue Battlestation',
 //         description:
 //           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
-//         type: ['desk', 'monitor', 'keyboard', 'mouse', 'chair'],
+//         products: [
+//           {
+//             type: 'keyboard',
+//             brand: 'Keychron',
+//             model: 'K4',
+//           },
+//           {
+//             type: 'mouse',
+//             brand: 'Razer',
+//             model: 'Deathadder V2',
+//           },
+//           {
+//             type: 'monitor',
+//             brand: 'Xiaomi',
+//             model: 'Curved Gaming Monitor 34',
+//           },
+//         ],
+//         swipes: [
+//           {
+//             userId: '23423',
+//             liked: true,
+//           },
+//         ],
 //       },
 //       {
 //         img: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT13ujza2Re0zLk0Vk5VviScLa1zYzu0VGxdW1igIYd63UDxtJA',
+//         userId: '131232',
 //         user: 'Bob',
 //         title: 'Mellow Woods',
 //         description:
 //           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
-//         type: ['desk', 'monitor', 'keyboard', 'mouse', 'mousepad', 'chair'],
+//         products: [
+//           {
+//             type: 'keyboard',
+//             brand: 'Keychron',
+//             model: 'K4',
+//           },
+//           {
+//             type: 'mouse',
+//             brand: 'Razer',
+//             model: 'Deathadder V2',
+//           },
+//           {
+//             type: 'monitor',
+//             brand: 'Xiaomi',
+//             model: 'Curved Gaming Monitor 34',
+//           },
+//           {
+//             type: 'mousepad',
+//             brand: 'Aukey',
+//             model: 'KM-P2 Large Gaming Mouse Pad Oversized',
+//           },
+//           {
+//             type: 'chair',
+//             brand: 'Logitech X Herman Miller',
+//             model: 'Embody gaming chair',
+//           },
+//           {
+//             type: 'light',
+//             brand: 'Type 75 Desk Lamp Paul Smith',
+//             model: 'Edition 6',
+//           },
+//         ],
+//         swipes: [
+//           {
+//             userId: '1',
+//             liked: true,
+//           },
+//         ],
 //       },
 //       {
 //         img: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSKdjQk306iqnHH4Ews6MqBkTkbgWIPBT0JTrC3-jgO5wWhR0ck',
+//         userId: '13131',
 //         user: 'Charlie',
 //         title: 'Coding Club',
 //         description:
 //           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
-//         type: ['desk', 'monitor', 'speaker', 'pc', 'keyboard', 'mousepad'],
+//         products: [
+//           {
+//             type: 'monitor',
+//             brand: 'Xiaomi',
+//             model: 'Curved Gaming Monitor 34',
+//           },
+//           {
+//             type: 'mousepad',
+//             brand: 'Aukey',
+//             model: 'KM-P2 Large Gaming Mouse Pad Oversized',
+//           },
+//           {
+//             type: 'chair',
+//             brand: 'Logitech X Herman Miller',
+//             model: 'Embody gaming chair',
+//           },
+//           {
+//             type: 'light',
+//             brand: 'Type 75 Desk Lamp Paul Smith',
+//             model: 'Edition 6',
+//           },
+//         ],
+//         swipes: [
+//           {
+//             userId: '131232',
+//             liked: true,
+//           },
+//           {
+//             userId: '4234',
+//             liked: true,
+//           },
+//         ],
 //       },
 //       {
 //         img: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ7Y3DJGIZejTxIdwspZPJhd40NKcYKHKXbGuoH7MxteDaJZJQl',
+//         userId: '4234',
 //         user: 'Delilah',
 //         title: 'Autumn Dev',
 //         description:
 //           'Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis delectus nihil odio.',
-//         type: ['desk', 'monitor', 'speaker', 'mouse'],
+//         products: [
+//           {
+//             type: 'monitor',
+//             brand: 'Gigabyte',
+//             model: 'M34WQ',
+//           },
+//           {
+//             type: 'mousepad',
+//             brand: 'Aukey',
+//             model: 'KM-P2 Large Gaming Mouse Pad Oversized',
+//           },
+//           {
+//             type: 'chair',
+//             brand: 'Logitech X Herman Miller',
+//             model: 'Embody gaming chair',
+//           },
+//           {
+//             type: 'light',
+//             brand: 'Type 75 Desk Lamp Paul Smith',
+//             model: 'Edition 6',
+//           },
+//           {
+//             type: 'speaker',
+//             brand: 'Audioengine',
+//             model: 'Audioengine A2+ Wireless White',
+//           },
+//         ],
+//         swipes: [
+//           {
+//             userId: '131232',
+//             liked: false,
+//           },
+//           {
+//             userId: '1',
+//             liked: true,
+//           },
+//         ],
 //       }
 //     );
 //     res.status(200).send(createdSetup);
 //   } catch (err) {
-//     res.status(400).json({ error: err.message });
+//     res.status(400).json({error: err.message});
 //   }
 // });
 

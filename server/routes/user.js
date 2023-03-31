@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import requireAuth from '../auth/authMiddleware.js';
 import cookieParser from 'cookie-parser';
 import User from '../mongodb/models/User.js';
+import Setup from '../mongodb/models/setup.js';
 
 const router = express.Router();
 
@@ -111,6 +112,15 @@ router.post('/login', async (req, res) => {
 
 //User Routes
 
+router.get('/setups/:id', async (req, res) => {
+  try {
+    const userSetups = await Setup.find({ userId: req.params.id });
+    res.status(200).send(userSetups);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 router.get('/all', async (req, res) => {
   try {
     const users = await User.find({});
@@ -153,7 +163,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-//Update Route for swipe page 
+//Update Route for swipe page
 router.put('/swipe/:id', async (req, res) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(

@@ -16,7 +16,7 @@ const Footer = () => (
     <div className="footer-gradient" />
     <div className={`${styles.innerWidth} mx-auto flex flex-col gap-8`}>
       <div className="flex items-center justify-between flex-wrap gap-5">
-        <h4 className="font-bold md:text-[64px] text-[44px] text-white">Swipe it Like it's Hot</h4>
+        <h4 className="font-bold md:text-[64px] text-[44px] text-white">World's Best Desk Setups</h4>
         <Link href="/swipe">
           <Button colorScheme="pink" size="lg">
             <img src={swipe} alt="swipe" className="w-[24px] h-[24px] object-contain" />

@@ -12,6 +12,7 @@ import requireAuth from './auth/authMiddleware.js';
 
 import setupRoutes from './routes/setupRoutes.js';
 import productRoutes from './routes/productRoutes.js';
+import seedAllDatas from './routes/seedAllDatas.js';
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use('/api/test', testRoutes);
 app.use('/api/user', userRoute);
 app.use('/api/setup', setupRoutes);
 app.use('/api/product', productRoutes);
+app.use('/api/seed', seedAllDatas);
 
 const PORT = process.env.PORT || 8080;
 const MONGODB_URL =

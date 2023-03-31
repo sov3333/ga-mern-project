@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {
   Box,
   Center,
@@ -21,7 +21,7 @@ export default function CardSetup({
   slug,
 }) {
   return (
-    <Center py={12} className='p-16'>
+    <Center py={12} m={-8} className='p-16'>
       <Link
         to={slug}
         state={{
@@ -35,8 +35,10 @@ export default function CardSetup({
         <Box
           role={'group'}
           p={6}
-          maxW={'330px'}
-          w={'full'}
+          mx={-6}
+          //maxW={'330px'}
+          w={'330px'}
+          h={'450px'}
           bg={useColorModeValue('gray.600')}
           boxShadow={'2xl'}
           rounded={'lg'}
@@ -46,7 +48,7 @@ export default function CardSetup({
         >
           <Box
             rounded={'lg'}
-            mt={-12}
+            m={1}
             pos={'relative'}
             height={'230px'}
             _after={{
