@@ -86,8 +86,7 @@ export default function Create() {
               setUniqueProductTypes(uniqueProductTypes.push(item.type));
             }
           });
-          console.log(`uniqueProductTypes`, uniqueProductTypes)
-
+          console.log(`uniqueProductTypes`, uniqueProductTypes);
         },
         (err) => console.log(err)
       );
@@ -152,6 +151,7 @@ export default function Create() {
     } else {
       // submit to databases
       console.log(`all required fields filled, starting submission...`);
+      navigate('/setups');
 
       // create new setup in the setups collection
       fetch('http://localhost:8080/api/setup', {
@@ -406,27 +406,25 @@ export default function Create() {
                       onChange={(e) => handleInputChange(e, index)}
                       required
                       placeholder='Select a product type'
-                      border='1px' 
+                      border='1px'
                       borderColor='gray.600'
                       color={'gray.300'}
                       _placeholder={{
                         color: 'gray.500',
                       }}
                       mb={'0.5rem'}
-                    >                                          
-
-                      {[...new Set(products.map((product) => product.type))].map(
-                        (type, i) => (
-                          <option value={type} key={i}>
-                            {type}
-                          </option>
-                        )
-                      )}
+                    >
+                      {[
+                        ...new Set(products.map((product) => product.type)),
+                      ].map((type, i) => (
+                        <option value={type} key={i}>
+                          {type}
+                        </option>
+                      ))}
                       {/* Got error trying to map the uniqueProductTypes array */}
                       {/* {uniqueProductTypes.map((type) => (
                         <option value={type} key={type}>{type}</option>
                       ))} */}
-
 
                       {/* <option value='Other'>Other</option> */}
                     </Select>
@@ -438,7 +436,7 @@ export default function Create() {
                         value={product.typeOther}
                         // onChange={(e) => handleInputChange(e, index)}
                         placeholder='Enter a new product type'
-                        border='1px' 
+                        border='1px'
                         borderColor='gray.600'
                         color={'gray.300'}
                         _placeholder={{
@@ -465,13 +463,13 @@ export default function Create() {
                       }}
                       mb={2}
                     >
-                      {[...new Set(products.map((product) => product.brand))].map(
-                        (brand, i) => (
-                          <option value={brand} key={i}>
-                            {brand}
-                          </option>
-                        )
-                      )}
+                      {[
+                        ...new Set(products.map((product) => product.brand)),
+                      ].map((brand, i) => (
+                        <option value={brand} key={i}>
+                          {brand}
+                        </option>
+                      ))}
                       <option value='Other'>Other</option>
                     </Select>
                     {product.brand === 'Other' && (
@@ -482,7 +480,7 @@ export default function Create() {
                         value={product.typeOther}
                         // onChange={(e) => handleInputChange(e, index)}
                         placeholder='Enter a new product brand'
-                        border='1px' 
+                        border='1px'
                         borderColor='gray.600'
                         color={'gray.300'}
                         _placeholder={{
@@ -509,13 +507,13 @@ export default function Create() {
                       }}
                       mb={2}
                     >
-                      {[...new Set(products.map((product) => product.model))].map(
-                        (model, i) => (
-                          <option value={model} key={i}>
-                            {model}
-                          </option>
-                        )
-                      )}
+                      {[
+                        ...new Set(products.map((product) => product.model)),
+                      ].map((model, i) => (
+                        <option value={model} key={i}>
+                          {model}
+                        </option>
+                      ))}
                       <option value='Other'>Other</option>
                     </Select>
                     {product.model === 'Other' && (
@@ -526,7 +524,7 @@ export default function Create() {
                         value={product.typeOther}
                         // onChange={(e) => handleInputChange(e, index)}
                         placeholder='Enter a new product model'
-                        border='1px' 
+                        border='1px'
                         borderColor='gray.600'
                         color={'gray.300'}
                         _placeholder={{
