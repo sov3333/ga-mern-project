@@ -44,7 +44,7 @@ export default function DetailsSetup({
 
   useEffect(() => {
     // get the swipes data of this setup
-    fetch(`http://localhost:8080/api/setup${currentID}`, {
+    fetch(`http://swipe-setups.vercel.app/api/setup${currentID}`, {
       method: `GET`,
     })
       .then((res) => res.json())
@@ -56,7 +56,7 @@ export default function DetailsSetup({
         console.log(`total likes`, totalLikes);
         setThisLikes(totalLikes);
         // then fetch the userId of this logged in user
-        fetch(`http://localhost:8080/api/user/id`, {
+        fetch(`http://swipe-setups.vercel.app/api/user/id`, {
           method: `GET`,
           credentials: `include`,
         })
@@ -83,7 +83,7 @@ export default function DetailsSetup({
 
   //console.log('id', currentID);
   const handleDelete = () => {
-    fetch('http://localhost:8080/api/setup' + currentID, {
+    fetch('http://swipe-setups.vercel.app/api/setup' + currentID, {
       method: 'DELETE',
     })
       .then((res) => res.json())

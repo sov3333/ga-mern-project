@@ -10,7 +10,7 @@ const Setups = () => {
 
   useEffect(() => {
     // get all setups to display cards
-    fetch('http://localhost:8080/api/setup')
+    fetch('http://swipe-setups.vercel.app/api/setup')
       .then(
         (data) => data.json(),
         (err) => console.log(err)
@@ -29,7 +29,7 @@ const Setups = () => {
       );
 
     // get all products to generate options in filters
-    fetch('http://localhost:8080/api/product')
+    fetch('http://swipe-setups.vercel.app/api/product')
       .then(
         (data) => data.json(),
         (err) => console.log(err)
