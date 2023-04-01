@@ -29,7 +29,7 @@ export default function ProfileEdit() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/user/id`, {
+    fetch(`http://swipe-setups.vercel.app/api/user/id`, {
       method: `GET`,
       credentials: `include`,
     })
@@ -44,7 +44,7 @@ export default function ProfileEdit() {
   }, [userId]);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/user/${userId}`, {
+    fetch(`http://swipe-setups.vercel.app/api/user/${userId}`, {
       method: `GET`,
       credentials: `include`,
     })
@@ -75,7 +75,7 @@ export default function ProfileEdit() {
       username: username,
     };
 
-    fetch(`http://localhost:8080/api/user/${userId}`, {
+    fetch(`http://swipe-setups.vercel.app/api/user/${userId}`, {
       method: `PUT`,
       credentials: `include`,
       headers: {
