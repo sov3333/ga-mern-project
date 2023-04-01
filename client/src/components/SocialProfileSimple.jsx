@@ -1,13 +1,13 @@
 import { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import {
-  Heading,
   Avatar,
   Box,
   Center,
+  Flex,
   Text,
   Stack,
   Button,
-  Link,
   Badge,
   useColorModeValue,
 } from '@chakra-ui/react';
@@ -24,7 +24,7 @@ export default function SocialProfileSimple() {
   const { role, setRole } = useContext(AuthContext);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/user/id`, {
+    fetch(`https://swipe-setups.vercel.app/api/user/id`, {
       method: `GET`,
       credentials: `include`,
     })
@@ -39,7 +39,7 @@ export default function SocialProfileSimple() {
   }, [userId]);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/user/${userId}`, {
+    fetch(`https://swipe-setups.vercel.app/api/user/${userId}`, {
       method: `GET`,
       credentials: `include`,
     })
@@ -57,11 +57,11 @@ export default function SocialProfileSimple() {
   }, [userId]);
 
   return (
-    <Center py={6}>
+    <Center py={6} px={3} minH={'70vh'}>
       <Box
-        maxW={'320px'}
+        maxW={'420px'}
         w={'full'}
-        bg={useColorModeValue('white', 'gray.900')}
+        bg={useColorModeValue('gray.700')}
         boxShadow={'2xl'}
         rounded={'lg'}
         p={6}
@@ -70,7 +70,7 @@ export default function SocialProfileSimple() {
         <Avatar
           size={'xl'}
           src={
-            'https://images.unsplash.com/photo-1520810627419-35e362c5dc07?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ'
+            'https://i.imgur.com/pvyr5m1.jpg'
           }
           alt={'Avatar Alt'}
           mb={4}
@@ -87,21 +87,32 @@ export default function SocialProfileSimple() {
             right: 3,
           }}
         />
-        <Heading fontSize={'2xl'} fontFamily={'body'}>
+        <Text
+          as={'h1'}
+          lineHeight={1.1}
+          bgGradient='linear(to-r, red.400,pink.400)'
+          bgClip='text'
+          className="font-bold text-[28px] text-white text-center"
+        >
           {firstName} {lastName}
-        </Heading>
-        <Text fontWeight={600} color={'gray.500'} mb={4}>
-          {role}
-        </Text>
-        <Text fontWeight={600} color={'gray.500'} mb={4}>
-          {username}
         </Text>
         <Text
+          lineHeight={1.5}
+          bgGradient='linear(to-r, purple.300,pink.300)'
+          bgClip='text'
+          className="font-bold text-[16px] text-white text-center mt-2"
+        >
+          @{username}
+        </Text>
+        <Badge fontWeight={600} colorScheme="gray" mt={3} mb={4} className="uppercase">
+          {role}
+        </Badge>
+        <Text
           textAlign={'center'}
-          color={useColorModeValue('gray.700', 'gray.400')}
+          color={useColorModeValue('gray.400')}
           px={3}
         >
-          Actress, musician, songwriter and artist. PM for work inquires or{' '}
+          Full-stack programmer, crypto trader, and gamer. PM for work inquires or{' '}
           <Link href={'#'} color={'blue.400'}>
             #tag
           </Link>{' '}
@@ -109,63 +120,65 @@ export default function SocialProfileSimple() {
         </Text>
 
         <Stack align={'center'} justify={'center'} direction={'row'} mt={6}>
-          <Badge
-            px={2}
-            py={1}
-            bg={useColorModeValue('gray.50', 'gray.800')}
-            fontWeight={'400'}
-          >
-            #art
-          </Badge>
-          <Badge
-            px={2}
-            py={1}
-            bg={useColorModeValue('gray.50', 'gray.800')}
-            fontWeight={'400'}
-          >
-            #photography
-          </Badge>
-          <Badge
-            px={2}
-            py={1}
-            bg={useColorModeValue('gray.50', 'gray.800')}
-            fontWeight={'400'}
-          >
-            #music
-          </Badge>
+          {arrray.map((item) => (
+            <Badge
+              px={2}
+              py={1}
+              colorScheme="green"
+              variant="outline"
+              fontWeight={'600'}
+              textTransform={'lowercase'}
+              rounded="full"
+            >
+              #{item}
+            </Badge>
+            
+          ))}
         </Stack>
 
-        <Stack mt={8} direction={'row'} spacing={4}>
-          <Button
-            flex={1}
-            fontSize={'sm'}
-            rounded={'full'}
-            _focus={{
-              bg: 'gray.200',
-            }}
-          >
-            Message
-          </Button>
-          <Button
-            flex={1}
-            fontSize={'sm'}
-            rounded={'full'}
-            bg={'blue.400'}
-            color={'white'}
-            boxShadow={
-              '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
-            }
-            _hover={{
-              bg: 'blue.500',
-            }}
-            _focus={{
-              bg: 'blue.500',
-            }}
-          >
-            Follow
-          </Button>
-        </Stack>
+        {/* <Stack mt={8} direction={'row'} spacing={4}> */}
+          <Flex mt={8} mb={3} justify='center' align='center'>
+            <Flex mx='2'>
+              <Link to='/profile/edit'>
+                <Button
+                  // width={'100%'}
+                  fontSize={'sm'}
+                  rounded={'full'}
+                  _focus={{
+                    bg: 'gray.200',
+                  }}
+                  >
+                  Edit Profile
+                </Button>
+              </Link>
+            </Flex>
+            <Flex mx='2'>
+              <Link to='/profile/setups'>
+                <Button
+                  // width={'100%'}
+                  fontSize={'sm'}
+                  rounded={'full'}
+                  bg={'blue.400'}
+                  color={'white'}
+                  boxShadow={
+                    '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
+                  }
+                  _hover={{
+                    bg: 'blue.500',
+                  }}
+                  _focus={{
+                    bg: 'blue.500',
+                  }}
+                >
+                  Your Setups
+                </Button>
+              </Link>
+            </Flex>
+          </Flex>
+        {/* </Stack> */}
       </Box>
     </Center>
   );
 }
+
+const arrray = ["programmer", "trader", "gamer"];

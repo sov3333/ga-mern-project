@@ -35,7 +35,7 @@ export default function CardSignIn() {
   const signInUser = async (e) => {
     e.preventDefault();
 
-    const signInURL = `http://localhost:8080/api/user/login`;
+    const signInURL = `https://swipe-setups.vercel.app/api/user/login`;
     const response = await fetch(signInURL, {
       method: 'POST',
       credentials: 'include',
@@ -65,7 +65,7 @@ export default function CardSignIn() {
 
   return (
     <Flex
-      minH={'100vh'}
+      minH={'80vh'}
       align={'center'}
       justify={'center'}
       // bg={useColorModeValue('gray.50', 'gray.800')}

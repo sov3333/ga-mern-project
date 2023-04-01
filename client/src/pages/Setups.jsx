@@ -10,26 +10,33 @@ const Setups = () => {
 
   useEffect(() => {
     // get all setups to display cards
-    fetch('http://localhost:8080/api/setup')
-      .then(
-        (data) => data.json(),
-        (err) => console.log(err)
-      )
-      .then(
-        (parsedData) => setSetups(parsedData),
-        (err) => console.log(err)
-      );
-
-    // get all products to generate options in filters
-    fetch('http://localhost:8080/api/product')
+    fetch('https://swipe-setups.vercel.app/api/setup')
       .then(
         (data) => data.json(),
         (err) => console.log(err)
       )
       .then(
         (parsedData) => {
-          setProducts(parsedData);
-          // console.log(`setProducts with parsedData:`, parsedData);
+          // count the likes in each setup and add it as a new key `likedCount`
+          let allSetups = parsedData;
+          let newSetupsArray = allSetups.map(item => {
+            let likedCount = item.swipes.filter(swipe => swipe.liked).length;
+            return { ...item, likedCount };
+          });
+          setSetups(newSetupsArray);
+        },
+        (err) => console.log(err)
+      );
+
+    // get all products to generate options in filters
+    fetch('https://swipe-setups.vercel.app/api/product')
+      .then(
+        (data) => data.json(),
+        (err) => console.log(err)
+      )
+      .then(
+        (parsedData) => {
+          setProducts(`parsedData from product`, parsedData);
         },
         (err) => console.log(err)
       );
@@ -58,11 +65,6 @@ const Setups = () => {
     })
   );
 
-  console.log(typeBrandPairs);
-
-  console.log(availableTypes);
-  console.log(selectedProduct);
-
   // filter the setups based on the selected product type and brand
   const filteredSetups = selectedProduct
     ? setups.filter((setup) =>
@@ -78,7 +80,7 @@ const Setups = () => {
   const filteredBrands = typeBrandPairs.find(
     (item) => item.type === selectedProduct
   )?.brands;
-  console.log(filteredBrands);
+
   return (
     <div>
       <Text
@@ -162,6 +164,7 @@ const Setups = () => {
               description={post.description}
               products={post.products}
               swipes={post.swipes}
+              likedCount={post.likedCount}
               slug={`/setups/${post._id}`}
             />
           </div>

@@ -9,22 +9,31 @@ A rating and review website for computer desk setups (gaming/trading/programming
 - [Chakra UI](https://chakra-ui.com/getting-started) + [Chakra Templates](https://chakra-templates.dev/) for styling and pre-made components and templates
 - [Tailwind CSS](https://tailwindcss.com/docs/guides/vite) for styling
 - [Framer Motion](https://www.framer.com/motion/) for animations
+- [Cloudinary](https://cloudinary.com/) for animations
+- [BCrypt](https://www.npmjs.com/package/bcrypt) for password hashing
+- [JWT](https://jwt.io/) for creation of tokens
+ 
 
 ### Tools
 
 - [SVG Icons from SVG Repo](https://www.svgrepo.com/)
 - [AI-generated images from Midjourney](https://www.midjourney.com/)
+- [ChatGPT](https://openai.com/blog/chatgpt)
 
 ### Tutorials
 
 - [Landing page tutorial with Framer Motion and Tailwind CSS](https://youtu.be/ugCN_gynFYw)
+- [MERN Authentication Using JWT](https://www.youtube.com/watch?v=WsRBmwNkv3Q&list=PL4cUxeGkcC9g8OhpOZxNdhXggFz2lOuCT)
 
 ## A couple paragraphs about the general approach you took
-
+- Started with the frontend template
+- Built our backend routes to call data from MongoDB
+- Connected the frontend and backend after backend API calls were working
 
 
 ## Link to your user stories – who are your users, what do they want, and why?
-
+- Any individual with a laptop/desktop that is looking to find inspiration and change up their work/gaming station 
+- Retail shops looking for the most trending work/gaming stations to style for roadshows.
 
 
 ## Link to your wireframes – sketches of major views / interfaces in your application
@@ -39,7 +48,9 @@ A rating and review website for computer desk setups (gaming/trading/programming
 
 
 ## Descriptions of any unsolved problems or major hurdles your team had to overcome
-
+- Best practices for authentication
+- DB schema changes
+- Merge conflicts
 
 
 ## Installation instructions for any dependencies

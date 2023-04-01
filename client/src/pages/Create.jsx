@@ -70,7 +70,7 @@ export default function Create() {
   const [uniqueProductTypes, setUniqueProductTypes] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/product')
+    fetch('https://swipe-setups.vercel.app/api/product')
       .then(
         (data) => data.json(),
         (err) => console.log(err)
@@ -86,15 +86,14 @@ export default function Create() {
               setUniqueProductTypes(uniqueProductTypes.push(item.type));
             }
           });
-          console.log(`uniqueProductTypes`, uniqueProductTypes)
-
+          console.log(`uniqueProductTypes`, uniqueProductTypes);
         },
         (err) => console.log(err)
       );
   }, []);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/user/id`, {
+    fetch(`https://swipe-setups.vercel.app/api/user/id`, {
       method: `GET`,
       credentials: `include`,
     })
@@ -102,7 +101,7 @@ export default function Create() {
       .then((data) => {
         setUserId(data);
         console.log(userId, `here`);
-        fetch(`http://localhost:8080/api/user/${data}`, {
+        fetch(`https://swipe-setups.vercel.app/api/user/${data}`, {
           method: `GET`,
           credentials: `include`,
         })
@@ -152,9 +151,11 @@ export default function Create() {
     } else {
       // submit to databases
       console.log(`all required fields filled, starting submission...`);
+      navigate('/setups');
+      navigate('/setups');
 
       // create new setup in the setups collection
-      fetch('http://localhost:8080/api/setup', {
+      fetch('https://swipe-setups.vercel.app/api/setup', {
         method: 'POST',
         body: JSON.stringify({
           userId: userId,
@@ -193,7 +194,7 @@ export default function Create() {
         ) {
           // ...then send this product to backend to create a new item in products collection
           console.log(`Creating Product #${index + 1} in products db`);
-          fetch('http://localhost:8080/api/product', {
+          fetch('https://swipe-setups.vercel.app/api/product', {
             method: 'POST',
             body: JSON.stringify({
               user: userId,
@@ -406,27 +407,25 @@ export default function Create() {
                       onChange={(e) => handleInputChange(e, index)}
                       required
                       placeholder='Select a product type'
-                      border='1px' 
+                      border='1px'
                       borderColor='gray.600'
                       color={'gray.300'}
                       _placeholder={{
                         color: 'gray.500',
                       }}
                       mb={'0.5rem'}
-                    >                                          
-
-                      {[...new Set(products.map((product) => product.type))].map(
-                        (type, i) => (
-                          <option value={type} key={i}>
-                            {type}
-                          </option>
-                        )
-                      )}
+                    >
+                      {[
+                        ...new Set(products.map((product) => product.type)),
+                      ].map((type, i) => (
+                        <option value={type} key={i}>
+                          {type}
+                        </option>
+                      ))}
                       {/* Got error trying to map the uniqueProductTypes array */}
                       {/* {uniqueProductTypes.map((type) => (
                         <option value={type} key={type}>{type}</option>
                       ))} */}
-
 
                       {/* <option value='Other'>Other</option> */}
                     </Select>
@@ -438,7 +437,7 @@ export default function Create() {
                         value={product.typeOther}
                         // onChange={(e) => handleInputChange(e, index)}
                         placeholder='Enter a new product type'
-                        border='1px' 
+                        border='1px'
                         borderColor='gray.600'
                         color={'gray.300'}
                         _placeholder={{
@@ -465,13 +464,13 @@ export default function Create() {
                       }}
                       mb={2}
                     >
-                      {[...new Set(products.map((product) => product.brand))].map(
-                        (brand, i) => (
-                          <option value={brand} key={i}>
-                            {brand}
-                          </option>
-                        )
-                      )}
+                      {[
+                        ...new Set(products.map((product) => product.brand)),
+                      ].map((brand, i) => (
+                        <option value={brand} key={i}>
+                          {brand}
+                        </option>
+                      ))}
                       <option value='Other'>Other</option>
                     </Select>
                     {product.brand === 'Other' && (
@@ -482,7 +481,7 @@ export default function Create() {
                         value={product.typeOther}
                         // onChange={(e) => handleInputChange(e, index)}
                         placeholder='Enter a new product brand'
-                        border='1px' 
+                        border='1px'
                         borderColor='gray.600'
                         color={'gray.300'}
                         _placeholder={{
@@ -509,13 +508,13 @@ export default function Create() {
                       }}
                       mb={2}
                     >
-                      {[...new Set(products.map((product) => product.model))].map(
-                        (model, i) => (
-                          <option value={model} key={i}>
-                            {model}
-                          </option>
-                        )
-                      )}
+                      {[
+                        ...new Set(products.map((product) => product.model)),
+                      ].map((model, i) => (
+                        <option value={model} key={i}>
+                          {model}
+                        </option>
+                      ))}
                       <option value='Other'>Other</option>
                     </Select>
                     {product.model === 'Other' && (
@@ -526,7 +525,7 @@ export default function Create() {
                         value={product.typeOther}
                         // onChange={(e) => handleInputChange(e, index)}
                         placeholder='Enter a new product model'
-                        border='1px' 
+                        border='1px'
                         borderColor='gray.600'
                         color={'gray.300'}
                         _placeholder={{

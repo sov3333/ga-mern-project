@@ -4,7 +4,7 @@ import Showcase from "./Showcase";
 import CardSetup from "./CardSetup";
 import CardProduct from "./CardProduct";
 import CardSignIn from "./CardSignIn";
-import CardSignUp from "./CardSignup";
+import CardSignUp from "./CardSignUp";
 import PasswordForgotForm from "./PasswordForgotForm";
 import PasswordResetForm from "./PasswordResetForm";
 import DetailsProduct from "./DetailsProduct";
