@@ -48,7 +48,7 @@ export default function Nav() {
   const navigate = useNavigate();
 
   const handleSignOut = () => {
-    fetch('http://swipe-setups.vercel.app/api/user/logout', {
+    fetch('https://swipe-setups.vercel.app/api/user/logout', {
       method: 'POST',
       credentials: 'include', // include cookies in the request
     })
