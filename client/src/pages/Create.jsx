@@ -152,6 +152,7 @@ export default function Create() {
       // submit to databases
       console.log(`all required fields filled, starting submission...`);
       navigate('/setups');
+      navigate('/setups');
 
       // create new setup in the setups collection
       fetch('http://localhost:8080/api/setup', {
