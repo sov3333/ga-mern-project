@@ -70,7 +70,7 @@ export default function Create() {
   const [uniqueProductTypes, setUniqueProductTypes] = useState([]);
 
   useEffect(() => {
-    fetch('http://swipe-setups.vercel.app/api/product')
+    fetch('https://swipe-setups.vercel.app/api/product')
       .then(
         (data) => data.json(),
         (err) => console.log(err)
@@ -93,7 +93,7 @@ export default function Create() {
   }, []);
 
   useEffect(() => {
-    fetch(`http://swipe-setups.vercel.app/api/user/id`, {
+    fetch(`https://swipe-setups.vercel.app/api/user/id`, {
       method: `GET`,
       credentials: `include`,
     })
@@ -101,7 +101,7 @@ export default function Create() {
       .then((data) => {
         setUserId(data);
         console.log(userId, `here`);
-        fetch(`http://swipe-setups.vercel.app/api/user/${data}`, {
+        fetch(`https://swipe-setups.vercel.app/api/user/${data}`, {
           method: `GET`,
           credentials: `include`,
         })
@@ -155,7 +155,7 @@ export default function Create() {
       navigate('/setups');
 
       // create new setup in the setups collection
-      fetch('http://swipe-setups.vercel.app/api/setup', {
+      fetch('https://swipe-setups.vercel.app/api/setup', {
         method: 'POST',
         body: JSON.stringify({
           userId: userId,
@@ -194,7 +194,7 @@ export default function Create() {
         ) {
           // ...then send this product to backend to create a new item in products collection
           console.log(`Creating Product #${index + 1} in products db`);
-          fetch('http://swipe-setups.vercel.app/api/product', {
+          fetch('https://swipe-setups.vercel.app/api/product', {
             method: 'POST',
             body: JSON.stringify({
               user: userId,

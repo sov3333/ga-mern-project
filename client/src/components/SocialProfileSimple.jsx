@@ -24,7 +24,7 @@ export default function SocialProfileSimple() {
   const { role, setRole } = useContext(AuthContext);
 
   useEffect(() => {
-    fetch(`http://swipe-setups.vercel.app/api/user/id`, {
+    fetch(`https://swipe-setups.vercel.app/api/user/id`, {
       method: `GET`,
       credentials: `include`,
     })
@@ -39,7 +39,7 @@ export default function SocialProfileSimple() {
   }, [userId]);
 
   useEffect(() => {
-    fetch(`http://swipe-setups.vercel.app/api/user/${userId}`, {
+    fetch(`https://swipe-setups.vercel.app/api/user/${userId}`, {
       method: `GET`,
       credentials: `include`,
     })
