@@ -9,6 +9,11 @@
     {
       "src": "/(.*)",
       "dest": "/client/dist/index.html"
+    },
+    { 
+      "src": "/[^.]+",
+      "dest": "/",
+      "status": 200
     }
   ]
 }
