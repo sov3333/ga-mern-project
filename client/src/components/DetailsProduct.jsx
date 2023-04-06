@@ -65,7 +65,7 @@ export default function DetailsProduct({
 
   useEffect(() => {
     // Fetch the ratings from the backend API
-    fetch(`https://swipe-setups.vercel.app/api/product/ratings/${model}`)
+    fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/product/ratings/${model}`)
       .then((response) => response.json())
       .then((data) => {
         setOldRatings(data);
@@ -76,7 +76,7 @@ export default function DetailsProduct({
   console.log(oldRatings);
 
   useEffect(() => {
-    fetch(`https://swipe-setups.vercel.app/api/user/id`, {
+    fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/user/id`, {
       method: `GET`,
       credentials: `include`,
     })
@@ -88,7 +88,7 @@ export default function DetailsProduct({
         console.error(e);
       });
 
-    fetch(`https://swipe-setups.vercel.app/api/user/${userId}`, {
+    fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/user/${userId}`, {
       method: `GET`,
       credentials: `include`,
     })
@@ -136,7 +136,7 @@ export default function DetailsProduct({
 
     try {
       const response = await fetch(
-        `https://swipe-setups.vercel.app/api/product/${model}/ratings`,
+        `${import.meta.env.VITE_API_ENDPOINT}/api/product/${model}/ratings`,
         {
           method: 'POST',
           headers: {
@@ -149,7 +149,7 @@ export default function DetailsProduct({
       if (response.ok) {
         // If the review was added successfully, fetch the updated ratings
         const ratingsResponse = await fetch(
-          `https://swipe-setups.vercel.app/api/product/ratings/${model}`
+          `${import.meta.env.VITE_API_ENDPOINT}/api/product/ratings/${model}`
         );
         const ratingsData = await ratingsResponse.json();
         setOldRatings(ratingsData);
@@ -187,7 +187,7 @@ export default function DetailsProduct({
       // call a function to update the reviews and ratings in the database or state
       try {
         const response = await fetch(
-          `https://swipe-setups.vercel.app/api/product/${user}/ratings/${model}`,
+          `${import.meta.env.VITE_API_ENDPOINT}/api/product/${user}/ratings/${model}`,
           {
             method: 'PUT',
             headers: {
@@ -219,7 +219,7 @@ export default function DetailsProduct({
     console.log('Rating to delete:', ratingToDelete);
     try {
       const response = await fetch(
-        `https://swipe-setups.vercel.app/api/product/${model}/ratings/`,
+        `${import.meta.env.VITE_API_ENDPOINT}/api/product/${model}/ratings/`,
         {
           method: 'DELETE',
           headers: {
@@ -232,7 +232,7 @@ export default function DetailsProduct({
       if (response.ok) {
         // If the review was deleted successfully, fetch the updated ratings
         const ratingsResponse = await fetch(
-          `https://swipe-setups.vercel.app/api/product/ratings/${model}`
+          `${import.meta.env.VITE_API_ENDPOINT}/api/product/ratings/${model}`
         );
         const ratingsData = await ratingsResponse.json();
         setOldRatings(ratingsData);

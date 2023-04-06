@@ -22,7 +22,7 @@ const CreatePost = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch('https://swipe-setups.vercel.app/api/test', {
+      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/test`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

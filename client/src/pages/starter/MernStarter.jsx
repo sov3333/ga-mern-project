@@ -15,7 +15,7 @@ const MernStarter = () => {
     const fetchPosts = async () => {
       setLoading(true);
       try {
-        const response = await fetch('https://swipe-setups.vercel.app/api/test', {
+        const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/test`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
         });
@@ -36,7 +36,7 @@ const MernStarter = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch(`https://swipe-setups.vercel.app/api/test/${prop}?_method=DELETE`, {
+      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/test/${prop}?_method=DELETE`, {
           method: 'POST',
       });
       await response.json();
