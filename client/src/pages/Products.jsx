@@ -9,7 +9,7 @@ const Products = () => {
   const [selectedModel, setSelectedModel] = useState('');
 
   useEffect(() => {
-    fetch('https://swipe-setups.vercel.app/api/product')
+    fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/product`)
       .then(
         (data) => data.json(),
         (err) => console.log(err)

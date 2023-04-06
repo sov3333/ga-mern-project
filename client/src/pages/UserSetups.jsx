@@ -13,7 +13,7 @@ const UserSetups = () => {
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    fetch(`https://swipe-setups.vercel.app/api/user/id`, {
+    fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/user/id`, {
       method: `GET`,
       credentials: `include`,
     })
@@ -28,7 +28,7 @@ const UserSetups = () => {
   }, [userId]);
 
   useEffect(() => {
-    fetch(`https://swipe-setups.vercel.app/api/user/setups/${userId}`)
+    fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/user/setups/${userId}`)
       .then(
         (data) => data.json(),
         (err) => console.log(err)

@@ -24,7 +24,7 @@ const UpdatePost = () => {
         e.preventDefault();
         setLoading(true)
         try {
-            const response = await fetch(`https://swipe-setups.vercel.app/api/test/${id}?_method=PUT`, {
+            const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/test/${id}?_method=PUT`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),

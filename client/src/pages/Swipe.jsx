@@ -17,7 +17,7 @@ const Swipe = () => {
 
   useEffect(() => {
     // get user data
-    fetch(`https://swipe-setups.vercel.app/api/user/id`, {
+    fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/user/id`, {
       method: `GET`,
       credentials: `include`,
     })
@@ -30,7 +30,7 @@ const Swipe = () => {
         console.error(e);
       });
 
-    fetch(`https://swipe-setups.vercel.app/api/user/${userId}`, {
+    fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/user/${userId}`, {
       method: `GET`,
       credentials: `include`,
     })
@@ -47,7 +47,7 @@ const Swipe = () => {
 
   useEffect(() => {
     // run once on render (mount), to fetch all setups
-    fetch('https://swipe-setups.vercel.app/api/setup')
+    fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/setup`)
       .then(
         (data) => data.json(),
         (err) => console.log(err)
@@ -128,7 +128,7 @@ const Swipe = () => {
 
     if (balanceSetups.length > 0) {
       // update setup in db
-      fetch(`https://swipe-setups.vercel.app/api/setup/${currentSetup._id}`, {
+      fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/setup/${currentSetup._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -165,7 +165,7 @@ const Swipe = () => {
           );
 
           // then also update user in db
-          fetch(`https://swipe-setups.vercel.app/api/user/${userId}`, {
+          fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/user/${userId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

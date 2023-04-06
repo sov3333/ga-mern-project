@@ -29,7 +29,7 @@ export default function ProfileEdit() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`https://swipe-setups.vercel.app/api/user/id`, {
+    fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/user/id`, {
       method: `GET`,
       credentials: `include`,
     })
@@ -44,7 +44,7 @@ export default function ProfileEdit() {
   }, [userId]);
 
   useEffect(() => {
-    fetch(`https://swipe-setups.vercel.app/api/user/${userId}`, {
+    fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/user/${userId}`, {
       method: `GET`,
       credentials: `include`,
     })
@@ -75,7 +75,7 @@ export default function ProfileEdit() {
       username: username,
     };
 
-    fetch(`https://swipe-setups.vercel.app/api/user/${userId}`, {
+    fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/user/${userId}`, {
       method: `PUT`,
       credentials: `include`,
       headers: {

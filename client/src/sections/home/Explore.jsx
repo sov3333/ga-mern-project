@@ -10,7 +10,7 @@ const Explore = () => {
   const [active, setActive] = useState('');
 
   useEffect(() => {
-    fetch('https://swipe-setups.vercel.app/api/setup')
+    fetch(`${import.meta.env.VITE_API_ENDPOINT}/api/setup`)
       .then(
         (data) => data.json(),
         (err) => console.log(err)
